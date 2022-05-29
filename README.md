@@ -33,7 +33,7 @@ Inside this application you will see a 'designs' folder inside of the public dir
 
 Below you will see a list of tasks that you will need to do on your journey to completing this project.
 
-### - [ ] Task 1 
+### Task 1 
 
 You will see there is already a top level component created in pages. In here you will fetch the json data from the below api address...
 
@@ -105,6 +105,8 @@ Create cypress tests for this...
 ### Task 9 
 
 A customer should be able to click on the 'Delete' link and it show modal saying whether you wish to delete the comment.
+
+https://tailwindui.com/components/application-ui/overlays/modals
 
 Create cypress tests for this...
 
