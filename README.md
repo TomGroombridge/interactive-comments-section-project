@@ -1,10 +1,12 @@
-# Getting Started with Create React App
+# Interactive Comments Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created with [Create React App](https://github.com/facebook/create-react-app). This project is focussed on making sure we understand how to use state, props, unit/integration tests, responsive design, valitdaion, Javascript objects and React patterns
 
 ## Available Scripts
 
-In the project directory, you can run:
+To run this project make sure you start by running `npm install` to install the dependencies.
+
+Then when you are ready you can use the script below to get going...
 
 ### `npm start`
 
@@ -19,52 +21,97 @@ You may also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### `npm run cypress:open`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This will open up the cypress package in a chrome window and allow you to run your integration tests.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Make sure you read the cypress [documentation](https://docs.cypress.io/guides/getting-started/writing-your-first-test) to understand more of how to use cypress.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Tasks fot this project.
 
-### `npm run eject`
+Inside this application you will see a 'designs' folder inside of the public directory. In there you will see designs as to how the application should look at the end including all the potential states.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Below you will see a list of tasks that you will need to do on your journey to completing this project.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### - [ ] Task 1 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+You will see there is already a top level component created in pages. In here you will fetch the json data from the below api address...
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+`API address here`
 
-## Learn More
+Please make sure you handle all three potential states of the data being fetched. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Task 2
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Once this has been done create a test inside cypress that mocks the api request and tests to make sure the data is formatted as expected.
 
-### Code Splitting
+https://docs.cypress.io/api/commands/intercept#Syntax
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+### Task 3
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+When a customer clicks the reply link it should reveil a reply section where the user can add their comment. 
 
-### Making a Progressive Web App
+The text field should start with the name of the person the reply is going too. (the person who created the comment)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Create cypress tests for this...
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Task 4
 
-### Deployment
+When the reply button in the form has been submitted it should add the new reply object to the 'state' on the comments.*
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Make sure to have valiation so that you cannot submit the reply if the text field is empty.
 
-### `npm run build` fails to minify
+*Please be aware we are not POSTing to and API at this point so we will only be updating the state and we exect on refresh for the state to reset.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Create cypress tests for this...
+
+
+### Task 5
+
+When a customer clicks on the + or - buttons it should either add 1 or remove 1 number form the 'score'.
+
+validate to make sure the score can't be less that 0.
+
+Create cypress tests for this...
+
+
+### Task 6 
+
+A customer should be able to create a new comment.*
+
+Make sure we have validation for the field having a value.
+
+*Again this should only be stored in the state for now and will be removed on refresh of the application. 
+
+Create cypress tests for this...
+
+### Task 7
+
+A customer should be able to edit a comment if it belongs to them.
+
+When the edit button is clicked it should show the data in a text field where it can be updated.
+
+Create cypress tests for this...
+
+
+### Task 8
+
+A customer should be able to submit the edit form and it will update the state of the comment.
+
+Create cypress tests for this...
+
+### Task 9 
+
+A customer should be able to click on the 'Delete' link and it show modal saying whether you wish to delete the comment.
+
+Create cypress tests for this...
+
+### Task 10
+
+When a customer deletes the comment it should remove the comment from the state.
+
+Create cypress tests for this...
+
+
