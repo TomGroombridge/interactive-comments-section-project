@@ -27,7 +27,7 @@ This will open up the cypress package in a chrome window and allow you to run yo
 
 Make sure you read the cypress [documentation](https://docs.cypress.io/guides/getting-started/writing-your-first-test) to understand more of how to use cypress.
 
-## Tasks fot this project.
+## Tasks for this project.
 
 Inside this application you will see a 'designs' folder inside of the public directory. In there you will see designs as to how the application should look at the end including all the potential states.
 
