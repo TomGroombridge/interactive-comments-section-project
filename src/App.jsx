@@ -3,7 +3,7 @@ import Comments from './pages/Comments';
 function App() {
   return (
     <div className="App">      
-      <Comments />
+      <Comments/>
     </div>
   );
 }
