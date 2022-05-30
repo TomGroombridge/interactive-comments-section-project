@@ -13,7 +13,6 @@ const Comments = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch("https://api.mocki.io/v2/a20ae30b/comments")
-      
       const data = await response.json();
       setComments(data.comments)
       setLoading(false)
@@ -21,6 +20,7 @@ const Comments = () => {
 
     }
     catch (error) {
+      setLoading(false)
       setError(true)
     }
   }
@@ -32,10 +32,10 @@ const Comments = () => {
   return (
     <div className="container">
       {comments.map((comment, index) => {
-        return <h1 key={index}>{comment.content}</h1>
+        return <h1 key={index} id={`comment-${comment.id}`}>{comment.content}</h1>
       })}
     </div>
   );
 }
  
-export default Comments;
+export default Comments; 
