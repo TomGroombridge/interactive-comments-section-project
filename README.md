@@ -37,7 +37,7 @@ Below you will see a list of tasks that you will need to do on your journey to c
 
 You will see there is already a top level component created in pages. In here you will fetch the json data from the below api address...
 
-`API address here`
+`api.mocki.io/v2/a20ae30b/comments`
 
 Please make sure you handle all three potential states of the data being fetched. 
 
