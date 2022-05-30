@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Comment from "../../components/comment";
 
 const Comments = () => {
   const [loading, setLoading] = useState(true);
@@ -32,7 +33,10 @@ const Comments = () => {
   return (
     <div className="container">
       {comments.map((comment, index) => {
-        return <h1 key={index} id={`comment-${comment.id}`}>{comment.content}</h1>
+        return (
+          <Comment comment={comment} key={index}/>
+        )
+        
       })}
     </div>
   );
