@@ -33,42 +33,39 @@ Inside this application you will see a 'designs' folder inside of the public dir
 
 Below you will see a list of tasks that you will need to do on your journey to completing this project.
 
-### Task 1 
+### Task 1 - done
 
 You will see there is already a top level component created in pages. In here you will fetch the json data from the below api address...
 
 `api.mocki.io/v2/a20ae30b/comments`
 
-Please make sure you handle all three potential states of the data being fetched. 
+Please make sure you handle all three potential states of the data being fetched.
 
-### Task 2
+### Task 2 - done
 
 Once this has been done create a test inside cypress that mocks the api request and tests to make sure the data is formatted as expected.
 
 https://docs.cypress.io/api/commands/intercept#Syntax
 
+### Task 3 - done
 
-### Task 3
-
-When a customer clicks the reply link it should reveil a reply section where the user can add their comment. 
+When a customer clicks the reply link it should reveil a reply section where the user can add their comment.
 
 The text field should start with the name of the person the reply is going too. (the person who created the comment)
 
 Create cypress tests for this...
 
+### Task 4 - done
 
-### Task 4
-
-When the reply button in the form has been submitted it should add the new reply object to the 'state' on the comments.*
+When the reply button in the form has been submitted it should add the new reply object to the 'state' on the comments.\*
 
 Make sure to have valiation so that you cannot submit the reply if the text field is empty.
 
-*Please be aware we are not POSTing to and API at this point so we will only be updating the state and we exect on refresh for the state to reset.
+\*Please be aware we are not POSTing to and API at this point so we will only be updating the state and we exect on refresh for the state to reset.
 
 Create cypress tests for this...
 
-
-### Task 5
+### Task 5 - done
 
 When a customer clicks on the + or - buttons it should either add 1 or remove 1 number form the 'score'.
 
@@ -76,18 +73,17 @@ validate to make sure the score can't be less that 0.
 
 Create cypress tests for this...
 
+### Task 6 - done
 
-### Task 6 
-
-A customer should be able to create a new comment.*
+A customer should be able to create a new comment.\*
 
 Make sure we have validation for the field having a value.
 
-*Again this should only be stored in the state for now and will be removed on refresh of the application. 
+\*Again this should only be stored in the state for now and will be removed on refresh of the application.
 
 Create cypress tests for this...
 
-### Task 7
+### Task 7 - done
 
 A customer should be able to edit a comment if it belongs to them.
 
@@ -95,14 +91,13 @@ When the edit button is clicked it should show the data in a text field where it
 
 Create cypress tests for this...
 
-
-### Task 8
+### Task 8 - done
 
 A customer should be able to submit the edit form and it will update the state of the comment.
 
 Create cypress tests for this...
 
-### Task 9 
+### Task 9
 
 A customer should be able to click on the 'Delete' link and it show modal saying whether you wish to delete the comment.
 
@@ -115,5 +110,3 @@ Create cypress tests for this...
 When a customer deletes the comment it should remove the comment from the state.
 
 Create cypress tests for this...
-
-
