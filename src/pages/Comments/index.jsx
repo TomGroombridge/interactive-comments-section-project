@@ -17,6 +17,7 @@ const Comments = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch('https://api.mocki.io/v2/a20ae30b/comments');
+      // const data = fetch("data.json")
       const data = await response.json();
       setComments(data.comments);
       setUsername(data.currentUser.username)
@@ -73,13 +74,15 @@ const Comments = () => {
           />
         );
       })}
-      <button id="add-comment" onClick={() => setAddCommentClicked(true)}>Add comment</button>
+      <div className="bg-white m-2 p-4 min-h-[100px] flex justify-between">
+      <button id="add-comment" className="bg-slate-100 m-1 p-1" onClick={() => setAddCommentClicked(true)}>Add comment</button>
       {addCommentClicked ? (
-        <form id="add-comment-form" onSubmit={(e) => handleAddCommentSubmit(e)}>
-          <input type="text" id="add-comment-input" onChange={(e) => setAddedComment(e.target.value)}/>
-          <input type="submit"/>
+        <form className="flex" id="add-comment-form" onSubmit={(e) => handleAddCommentSubmit(e)}>
+          <input type="text" className="border-2 border-slate-100 w-[300px]" id="add-comment-input" onChange={(e) => setAddedComment(e.target.value)}/>
+          <button className="bg-purple-900 text-white m-1 p-1 w-[100px]">Send</button>
         </form>
       ) : null}
+      </div>
       </div>
     
   );

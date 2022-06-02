@@ -24,7 +24,7 @@ if (content === '') {
 // console.log("props.commentUser", props.commentUser)
   return(
       <div>
-  <button id={`edit-button-${props.id}`} onClick={() => (props.currentUser === props.commentUser) ? setEditClicked(true) : setCantEdit(true)}>Edit</button> 
+  <button className="border-2 border-red-500 text-red-500 p-1 m-1" id={`edit-button-${props.id}`} onClick={() => (props.currentUser === props.commentUser) ? setEditClicked(true) : setCantEdit(true)}>Edit</button> 
     {cantEdit ? (
         <div>
             <p>You cannot edit someone else's comment</p>

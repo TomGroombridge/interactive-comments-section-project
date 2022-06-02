@@ -9,7 +9,7 @@ const Delete = () => {
     
 return (
     <div>
-        <button onClick={() => handleDelete()}>Delete</button>
+        <button className="border-2 border-purple-900 text-purple-900 p-1 m-1" onClick={() => handleDelete()}>Delete</button>
     </div>
 )
 }

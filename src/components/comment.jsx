@@ -63,55 +63,75 @@ const Comment = (props) => {
   };
 
   return (
-    <div id="comment-container">
-      <h1 className="bg-red-300" id={`comment-${props.comment.id}`}>
+    <div className="bg-white m-2 flex flex-row" id="comment-container">
+      <div id="score-container" className="bg-gray-100 text-purple-900 m-2 rounded-lg h-[130px] w-[30px] flex flex-col justify-center">
+      
+        <button
+        id={`plus-button-${props.comment.id}`}
+        onClick={() => handlePlus()}
+        className="p-1 m-1"
+        >
+        +
+        </button>
+        <div className="p-1 m-1" id={`score-${props.comment.id}`}>{props.comment.score}</div>
+        <button
+        id={`minus-button-${props.comment.id}`}
+        onClick={() => handleMinus()}
+        className="p-1 m-1"
+        >
+        -
+      </button>
+      </div>   
+
+      <div>
+      <div className="flex p-2">
+        <img src={props.comment.user.image.png}></img>
+        <h2 className="font-extrabold text-black">{props.comment.user.username}</h2>
+      </div>
+      
+      <h1  id={`comment-${props.comment.id}`}>
         {props.comment.content}
       </h1>
-      
-      <Edit id={props.comment.id} content={props.comment.content} commentUser={props.comment.user.username} comments={comments} setComments={props.setComments} currentUser={props.currentUser}/>
-      <Delete />
-      <button
-        className="bg-green-300"
+
+      <div className="flex p-2">
+        <Edit id={props.comment.id} content={props.comment.content} commentUser={props.comment.user.username} comments={comments} setComments={props.setComments} currentUser={props.currentUser}/>
+        <Delete />
+        <button
+        className="border-2 border-purple-900 text-purple-900 p-1 m-1"
         id={`reply-button-${props.comment.id}`}
         onClick={() => {
           setReplyClicked(true);
         }}
-      >
+        >
         Reply
-      </button>
-      <button
-        id={`plus-button-${props.comment.id}`}
-        onClick={() => handlePlus()}
-      >
-        +
-      </button>
-      <button
-        id={`minus-button-${props.comment.id}`}
-        onClick={() => handleMinus()}
-      >
-        -
-      </button>
-      <div id={`replies-container-${props.comment.id}`}>
+        </button>
+        
+      </div>
+      <div className="flex flex-col items-end" id={`replies-container-${props.comment.id}`}>
         {props.comment.replies.map((reply) => {
-          return <div className="bg-blue-400">{reply.content}</div>;
+          return <div className="bg-slate-200 m-1 p-1 text-sm w-[500px]">{reply.content}</div>;
         })}
       </div>
-      <div id={`score-${props.comment.id}`}>{props.comment.score}</div>
+      
+      <div>
       {replyClicked ? (
         <form id="reply-form" onSubmit={(e) => handleReplySubmit(e)}>
           <input
             type="text"
-            className="bg-yellow-500"
+            className="bg-blue-700 m-1 p-1"
             value={reply ? `${reply}` : `@${props.comment.user.username}`}
             onChange={(e) => {
               setReply(e.target.value);
             }}
           ></input>
 
-          <input type="submit" />
+          <input type="submit" className="bg-blue-700 m-1 p-1"/>
         </form>
       ) : null}
+      </div>
     </div>
+      </div>
+      
   );
 };
 
