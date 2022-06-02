@@ -24,7 +24,7 @@ if (content === '') {
 // console.log("props.commentUser", props.commentUser)
   return(
       <div>
-  <button className="border-2 border-red-500 text-red-500 p-1 m-1" id={`edit-button-${props.id}`} onClick={() => (props.currentUser === props.commentUser) ? setEditClicked(true) : setCantEdit(true)}>Edit</button> 
+  <button className="border-2 border-purple-900 text-purple-900 p-1 m-1 flex items-center" id={`edit-button-${props.id}`} onClick={() => (props.currentUser === props.commentUser) ? setEditClicked(true) : setCantEdit(true)}><p>Edit</p><img src="/icons/icon-edit.svg"/></button> 
     {cantEdit ? (
         <div>
             <p>You cannot edit someone else's comment</p>
@@ -33,8 +33,8 @@ if (content === '') {
     {editClicked ? (
         <div>
           <form onSubmit={(e) => handleSave(e)}>
-            <input id={`edit-input-${props.id}`} type="text" value={content} onChange={(e) => setContent(e.target.value)}/>
-            <button>Save</button>
+            <input className="bg-slate-100 p-1 m-1" id={`edit-input-${props.id}`} type="text" value={content} onChange={(e) => setContent(e.target.value)}/>
+            <button className="border-2 border-purple-900 text-purple-900 p-1 m-1">Save</button>
           </form>
         </div>
     ) : null}

@@ -74,7 +74,7 @@ const Comments = () => {
           />
         );
       })}
-      <div className="bg-white m-2 p-4 min-h-[100px] flex justify-between">
+      <div className="bg-white m-2 p-4 flex justify-between">
       <button id="add-comment" className="bg-slate-100 m-1 p-1" onClick={() => setAddCommentClicked(true)}>Add comment</button>
       {addCommentClicked ? (
         <form className="flex" id="add-comment-form" onSubmit={(e) => handleAddCommentSubmit(e)}>
