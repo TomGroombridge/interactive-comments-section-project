@@ -130,6 +130,13 @@ describe('viewing comments', () => {
       "You cannot edit someone else's comment"
     );
   });
+
+  it.only('should show the username of the person replying a comment', () => {
+    cy.get('[id="reply-button-1"]').click();
+    cy.get('input[type="text"]').type('hello world');
+    cy.get('form').submit();
+    cy.get('[id="reply-1-0"]').contains('juliusomo');
+  });
 });
 
 describe('unsuccessful api call', () => {

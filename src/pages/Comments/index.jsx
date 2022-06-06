@@ -7,7 +7,7 @@ const Comments = () => {
   const [comments, setComments] = useState([]);
   const [addedComment, setAddedComment] = useState("");
   const [addCommentClicked, setAddCommentClicked] = useState(false);
-  const [username, setUsername] = useState("");
+  const [currentUser, setCurrentUser] = useState("");
 
   useEffect(() => {
     fetchComments();
@@ -20,7 +20,7 @@ const Comments = () => {
       // const data = fetch("data.json")
       const data = await response.json();
       setComments(data.comments);
-      setUsername(data.currentUser.username)
+      setCurrentUser(data.currentUser)
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -44,7 +44,7 @@ const Comments = () => {
             "png": "",
             "webp": ""
           },
-          "username": username,
+          "username": currentUser.username,
         },
         "replies": []
     }
@@ -70,7 +70,7 @@ const Comments = () => {
             comments={comments}
             setComments={setComments}
             id={comment.id}
-            currentUser={username}
+            currentUser={currentUser}
           />
         );
       })}

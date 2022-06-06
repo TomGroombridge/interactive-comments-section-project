@@ -4,27 +4,28 @@ import Delete from './delete'
 
 const Comment = (props) => {
   const [replyClicked, setReplyClicked] = useState(false);
-  const [reply, setReply] = useState('');
+  const [replyValue, setReplyValue] = useState('');
   const [comments, setComments] = useState(props.comments);
+  const [comment, setComment] = useState(props.comment);
 
   const handleReplySubmit = (e) => {
     e.preventDefault();
-    if (reply === '') {
+    if (replyValue === '') {
       return;
     }
 
     const replyData = {
       id: 0,
-      content: reply,
+      content: replyValue,
       createdAt: 'now',
       score: 0,
-      replyingTo: '',
+      replyingTo: comment.user.username,
       user: {
         image: {
-          png: '',
-          webp: '',
+          png: props.currentUser.image.png,
+          webp: props.currentUser.image.webp,
         },
-        username: '',
+        username: props.currentUser.username,
       },
     };
     let newComments = props.comments.map((comment, index) => {
@@ -36,7 +37,7 @@ const Comment = (props) => {
 
     props.setComments(newComments);
     setReplyClicked(false);
-    setReply('');
+    setReplyValue('');
   };
 
   const handlePlus = () => {
@@ -113,9 +114,14 @@ const Comment = (props) => {
         {/* <Edit id={props.comment.id} content={props.comment.content} commentUser={props.comment.user.username} comments={comments} setComments={props.setComments} currentUser={props.currentUser}/>
         <Delete /> */}
       </div>
-      <div className="flex flex-col items-end" id={`replies-container-${props.comment.id}`}>
-        {props.comment.replies.map((reply) => {
-          return <div className="bg-slate-200 m-1 p-1 text-sm w-[500px]">{reply.content}</div>;
+      <div className="flex flex-col items-end">
+        {props.comment.replies.map((reply, index) => {
+          return (
+          <div className="bg-slate-200 m-1 p-1 text-sm w-[500px]" id={`reply-${props.comment.id}-${index}`} >
+              <div>{reply.user.username}</div>
+              <div>{reply.content}</div>
+              </div>
+              )
         })}
       </div>
       
@@ -125,9 +131,9 @@ const Comment = (props) => {
           <input
             type="text"
             className="bg-slate-200 m-1 p-1 text-sm w-[300px]"
-            value={reply ? `${reply}` : `@${props.comment.user.username}`}
+            value={replyValue ? `${replyValue}` : `@${props.comment.user.username} `}
             onChange={(e) => {
-              setReply(e.target.value);
+              setReplyValue(e.target.value);
             }}
           ></input>
 
