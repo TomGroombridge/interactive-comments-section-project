@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import Comment from '../../components/comment';
+import { v4 as uuidv4 } from 'uuid';
 
 const Comments = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [comments, setComments] = useState([]);
-  const [addedComment, setAddedComment] = useState("");
+  const [addedComment, setAddedComment] = useState('');
   const [addCommentClicked, setAddCommentClicked] = useState(false);
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState('');
 
   useEffect(() => {
     fetchComments();
@@ -17,10 +18,9 @@ const Comments = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch('https://api.mocki.io/v2/a20ae30b/comments');
-      // const data = fetch("data.json")
       const data = await response.json();
       setComments(data.comments);
-      setCurrentUser(data.currentUser)
+      setCurrentUser(data.currentUser);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -30,30 +30,30 @@ const Comments = () => {
 
   const handleAddCommentSubmit = (e) => {
     e.preventDefault();
-    if ( addedComment === '') {
+    if (addedComment === '') {
       return;
     }
 
     const addedCommentData = {
-        "id": 5,
-        "content": addedComment,
-        "createdAt": "now",
-        "score": 0,
-        "user": {
-          "image": {
-            "png": "",
-            "webp": ""
-          },
-          "username": currentUser.username,
+      id: uuidv4(),
+      content: addedComment,
+      createdAt: 'now',
+      score: 0,
+      user: {
+        image: {
+          png: currentUser.image.png,
+          webp: currentUser.image.webp,
         },
-        "replies": []
-    }
-  
-    let newComments = comments.concat(addedCommentData);
+        username: currentUser.username,
+      },
+      replies: [],
+    };
+
+    const newComments = comments.concat(addedCommentData);
     setComments(newComments);
     setAddCommentClicked(false);
-    setAddedComment("");
-  }
+    setAddedComment('');
+  };
 
   if (loading) return <h1>Loading...</h1>;
 
@@ -61,7 +61,6 @@ const Comments = () => {
 
   return (
     <div className="container" id="container">
-      
       {comments.map((comment, index) => {
         return (
           <Comment
@@ -75,16 +74,32 @@ const Comments = () => {
         );
       })}
       <div className="bg-white m-2 p-4 flex justify-between">
-      <button id="add-comment" className="bg-slate-100 m-1 p-1" onClick={() => setAddCommentClicked(true)}>Add comment</button>
-      {addCommentClicked ? (
-        <form className="flex" id="add-comment-form" onSubmit={(e) => handleAddCommentSubmit(e)}>
-          <input type="text" className="border-2 border-slate-100 w-[300px]" id="add-comment-input" onChange={(e) => setAddedComment(e.target.value)}/>
-          <button className="bg-purple-900 text-white m-1 p-1 w-[100px]">Send</button>
-        </form>
-      ) : null}
+        <button
+          id="add-comment"
+          className="bg-slate-100 m-1 p-1"
+          onClick={() => setAddCommentClicked(true)}
+        >
+          Add comment
+        </button>
+        {addCommentClicked ? (
+          <form
+            className="flex"
+            id="add-comment-form"
+            onSubmit={(e) => handleAddCommentSubmit(e)}
+          >
+            <input
+              type="text"
+              className="border-2 border-slate-100 w-[300px]"
+              id="add-comment-input"
+              onChange={(e) => setAddedComment(e.target.value)}
+            />
+            <button className="bg-purple-900 text-white m-1 p-1 w-[100px]">
+              Send
+            </button>
+          </form>
+        ) : null}
       </div>
-      </div>
-    
+    </div>
   );
 };
 

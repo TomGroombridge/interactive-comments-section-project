@@ -13,39 +13,51 @@ describe('viewing comments', () => {
   });
 
   it('should show input field when reply button is clicked', () => {
-    cy.get('[id="reply-button-1"]').click();
+    cy.get('[id="reply-button"]').eq(0).click();
     cy.get('input').should('be.visible');
   });
 
   it('should increase number of replies when submit is clicked', () => {
-    cy.get('[id="reply-button-1"]').click();
-    cy.get('[id="replies-container-1"]').find('div').should('have.length', 0);
+    cy.get('[id="reply-button"]').eq(0).click();
+    cy.get('[id="replies-container"]')
+      .eq(0)
+      .find('div')
+      .should('have.length', 0);
     cy.get('input[type="text"]').type('hello world');
     cy.get('form').submit();
-    cy.get('[id="replies-container-1"]').find('div').should('have.length', 1);
+    cy.get('[id="replies-container"]')
+      .eq(0)
+      .find('div')
+      .should('have.length', 1);
   });
 
   it('form should disappear on submit', () => {
-    cy.get('[id="reply-button-1"]').click();
+    cy.get('[id="reply-button"]').eq(0).click();
     cy.get('input[type="text"]').type('hello world');
     cy.get('form').submit();
     cy.get('form').should('not.exist');
   });
 
   it('should not submit reply if input field is empty', () => {
-    cy.get('[id="reply-button-1"]').click();
-    cy.get('[id="replies-container-1"]').find('div').should('have.length', 0);
+    cy.get('[id="reply-button"]').eq(0).click();
+    cy.get('[id="replies-container"]')
+      .eq(0)
+      .find('div')
+      .should('have.length', 0);
     cy.get('form').submit();
-    cy.get('[id="replies-container-1"]').find('div').should('have.length', 0);
+    cy.get('[id="replies-container"]')
+      .eq(0)
+      .find('div')
+      .should('have.length', 0);
     cy.get('form').should('be.visible');
   });
 
   it('input field should clear after submit', () => {
-    cy.get('[id="reply-button-1"]').click();
+    cy.get('[id="reply-button"]').eq(0).click();
     cy.get('input[type="text"]').type('hello world');
     cy.get('#reply-form').submit();
-    cy.get('[id="reply-button-1"]').click();
-    cy.get('input[type="text"]').should('have.value', '@amyrobson');
+    cy.get('[id="reply-button"]').eq(0).click();
+    cy.get('input[type="text"]').should('have.value', '@amyrobson ');
   });
 
   it('score should increase by 1 when plus button clicked once', () => {
@@ -92,7 +104,7 @@ describe('viewing comments', () => {
     cy.get('[id="add-comment"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
-    cy.get('[id="edit-button-5"]').click();
+    cy.get('[id="edit-button"]').eq(2).click();
     cy.get('form').should('be.visible');
   });
 
@@ -103,12 +115,12 @@ describe('viewing comments', () => {
     cy.get('form').should('not.exist');
   });
 
-  it('form remains when input field empty and submitted', () => {
+  it('form remains when edit input field empty and submitted', () => {
     cy.get('[id="add-comment"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
-    cy.get('[id="edit-button-5"]').click();
-    cy.get('[id="edit-input-5"]').clear();
+    cy.get('[id="edit-button"]').eq(2).click();
+    cy.get('[id="edit-input"]').clear();
     cy.get('form').submit();
     cy.get('form').should('be.visible');
   });
@@ -117,25 +129,36 @@ describe('viewing comments', () => {
     cy.get('[id="add-comment"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
-    cy.get('[id="edit-button-5"]').click();
-    cy.get('[id="edit-input-5"]').type('hello');
+    cy.get('[id="edit-button"]').eq(2).click();
+    cy.get('[id="edit-input"]').type('hello');
     cy.get('form').submit();
     cy.get('[id="comment-container"]').contains('hello');
   });
 
   it("should not allow you to edit someone else's comment", () => {
-    cy.get('[id="edit-button-1"]').click();
+    cy.get('[id="edit-button"]').eq(0).click();
     cy.get('form').should('not.exist');
     cy.get('[id="comment-container"]').contains(
       "You cannot edit someone else's comment"
     );
   });
 
-  it.only('should show the username of the person replying a comment', () => {
-    cy.get('[id="reply-button-1"]').click();
+  it('should show the username of the person replying a comment', () => {
+    cy.get('[id="reply-button"]').eq(0).click();
     cy.get('input[type="text"]').type('hello world');
     cy.get('form').submit();
-    cy.get('[id="reply-1-0"]').contains('juliusomo');
+    cy.get('[id="replies-container"]')
+      .eq(0)
+      .find('div')
+      .eq(0)
+      .contains('juliusomo');
+  });
+
+  it('should have correct src for icon for user of comment', () => {
+    cy.get('[id="comment-container"]').eq(0);
+    cy.get('img[id="user-icon"]')
+      .should('have.attr', 'src')
+      .should('include', '/avatars/image-amyrobson.png');
   });
 });
 
