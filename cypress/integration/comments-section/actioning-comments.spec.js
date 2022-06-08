@@ -100,11 +100,12 @@ describe('viewing comments', () => {
     cy.get('[id="add-comment-form"]').should('not.exist');
   });
 
-  it('edit form should appear when clicking edit on your own comment', () => {
+  it('edit form should only appear when clicking edit on your own comment', () => {
+    cy.get('[id="edit-button"]').should('not.exist');
     cy.get('[id="add-comment"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
-    cy.get('[id="edit-button"]').eq(2).click();
+    cy.get('[id="edit-button"]').click();
     cy.get('form').should('be.visible');
   });
 
@@ -119,7 +120,7 @@ describe('viewing comments', () => {
     cy.get('[id="add-comment"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
-    cy.get('[id="edit-button"]').eq(2).click();
+    cy.get('[id="edit-button"]').click();
     cy.get('[id="edit-input"]').clear();
     cy.get('form').submit();
     cy.get('form').should('be.visible');
@@ -129,18 +130,10 @@ describe('viewing comments', () => {
     cy.get('[id="add-comment"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
-    cy.get('[id="edit-button"]').eq(2).click();
+    cy.get('[id="edit-button"]').click();
     cy.get('[id="edit-input"]').type('hello');
     cy.get('form').submit();
     cy.get('[id="comment-container"]').contains('hello');
-  });
-
-  it("should not allow you to edit someone else's comment", () => {
-    cy.get('[id="edit-button"]').eq(0).click();
-    cy.get('form').should('not.exist');
-    cy.get('[id="comment-container"]').contains(
-      "You cannot edit someone else's comment"
-    );
   });
 
   it('should show the username of the person replying a comment', () => {
@@ -159,6 +152,43 @@ describe('viewing comments', () => {
     cy.get('img[id="user-icon"]')
       .should('have.attr', 'src')
       .should('include', '/avatars/image-amyrobson.png');
+  });
+
+  it('should show delete modal on click of delete', () => {
+    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-input"]').type('hello');
+    cy.get('form').submit();
+    cy.get('[id="delete-button"]').eq(0).click();
+    cy.get('[id="delete-modal"]').should('exist');
+  });
+
+  it('modal should disappear when cancel is clicked', () => {
+    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-input"]').type('hello');
+    cy.get('form').submit();
+    cy.get('[id="delete-button"]').eq(0).click();
+    cy.get('[id="cancel-button"]').click();
+    cy.get('[id="delete-modal"]').should('not.exist');
+  });
+
+  it('when delete button in modal is clicked, corresponding comment should not appear', () => {
+    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-input"]').type('hello');
+    cy.get('form').submit();
+    cy.get('[id="comment-container"]')
+      .eq(1)
+      .contains('Woah, your project looks awesome!');
+    cy.get('[id="delete-button"]').click();
+    cy.get('[id="confirm-delete-button"]').click();
+    cy.get('[id="comment-container"]').eq(2).should('not.exist');
+  });
+
+  it.only('delete button should only appear on your own comment', () => {
+    cy.get('[id="delete-button"]').should('not.exist');
+    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-input"]').type('hello');
+    cy.get('form').submit();
+    cy.get('[id="delete-button"]').should('be.visible');
   });
 });
 
