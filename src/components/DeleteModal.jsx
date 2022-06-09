@@ -4,12 +4,10 @@ import React, { Fragment, useRef } from 'react';
 
 const DeleteModal = (props) => {
   const handleDelete = () => {
-    const newComments = props.comments.map((comment, index) => {
-      if (comment.id !== props.id) {
+    const newComments = props.comments.map((comment) => {
+      if (comment.id !== props.commentId) {
         return comment;
-      } else {
-        return;
-      }
+      } 
     });
 
     props.setOpen(false);

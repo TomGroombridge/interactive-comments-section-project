@@ -183,7 +183,7 @@ describe('viewing comments', () => {
     cy.get('[id="comment-container"]').eq(2).should('not.exist');
   });
 
-  it.only('delete button should only appear on your own comment', () => {
+  it('delete button should only appear on your own comment', () => {
     cy.get('[id="delete-button"]').should('not.exist');
     cy.get('[id="add-comment"]').click();
     cy.get('[id="add-comment-input"]').type('hello');

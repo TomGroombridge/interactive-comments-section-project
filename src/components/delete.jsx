@@ -17,7 +17,7 @@ const Delete = (props) => {
       <DeleteModal
         setOpen={setOpen}
         open={open}
-        id={props.id}
+        commentId={props.id}
         comments={props.comments}
         setComments={props.setComments}
       />

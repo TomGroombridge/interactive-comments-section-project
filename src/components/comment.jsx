@@ -139,6 +139,7 @@ const Comment = (props) => {
               <div
                 className="bg-slate-200 m-1 p-1 text-sm w-[500px]"
                 id={`reply-${reply.id}`}
+                key={index}
               >
                 <p>{reply.user.username}</p>
                 <p>{reply.content}</p>
