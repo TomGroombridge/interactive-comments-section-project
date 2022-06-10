@@ -3,6 +3,7 @@ import Edit from './edit';
 import Delete from './delete';
 import { v4 as uuidv4 } from 'uuid';
 import Comments from '../pages/Comments';
+import Reply from './reply';
 
 const Comment = (props) => {
   const [replyClicked, setReplyClicked] = useState(false);
@@ -136,14 +137,11 @@ const Comment = (props) => {
         <div className="flex flex-col items-end" id="replies-container">
           {props.comment.replies.map((reply, index) => {
             return (
-              <div
-                className="bg-slate-200 m-1 p-1 text-sm w-[500px]"
-                id={`reply-${reply.id}`}
-                key={index}
-              >
-                <p>{reply.user.username}</p>
-                <p>{reply.content}</p>
-              </div>
+              <Reply
+                reply={reply}
+                index={index}
+                replies={props.comment.replies}
+              />
             );
           })}
         </div>

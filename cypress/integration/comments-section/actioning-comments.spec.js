@@ -27,7 +27,7 @@ describe('viewing comments', () => {
     cy.get('form').submit();
     cy.get('[id="replies-container"]')
       .eq(0)
-      .find('div')
+      .find('[id="reply-content"]')
       .should('have.length', 1);
   });
 
@@ -189,6 +189,18 @@ describe('viewing comments', () => {
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
     cy.get('[id="delete-button"]').should('be.visible');
+  });
+
+  it('should increase score for ramsesmirons comment to 5 when plus is clicked', () => {
+    cy.get('[id="reply-score"]').eq(0).contains('4');
+    cy.get('[id="reply-plus-button"]').eq(0).click();
+    cy.get('[id="reply-score"]').eq(0).contains('5');
+  });
+
+  it.only('should decrease score for ramsesmirons comment to 3 when minus is clicked', () => {
+    cy.get('[id="reply-score"]').eq(0).contains('4');
+    cy.get('[id="reply-minus-button"]').eq(0).click();
+    cy.get('[id="reply-score"]').eq(0).contains('3');
   });
 });
 
