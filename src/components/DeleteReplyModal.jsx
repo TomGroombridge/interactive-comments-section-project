@@ -4,17 +4,25 @@ import React, { Fragment, useRef } from 'react';
 
 const DeleteReplyModal = (props) => {
   const handleDelete = () => {
-    const newReplies = props.replies.map((reply) => {
-      if (reply.id !== props.replyId) {
-        return reply;
+    console.log('props.comments', props.comments);
+
+    const newComments = props.comments.map((comment) => {
+      if (comment.id !== props.commentId) {
+        return comment;
+      } else if (comment.id === props.commentId) {
+        const newReplies = comment.replies.map((reply) => {
+          if (reply.id !== props.replyId) {
+            return reply;
+          }
+        });
+        comment.replies = newReplies.filter((reply) => reply !== undefined);
+        return comment;
       }
     });
-    
+    props.setComments(newComments);
     props.setOpen(false);
-    props.setReplies(newReplies.filter((reply) => reply !== undefined));
   };
 
-  
   const cancelButtonRef = useRef(null);
 
   return (

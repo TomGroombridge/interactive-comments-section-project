@@ -145,8 +145,11 @@ const Comment = (props) => {
                 index={index}
                 replies={props.comment.replies}
                 id={reply.id}
-                setReplies={setReplies}
+                setComments={props.setComments}
                 currentUser={props.currentUser}
+                commentId={props.comment.id}
+                comments={props.comments}
+                setReplies={setReplies}
               />
             );
           })}

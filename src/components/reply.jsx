@@ -18,6 +18,8 @@ const Reply = (props) => {
       }
       return reply;
     });
+
+    // props.replies = editedReplies;
     props.setReplies(editedReplies);
     setEditClicked(false);
   };
@@ -29,6 +31,7 @@ const Reply = (props) => {
       }
       return reply;
     });
+    // props.replies = newReplies;
     props.setReplies(newReplies);
   };
 
@@ -42,6 +45,7 @@ const Reply = (props) => {
       }
       return reply;
     });
+    // props.replies = newReplies;
     props.setReplies(newReplies);
   };
 
@@ -99,7 +103,9 @@ const Reply = (props) => {
                 open={open}
                 replyId={props.reply.id}
                 replies={props.replies}
-                setReplies={props.setReplies}
+                comments={props.comments}
+                setComments={props.setComments}
+                commentId={props.commentId}
               />
             </div>
           ) : null}

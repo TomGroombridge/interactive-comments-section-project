@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe('viewing comments', () => {
   beforeEach(() => {
     cy.fixture('comments-response.json').then((json) => {
@@ -207,12 +205,29 @@ describe('viewing comments', () => {
     cy.get('[id="reply-edit-button"]').should('have.length', 1);
   });
 
-  it.only('should edit content of current user reply', () => {
+  it('should edit content of current user reply', () => {
     cy.get('[id="reply-edit-button"]').click();
     cy.get('[id="reply-input"]').clear();
     cy.get('[id="reply-input"]').type('hello');
     cy.get('form').submit();
     cy.get('[id="replies-container"]').contains('hello');
+  });
+
+  it('delete modal should appear when delete clicked on own reply', () => {
+    cy.get('[id="reply-delete-button"]').click();
+    cy.get('[id="delete-modal"]').should('exist');
+  });
+
+  it.only('should delete own reply when delete button in modal is clicked', () => {
+    cy.get(`[id="replies-container"]`).contains(
+      "I couldn't agree more with this."
+    );
+    cy.get('[id="reply-delete-button"]').click();
+    cy.get('[id="confirm-delete-button"]').click();
+    cy.get(`[id="replies-container"]`).should(
+      'not.have.text',
+      "I couldn't agree more with this."
+    );
   });
 });
 
