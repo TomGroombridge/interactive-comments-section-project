@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import Edit from './edit';
 import Delete from './delete';
 import { v4 as uuidv4 } from 'uuid';
+import Comments from '../pages/Comments';
 
 const Comment = (props) => {
   const [replyClicked, setReplyClicked] = useState(false);
   const [replyValue, setReplyValue] = useState('');
-  const [comments, setComments] = useState(props.comments);
   const [comment, setComment] = useState(props.comment);
 
   const handleReplySubmit = (e) => {
@@ -111,15 +111,23 @@ const Comment = (props) => {
               <p>Reply</p>
               <img src="/icons/icon-reply.svg" />
             </button>
-            <Edit
-              id={props.comment.id}
-              content={props.comment.content}
-              commentUser={props.comment.user.username}
-              comments={comments}
-              setComments={props.setComments}
-              currentUser={props.currentUser}
-            />
-            <Delete />
+            {props.comment.user.username === props.currentUser.username ? (
+              <div>
+                <Edit
+                  id={props.comment.id}
+                  content={props.comment.content}
+                  commentUser={props.comment.user.username}
+                  comments={props.comments}
+                  setComments={props.setComments}
+                  currentUser={props.currentUser}
+                />
+                <Delete
+                  id={props.comment.id}
+                  comments={props.comments}
+                  setComments={props.setComments}
+                />
+              </div>
+            ) : null}
           </div>
         </div>
 
@@ -131,6 +139,7 @@ const Comment = (props) => {
               <div
                 className="bg-slate-200 m-1 p-1 text-sm w-[500px]"
                 id={`reply-${reply.id}`}
+                key={index}
               >
                 <p>{reply.user.username}</p>
                 <p>{reply.content}</p>

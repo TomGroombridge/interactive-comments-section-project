@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 const Edit = (props) => {
   const [content, setContent] = useState(props.content);
   const [editClicked, setEditClicked] = useState(false);
-  const [cantEdit, setCantEdit] = useState(false);
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -25,20 +24,11 @@ const Edit = (props) => {
       <button
         className="border-2 border-purple-900 text-purple-900 p-1 m-1 flex items-center"
         id="edit-button"
-        onClick={() =>
-          props.currentUser.username === props.commentUser
-            ? setEditClicked(true)
-            : setCantEdit(true)
-        }
+        onClick={() => setEditClicked(true)}
       >
         <p>Edit</p>
         <img src="/icons/icon-edit.svg" />
       </button>
-      {cantEdit ? (
-        <div>
-          <p>You cannot edit someone else's comment</p>
-        </div>
-      ) : null}
       {editClicked ? (
         <div>
           <form onSubmit={(e) => handleSave(e)}>
