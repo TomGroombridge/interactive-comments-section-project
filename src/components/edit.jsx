@@ -39,8 +39,8 @@ const Edit = (props) => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
-            <button className="border-2 border-purple-900 text-purple-900 p-1 m-1">
-              Save
+            <button className="uppercase bg-purple-900 text-white p-1 m-1">
+              Update
             </button>
           </form>
         </div>

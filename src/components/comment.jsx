@@ -9,6 +9,7 @@ const Comment = (props) => {
   const [replyClicked, setReplyClicked] = useState(false);
   const [replyValue, setReplyValue] = useState('');
   const [comment, setComment] = useState(props.comment);
+  const [replies, setReplies] = useState(props.comment.replies);
 
   const handleReplySubmit = (e) => {
     e.preventDefault();
@@ -101,16 +102,18 @@ const Comment = (props) => {
               {props.comment.createdAt}
             </h3>
           </div>
-          <div className="flex">
+          <div>
             <button
-              className="border-2 border-purple-900 text-purple-900 p-1 m-1 flex items-center"
+              className="text-purple-900 bg-white p-1 mx-1 justify-between flex items-center w-[76px]"
               id="reply-button"
               onClick={() => {
                 setReplyClicked(true);
               }}
             >
-              <p>Reply</p>
-              <img src="/icons/icon-reply.svg" />
+              {/* <div className="flex items-center mx-1 w-[70px] justify-between"> */}
+              <img src="/icons/icon-reply.svg" className="w-[20px] h-[20px]" />
+              <p className="">Reply </p>
+              {/* </div> */}
             </button>
             {props.comment.user.username === props.currentUser.username ? (
               <div>
@@ -141,6 +144,9 @@ const Comment = (props) => {
                 reply={reply}
                 index={index}
                 replies={props.comment.replies}
+                id={reply.id}
+                setReplies={setReplies}
+                currentUser={props.currentUser}
               />
             );
           })}

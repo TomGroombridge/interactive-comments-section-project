@@ -197,10 +197,22 @@ describe('viewing comments', () => {
     cy.get('[id="reply-score"]').eq(0).contains('5');
   });
 
-  it.only('should decrease score for ramsesmirons comment to 3 when minus is clicked', () => {
+  it('should decrease score for ramsesmirons comment to 3 when minus is clicked', () => {
     cy.get('[id="reply-score"]').eq(0).contains('4');
     cy.get('[id="reply-minus-button"]').eq(0).click();
     cy.get('[id="reply-score"]').eq(0).contains('3');
+  });
+
+  it('should only have one edit button on the page as there is only one reply from juliusomo', () => {
+    cy.get('[id="reply-edit-button"]').should('have.length', 1);
+  });
+
+  it.only('should edit content of current user reply', () => {
+    cy.get('[id="reply-edit-button"]').click();
+    cy.get('[id="reply-input"]').clear();
+    cy.get('[id="reply-input"]').type('hello');
+    cy.get('form').submit();
+    cy.get('[id="replies-container"]').contains('hello');
   });
 });
 

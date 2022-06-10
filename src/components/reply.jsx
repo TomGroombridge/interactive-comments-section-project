@@ -1,10 +1,26 @@
 import Comment from './comment';
 import { React, useState } from 'react';
+import DeleteReplyModal from './DeleteReplyModal';
 
 const Reply = (props) => {
-  const [replies, setReplies] = useState(props.replies);
+  const [content, setContent] = useState(props.reply.content);
+  const [editClicked, setEditClicked] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  console.log('replies', replies);
+  const handleReplySave = (e) => {
+    e.preventDefault();
+    if (content === '') {
+      return;
+    }
+    const editedReplies = props.replies.map((reply, index) => {
+      if (props.id === reply.id) {
+        reply.content = content;
+      }
+      return reply;
+    });
+    props.setReplies(editedReplies);
+    setEditClicked(false);
+  };
 
   const handleReplyPlus = () => {
     const newReplies = props.replies.map((reply, index) => {
@@ -13,7 +29,7 @@ const Reply = (props) => {
       }
       return reply;
     });
-    setReplies(newReplies);
+    props.setReplies(newReplies);
   };
 
   const handleReplyMinus = () => {
@@ -26,7 +42,7 @@ const Reply = (props) => {
       }
       return reply;
     });
-    setReplies(newReplies);
+    props.setReplies(newReplies);
   };
 
   return (
@@ -58,8 +74,56 @@ const Reply = (props) => {
         id={`reply-${props.reply.id}`}
         key={props.index}
       >
-        <p className="font-bold">{props.reply.user.username}</p>
-        <p id="reply-content">{props.reply.content}</p>
+        <div className="flex justify-between m-1 p-1">
+          <p className="font-bold">{props.reply.user.username}</p>
+          {props.reply.user.username === props.currentUser.username ? (
+            <div className="flex">
+              <button
+                className="text-xs text-purple-900 flex mx-1 items-center justify-between px-2"
+                id="reply-edit-button"
+                onClick={() => setEditClicked(true)}
+              >
+                <img src="/icons/icon-edit.svg" className="w-[10px] mx-1" />
+                <p> Edit</p>
+              </button>
+              <button
+                className="text-xs text-red-500 flex items-center justify-between"
+                onClick={() => setOpen(true)}
+                id="reply-delete-button"
+              >
+                <img src="/icons/icon-delete.svg" className="w-[10px] mx-1" />
+                <p> Delete</p>
+              </button>
+              <DeleteReplyModal
+                setOpen={setOpen}
+                open={open}
+                replyId={props.reply.id}
+                replies={props.replies}
+                setReplies={props.setReplies}
+              />
+            </div>
+          ) : null}
+        </div>
+        <p className="m-1 p-1" id="reply-content">
+          {props.reply.content}
+        </p>
+
+        {editClicked ? (
+          <div>
+            <form onSubmit={(e) => handleReplySave(e)}>
+              <input
+                className="bg-slate-100 p-1 m-1 border-[1px] border-purple-900"
+                id="reply-input"
+                type="text"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+              <button className="uppercase text-xs rounded-lg bg-purple-900 text-white p-1 m-1">
+                Update
+              </button>
+            </form>
+          </div>
+        ) : null}
       </div>
     </div>
   );
