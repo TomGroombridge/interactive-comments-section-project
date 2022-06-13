@@ -4,7 +4,7 @@ import Delete from './delete';
 import { v4 as uuidv4 } from 'uuid';
 import Comments from '../pages/Comments';
 import Reply from './reply';
-import { CurrentUserContext } from '../context';
+import { CurrentUserContext, CommentsContext } from '../context';
 
 const Comment = (props) => {
   const [replyClicked, setReplyClicked] = useState(false);
@@ -13,6 +13,7 @@ const Comment = (props) => {
   const [replies, setReplies] = useState(props.comment.replies);
 
   const { currentUser } = useContext(CurrentUserContext);
+  const { comments, setComments } = useContext(CommentsContext);
 
   const handleReplySubmit = (e) => {
     e.preventDefault();
@@ -34,30 +35,30 @@ const Comment = (props) => {
         username: currentUser.username,
       },
     };
-    const newComments = props.comments.map((comment, index) => {
+    const newComments = comments.map((comment, index) => {
       if (comment.id === props.comment.id) {
         comment.replies.push(replyData);
       }
       return comment;
     });
 
-    props.setComments(newComments);
+    setComments(newComments);
     setReplyClicked(false);
     setReplyValue('');
   };
 
   const handlePlus = () => {
-    const newComments = props.comments.map((comment, index) => {
+    const newComments = comments.map((comment, index) => {
       if (comment.id === props.comment.id) {
         comment.score += 1;
       }
       return comment;
     });
-    props.setComments(newComments);
+    setComments(newComments);
   };
 
   const handleMinus = () => {
-    const newComments = props.comments.map((comment, index) => {
+    const newComments = comments.map((comment, index) => {
       if (comment.score === 0) {
         return comment;
       }
@@ -66,7 +67,7 @@ const Comment = (props) => {
       }
       return comment;
     });
-    props.setComments(newComments);
+    setComments(newComments);
   };
 
   return (
@@ -113,10 +114,8 @@ const Comment = (props) => {
                 setReplyClicked(true);
               }}
             >
-              {/* <div className="flex items-center mx-1 w-[70px] justify-between"> */}
               <img src="/icons/icon-reply.svg" className="w-[20px] h-[20px]" />
               <p className="">Reply </p>
-              {/* </div> */}
             </button>
             {props.comment.user.username === currentUser.username ? (
               <div>
@@ -124,14 +123,8 @@ const Comment = (props) => {
                   id={props.comment.id}
                   content={props.comment.content}
                   commentUser={props.comment.user.username}
-                  comments={props.comments}
-                  setComments={props.setComments}
                 />
-                <Delete
-                  id={props.comment.id}
-                  comments={props.comments}
-                  setComments={props.setComments}
-                />
+                <Delete id={props.comment.id} />
               </div>
             ) : null}
           </div>
@@ -147,9 +140,7 @@ const Comment = (props) => {
                 index={index}
                 replies={props.comment.replies}
                 id={reply.id}
-                setComments={props.setComments}
                 commentId={props.comment.id}
-                comments={props.comments}
                 setReplies={setReplies}
               />
             );

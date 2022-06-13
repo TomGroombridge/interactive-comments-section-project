@@ -96,8 +96,7 @@ const Reply = (props) => {
                 open={open}
                 replyId={props.reply.id}
                 replies={props.replies}
-                comments={props.comments}
-                setComments={props.setComments}
+              
                 commentId={props.commentId}
               />
             </div>

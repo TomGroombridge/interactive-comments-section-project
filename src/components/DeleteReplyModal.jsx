@@ -1,12 +1,14 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationIcon } from '@heroicons/react/outline';
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment, useRef, useContext } from 'react';
+import { CommentsContext } from '../context';
 
 const DeleteReplyModal = (props) => {
+  
+  const { comments, setComments } = useContext(CommentsContext);
+  
   const handleDelete = () => {
-    console.log('props.comments', props.comments);
-
-    const newComments = props.comments.map((comment) => {
+    const newComments = comments.map((comment) => {
       if (comment.id !== props.commentId) {
         return comment;
       } else if (comment.id === props.commentId) {
@@ -19,7 +21,7 @@ const DeleteReplyModal = (props) => {
         return comment;
       }
     });
-    props.setComments(newComments);
+    setComments(newComments);
     props.setOpen(false);
   };
 

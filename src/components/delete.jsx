@@ -4,6 +4,7 @@ import DeleteModal from './DeleteModal';
 const Delete = (props) => {
   const [open, setOpen] = useState(false);
 
+
   return (
     <div>
       <button
@@ -18,8 +19,7 @@ const Delete = (props) => {
         setOpen={setOpen}
         open={open}
         commentId={props.id}
-        comments={props.comments}
-        setComments={props.setComments}
+    
       />
     </div>
   );
