@@ -9,7 +9,6 @@ import { CurrentUserContext, CommentsContext } from '../context';
 const Comment = (props) => {
   const [replyClicked, setReplyClicked] = useState(false);
   const [replyValue, setReplyValue] = useState('');
-  const [comment, setComment] = useState(props.comment);
   const [replies, setReplies] = useState(props.comment.replies);
 
   const { currentUser } = useContext(CurrentUserContext);
@@ -26,7 +25,7 @@ const Comment = (props) => {
       content: replyValue,
       createdAt: 'now',
       score: 0,
-      replyingTo: comment.user.username,
+      replyingTo: props.comment.user.username,
       user: {
         image: {
           png: currentUser.image.png,
@@ -119,11 +118,7 @@ const Comment = (props) => {
             </button>
             {props.comment.user.username === currentUser.username ? (
               <div>
-                <Edit
-                  id={props.comment.id}
-                  content={props.comment.content}
-                  commentUser={props.comment.user.username}
-                />
+                <Edit comment={props.comment} index={props.key} />
                 <Delete id={props.comment.id} />
               </div>
             ) : null}
@@ -137,10 +132,8 @@ const Comment = (props) => {
             return (
               <Reply
                 reply={reply}
-                index={index}
-                replies={props.comment.replies}
-                id={reply.id}
-                commentId={props.comment.id}
+                key={index}
+                comment={props.comment}
                 setReplies={setReplies}
               />
             );

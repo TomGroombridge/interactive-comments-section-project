@@ -4,14 +4,15 @@ import React, { Fragment, useRef, useContext } from 'react';
 import { CommentsContext } from '../context';
 
 const DeleteReplyModal = (props) => {
-  
   const { comments, setComments } = useContext(CommentsContext);
-  
+
+  const { comment } = props;
+
   const handleDelete = () => {
     const newComments = comments.map((comment) => {
-      if (comment.id !== props.commentId) {
+      if (comment.id !== props.comment.id) {
         return comment;
-      } else if (comment.id === props.commentId) {
+      } else if (comment.id === props.comment.id) {
         const newReplies = comment.replies.map((reply) => {
           if (reply.id !== props.replyId) {
             return reply;

@@ -12,8 +12,6 @@ const DeleteModal = (props) => {
       }
     });
 
-    
-
     props.setOpen(false);
     setComments(newComments.filter((comment) => comment !== undefined));
   };

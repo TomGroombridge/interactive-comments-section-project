@@ -9,13 +9,15 @@ const Reply = (props) => {
   const [open, setOpen] = useState(false);
   const { currentUser } = useContext(CurrentUserContext);
 
+  const { comment } = props;
+
   const handleReplySave = (e) => {
     e.preventDefault();
     if (content === '') {
       return;
     }
-    const editedReplies = props.replies.map((reply, index) => {
-      if (props.id === reply.id) {
+    const editedReplies = props.comment.replies.map((reply) => {
+      if (props.reply.id === reply.id) {
         reply.content = content;
       }
       return reply;
@@ -24,7 +26,7 @@ const Reply = (props) => {
   };
 
   const handleReplyPlus = () => {
-    const newReplies = props.replies.map((reply, index) => {
+    const newReplies = props.comment.replies.map((reply) => {
       if (reply.id === props.reply.id) {
         reply.score += 1;
       }
@@ -34,7 +36,7 @@ const Reply = (props) => {
   };
 
   const handleReplyMinus = () => {
-    const newReplies = props.replies.map((reply, index) => {
+    const newReplies = props.comment.replies.map((reply) => {
       if (reply.score === 0) {
         return reply;
       }
@@ -95,9 +97,7 @@ const Reply = (props) => {
                 setOpen={setOpen}
                 open={open}
                 replyId={props.reply.id}
-                replies={props.replies}
-              
-                commentId={props.commentId}
+                comment={props.comment}
               />
             </div>
           ) : null}

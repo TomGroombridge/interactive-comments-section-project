@@ -65,15 +65,7 @@ const Comments = () => {
       <CommentsContext.Provider value={{ comments, setComments }}>
         <div className="container" id="container">
           {comments.map((comment, index) => {
-            return (
-              <Comment
-                comment={comment}
-                key={index}
-                comments={comments}
-                setComments={setComments}
-                id={comment.id}
-              />
-            );
+            return <Comment comment={comment} key={index} id={comment.id} />;
           })}
           <div className="bg-white m-2 p-4 flex justify-between">
             <button

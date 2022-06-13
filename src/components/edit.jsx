@@ -2,8 +2,11 @@ import React, { useState, useContext } from 'react';
 import { CommentsContext } from '../context';
 
 const Edit = (props) => {
-  const [content, setContent] = useState(props.content);
+  const [content, setContent] = useState(props.comment.content);
   const [editClicked, setEditClicked] = useState(false);
+  const {
+    comment: { id },
+  } = props;
 
   const { comments, setComments } = useContext(CommentsContext);
 
@@ -13,7 +16,7 @@ const Edit = (props) => {
       return;
     }
     const editedComments = comments.map((comment, index) => {
-      if (props.id === comment.id) {
+      if (id === comment.id) {
         comment.content = content;
       }
       return comment;
