@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Edit from './edit';
 import Delete from './delete';
 import { v4 as uuidv4 } from 'uuid';
-import Comments from '../pages/Comments';
 import Reply from './reply';
+import { CommentsContext, UserContext } from '../contexts/comments';
 
 const Comment = (props) => {
+  const { user } = useContext(UserContext);
+  const { comments, setComments } = useContext(CommentsContext);
   const [replyClicked, setReplyClicked] = useState(false);
   const [replyValue, setReplyValue] = useState('');
   const [comment, setComment] = useState(props.comment);
@@ -25,36 +27,36 @@ const Comment = (props) => {
       replyingTo: comment.user.username,
       user: {
         image: {
-          png: props.currentUser.image.png,
-          webp: props.currentUser.image.webp,
+          png: user.image.png,
+          webp: user.image.webp,
         },
-        username: props.currentUser.username,
+        username: user.username,
       },
     };
-    const newComments = props.comments.map((comment, index) => {
+    const newComments = comments.map((comment, index) => {
       if (comment.id === props.comment.id) {
         comment.replies.push(replyData);
       }
       return comment;
     });
 
-    props.setComments(newComments);
+    setComments(newComments);
     setReplyClicked(false);
     setReplyValue('');
   };
 
   const handlePlus = () => {
-    const newComments = props.comments.map((comment, index) => {
+    const newComments = comments.map((comment, index) => {
       if (comment.id === props.comment.id) {
         comment.score += 1;
       }
       return comment;
     });
-    props.setComments(newComments);
+    setComments(newComments);
   };
 
   const handleMinus = () => {
-    const newComments = props.comments.map((comment, index) => {
+    const newComments = comments.map((comment, index) => {
       if (comment.score === 0) {
         return comment;
       }
@@ -63,7 +65,7 @@ const Comment = (props) => {
       }
       return comment;
     });
-    props.setComments(newComments);
+    setComments(newComments);
   };
 
   return (
@@ -110,25 +112,18 @@ const Comment = (props) => {
                 setReplyClicked(true);
               }}
             >
-              {/* <div className="flex items-center mx-1 w-[70px] justify-between"> */}
               <img src="/icons/icon-reply.svg" className="w-[20px] h-[20px]" />
               <p className="">Reply </p>
-              {/* </div> */}
             </button>
-            {props.comment.user.username === props.currentUser.username ? (
+            {props.comment.user.username === user.username ? (
               <div>
                 <Edit
                   id={props.comment.id}
                   content={props.comment.content}
                   commentUser={props.comment.user.username}
-                  comments={props.comments}
-                  setComments={props.setComments}
-                  currentUser={props.currentUser}
                 />
                 <Delete
                   id={props.comment.id}
-                  comments={props.comments}
-                  setComments={props.setComments}
                 />
               </div>
             ) : null}
@@ -145,11 +140,9 @@ const Comment = (props) => {
                 index={index}
                 replies={props.comment.replies}
                 id={reply.id}
-                setComments={props.setComments}
-                currentUser={props.currentUser}
                 commentId={props.comment.id}
-                comments={props.comments}
                 setReplies={setReplies}
+                key={index}
               />
             );
           })}

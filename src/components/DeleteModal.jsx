@@ -1,17 +1,19 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationIcon } from '@heroicons/react/outline';
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment, useRef, useContext } from 'react';
+import { CommentsContext } from '../contexts/comments'
 
 const DeleteModal = (props) => {
+  const { comments, setComments } = useContext(CommentsContext);
   const handleDelete = () => {
-    const newComments = props.comments.map((comment) => {
+    const newComments = comments.map((comment) => {
       if (comment.id !== props.commentId) {
         return comment;
-      } 
+      }
     });
 
     props.setOpen(false);
-    props.setComments(newComments.filter((comment) => comment !== undefined));
+    setComments(newComments.filter((comment) => comment !== undefined));
   };
 
   const cancelButtonRef = useRef(null);

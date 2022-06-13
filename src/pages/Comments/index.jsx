@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Comment from '../../components/comment';
 import { v4 as uuidv4 } from 'uuid';
+import { CommentsContext, UserContext } from '../../contexts/comments';
+
 
 const Comments = () => {
   const [loading, setLoading] = useState(true);
@@ -8,11 +10,10 @@ const Comments = () => {
   const [comments, setComments] = useState([]);
   const [addedComment, setAddedComment] = useState('');
   const [addCommentClicked, setAddCommentClicked] = useState(false);
-  const [currentUser, setCurrentUser] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
     fetchComments();
-    // let's not forget to use state for the Promise values (data, loading, error)
   }, []);
 
   const fetchComments = async () => {
@@ -60,46 +61,47 @@ const Comments = () => {
   if (error) return <h1>There has been an error</h1>;
 
   return (
-    <div className="container" id="container">
-      {comments.map((comment, index) => {
-        return (
-          <Comment
-            comment={comment}
-            key={index}
-            comments={comments}
-            setComments={setComments}
-            id={comment.id}
-            currentUser={currentUser}
-          />
-        );
-      })}
-      <div className="bg-white m-2 p-4 flex justify-between">
-        <button
-          id="add-comment"
-          className="bg-slate-100 m-1 p-1"
-          onClick={() => setAddCommentClicked(true)}
-        >
-          Add comment
-        </button>
-        {addCommentClicked ? (
-          <form
-            className="flex"
-            id="add-comment-form"
-            onSubmit={(e) => handleAddCommentSubmit(e)}
-          >
-            <input
-              type="text"
-              className="border-2 border-slate-100 w-[300px]"
-              id="add-comment-input"
-              onChange={(e) => setAddedComment(e.target.value)}
-            />
-            <button className="bg-purple-900 text-white m-1 p-1 w-[100px]">
-              Send
+    <CommentsContext.Provider value={{ comments, setComments }}>
+      <UserContext.Provider value={{ user: currentUser }}>
+        <div className="container" id="container">
+          {comments.map((comment, index) => {
+            return (
+              <Comment
+                comment={comment}
+                key={index}
+                id={comment.id}
+              />
+            );
+          })}
+          <div className="bg-white m-2 p-4 flex justify-between">
+            <button
+              id="add-comment"
+              className="bg-slate-100 m-1 p-1"
+              onClick={() => setAddCommentClicked(true)}
+            >
+              Add comment
             </button>
-          </form>
-        ) : null}
-      </div>
-    </div>
+            {addCommentClicked ? (
+              <form
+                className="flex"
+                id="add-comment-form"
+                onSubmit={(e) => handleAddCommentSubmit(e)}
+              >
+                <input
+                  type="text"
+                  className="border-2 border-slate-100 w-[300px]"
+                  id="add-comment-input"
+                  onChange={(e) => setAddedComment(e.target.value)}
+                />
+                <button className="bg-purple-900 text-white m-1 p-1 w-[100px]">
+                  Send
+                </button>
+              </form>
+            ) : null}
+          </div>
+        </div>
+      </UserContext.Provider>
+    </CommentsContext.Provider >
   );
 };
 

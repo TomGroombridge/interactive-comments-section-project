@@ -1,8 +1,11 @@
 import Comment from './comment';
 import { React, useState } from 'react';
 import DeleteReplyModal from './DeleteReplyModal';
+import { useContext } from 'react';
+import { UserContext } from '../contexts/comments';
 
 const Reply = (props) => {
+  const { user } = useContext(UserContext);
   const [content, setContent] = useState(props.reply.content);
   const [editClicked, setEditClicked] = useState(false);
   const [open, setOpen] = useState(false);
@@ -80,7 +83,7 @@ const Reply = (props) => {
       >
         <div className="flex justify-between m-1 p-1">
           <p className="font-bold">{props.reply.user.username}</p>
-          {props.reply.user.username === props.currentUser.username ? (
+          {props.reply.user.username === user.username ? (
             <div className="flex">
               <button
                 className="text-xs text-purple-900 flex mx-1 items-center justify-between px-2"
@@ -103,8 +106,6 @@ const Reply = (props) => {
                 open={open}
                 replyId={props.reply.id}
                 replies={props.replies}
-                comments={props.comments}
-                setComments={props.setComments}
                 commentId={props.commentId}
               />
             </div>

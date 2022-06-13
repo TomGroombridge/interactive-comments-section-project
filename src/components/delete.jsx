@@ -18,8 +18,6 @@ const Delete = (props) => {
         setOpen={setOpen}
         open={open}
         commentId={props.id}
-        comments={props.comments}
-        setComments={props.setComments}
       />
     </div>
   );
