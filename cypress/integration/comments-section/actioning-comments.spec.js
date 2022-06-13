@@ -218,7 +218,7 @@ describe('viewing comments', () => {
     cy.get('[id="delete-modal"]').should('exist');
   });
 
-  it.only('should delete own reply when delete button in modal is clicked', () => {
+  it('should delete own reply when delete button in modal is clicked', () => {
     cy.get(`[id="replies-container"]`).contains(
       "I couldn't agree more with this."
     );

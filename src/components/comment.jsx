@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Edit from './edit';
 import Delete from './delete';
 import { v4 as uuidv4 } from 'uuid';
 import Comments from '../pages/Comments';
 import Reply from './reply';
+import { CurrentUserContext } from '../context';
 
 const Comment = (props) => {
   const [replyClicked, setReplyClicked] = useState(false);
   const [replyValue, setReplyValue] = useState('');
   const [comment, setComment] = useState(props.comment);
   const [replies, setReplies] = useState(props.comment.replies);
+
+  const { currentUser } = useContext(CurrentUserContext);
 
   const handleReplySubmit = (e) => {
     e.preventDefault();
@@ -25,10 +28,10 @@ const Comment = (props) => {
       replyingTo: comment.user.username,
       user: {
         image: {
-          png: props.currentUser.image.png,
-          webp: props.currentUser.image.webp,
+          png: currentUser.image.png,
+          webp: currentUser.image.webp,
         },
-        username: props.currentUser.username,
+        username: currentUser.username,
       },
     };
     const newComments = props.comments.map((comment, index) => {
@@ -115,7 +118,7 @@ const Comment = (props) => {
               <p className="">Reply </p>
               {/* </div> */}
             </button>
-            {props.comment.user.username === props.currentUser.username ? (
+            {props.comment.user.username === currentUser.username ? (
               <div>
                 <Edit
                   id={props.comment.id}
@@ -123,7 +126,6 @@ const Comment = (props) => {
                   commentUser={props.comment.user.username}
                   comments={props.comments}
                   setComments={props.setComments}
-                  currentUser={props.currentUser}
                 />
                 <Delete
                   id={props.comment.id}
@@ -146,7 +148,6 @@ const Comment = (props) => {
                 replies={props.comment.replies}
                 id={reply.id}
                 setComments={props.setComments}
-                currentUser={props.currentUser}
                 commentId={props.comment.id}
                 comments={props.comments}
                 setReplies={setReplies}
