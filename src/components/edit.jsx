@@ -5,7 +5,8 @@ const Edit = (props) => {
   const [content, setContent] = useState(props.comment.content);
   const [editClicked, setEditClicked] = useState(false);
   const {
-    comment: { id },
+    index,
+    comment
   } = props;
 
   const { comments, setComments } = useContext(CommentsContext);
@@ -15,13 +16,10 @@ const Edit = (props) => {
     if (content === '') {
       return;
     }
-    const editedComments = comments.map((comment, index) => {
-      if (id === comment.id) {
-        comment.content = content;
-      }
-      return comment;
-    });
-    setComments(editedComments);
+
+    const newComments = [...comments];
+    newComments[index] = { ...comment, content: content };
+    setComments(newComments);
     setEditClicked(false);
   };
 

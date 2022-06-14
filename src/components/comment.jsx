@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import Edit from './edit';
 import Delete from './delete';
 import { v4 as uuidv4 } from 'uuid';
-import Comments from '../pages/Comments';
 import Reply from './reply';
 import { CurrentUserContext, CommentsContext } from '../context';
 
@@ -133,6 +132,7 @@ const Comment = (props) => {
               <Reply
                 reply={reply}
                 key={index}
+                index={index}
                 comment={props.comment}
                 setReplies={setReplies}
               />

@@ -1,27 +1,33 @@
-import Comment from './comment';
-import { React, useState, useEffect, useContext } from 'react';
+import { React, useState, useContext } from 'react';
 import DeleteReplyModal from './DeleteReplyModal';
-import { CurrentUserContext } from '../context';
+import { CommentsContext, CurrentUserContext } from '../context';
 
 const Reply = (props) => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(props.comment.content);
   const [editClicked, setEditClicked] = useState(false);
   const [open, setOpen] = useState(false);
   const { currentUser } = useContext(CurrentUserContext);
+  const { setComments, comments } = useContext(CommentsContext);
 
-  const { comment } = props;
+  const { reply, index, comment } = props;
 
   const handleReplySave = (e) => {
     e.preventDefault();
     if (content === '') {
       return;
     }
-    const editedReplies = props.comment.replies.map((reply) => {
-      if (props.reply.id === reply.id) {
-        reply.content = content;
+    const newComments = [...comments];
+    const updatedComment = { ...comment };
+    updatedComment.replies[index] = { ...reply, content: content };
+
+    newComments.map((c) => {
+      if (c.id === comment.id) {
+        return updatedComment
       }
-      return reply;
-    });
+      return comment;
+    })
+
+    setComments(newComments);
     setEditClicked(false);
   };
 
