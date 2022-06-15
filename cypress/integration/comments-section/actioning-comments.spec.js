@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe('viewing comments', () => {
   beforeEach(() => {
     cy.fixture('comments-response.json').then((json) => {
@@ -27,7 +25,7 @@ describe('viewing comments', () => {
     cy.get('form').submit();
     cy.get('[id="replies-container"]')
       .eq(0)
-      .find('div')
+      .find('[id="reply-content"]')
       .should('have.length', 1);
   });
 
@@ -189,6 +187,54 @@ describe('viewing comments', () => {
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
     cy.get('[id="delete-button"]').should('be.visible');
+  });
+
+  it('should increase score for ramsesmirons comment to 5 when plus is clicked', () => {
+    cy.get('[id="reply-score"]').eq(0).contains('4');
+    cy.get('[id="reply-plus-button"]').eq(0).click();
+    cy.get('[id="reply-score"]').eq(0).contains('5');
+  });
+
+  it('should decrease score for ramsesmirons comment to 3 when minus is clicked', () => {
+    cy.get('[id="reply-score"]').eq(0).contains('4');
+    cy.get('[id="reply-minus-button"]').eq(0).click();
+    cy.get('[id="reply-score"]').eq(0).contains('3');
+  });
+
+  it('should only have one edit button on the page as there is only one reply from juliusomo', () => {
+    cy.get('[id="reply-edit-button"]').should('have.length', 1);
+  });
+
+  it('should edit content of current user reply', () => {
+    cy.get('[id="reply-edit-button"]').click();
+    cy.get('[id="reply-input"]').clear();
+    cy.get('[id="reply-input"]').type('hello');
+    cy.get('form').submit();
+    cy.get('[id="replies-container"]').contains('hello');
+  });
+
+  it('delete modal should appear when delete clicked on own reply', () => {
+    cy.get('[id="reply-delete-button"]').click();
+    cy.get('[id="delete-modal"]').should('exist');
+  });
+
+  it('should delete own reply when delete button in modal is clicked', () => {
+    cy.get(`[id="replies-container"]`).contains(
+      "I couldn't agree more with this."
+    );
+    cy.get('[id="reply-delete-button"]').click();
+    cy.get('[id="confirm-delete-button"]').click();
+    cy.get(`[id="replies-container"]`).should(
+      'not.have.text',
+      "I couldn't agree more with this."
+    );
+  });
+
+  it('reply score should not decrease below 0 when minus button is clicked', () => {
+    cy.get('[id="reply-minus-button"]').eq(1).click();
+    cy.get('[id="reply-minus-button"]').eq(1).click();
+    cy.get('[id="reply-minus-button"]').eq(1).click();
+    cy.get('[id="reply-score"]').eq(1).contains(0);
   });
 });
 

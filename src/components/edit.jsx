@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { CommentsContext } from '../context';
 
 const Edit = (props) => {
-  const [content, setContent] = useState(props.content);
+  const [content, setContent] = useState(props.comment.content);
   const [editClicked, setEditClicked] = useState(false);
+  const {
+    index,
+    comment
+  } = props;
+
+  const { comments, setComments } = useContext(CommentsContext);
 
   const handleSave = (e) => {
     e.preventDefault();
     if (content === '') {
       return;
     }
-    const editedComments = props.comments.map((comment, index) => {
-      if (props.id === comment.id) {
-        comment.content = content;
-      }
-      return comment;
-    });
-    props.setComments(editedComments);
+
+    const newComments = [...comments];
+    newComments[index] = { ...comment, content: content };
+    setComments(newComments);
     setEditClicked(false);
   };
 
@@ -39,8 +43,8 @@ const Edit = (props) => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
-            <button className="border-2 border-purple-900 text-purple-900 p-1 m-1">
-              Save
+            <button className="uppercase bg-purple-900 text-white p-1 m-1">
+              Update
             </button>
           </form>
         </div>

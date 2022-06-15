@@ -3,17 +3,27 @@ import { ExclamationIcon } from '@heroicons/react/outline';
 import React, { Fragment, useRef, useContext } from 'react';
 import { CommentsContext } from '../context';
 
-const DeleteModal = (props) => {
+const DeleteReplyModal = (props) => {
   const { comments, setComments } = useContext(CommentsContext);
+
+  const { comment } = props;
+
   const handleDelete = () => {
     const newComments = comments.map((comment) => {
-      if (comment.id !== props.commentId) {
+      if (comment.id !== props.comment.id) {
+        return comment;
+      } else if (comment.id === props.comment.id) {
+        const newReplies = comment.replies.map((reply) => {
+          if (reply.id !== props.replyId) {
+            return reply;
+          }
+        });
+        comment.replies = newReplies.filter((reply) => reply !== undefined);
         return comment;
       }
     });
-
+    setComments(newComments);
     props.setOpen(false);
-    setComments(newComments.filter((comment) => comment !== undefined));
   };
 
   const cancelButtonRef = useRef(null);
@@ -63,11 +73,11 @@ const DeleteModal = (props) => {
                           as="h3"
                           className="text-lg leading-6 font-medium text-gray-900"
                         >
-                          Delete Comment
+                          Delete Reply
                         </Dialog.Title>
                         <div className="mt-2">
                           <p className="text-sm text-gray-500">
-                            Are you sure you want to delete this comment? This
+                            Are you sure you want to delete this reply? This
                             cannot be undone.
                           </p>
                         </div>
@@ -103,4 +113,4 @@ const DeleteModal = (props) => {
   );
 };
 
-export default DeleteModal;
+export default DeleteReplyModal;
