@@ -229,6 +229,13 @@ describe('viewing comments', () => {
       "I couldn't agree more with this."
     );
   });
+
+  it('reply score should not decrease below 0 when minus button is clicked', () => {
+    cy.get('[id="reply-minus-button"]').eq(1).click();
+    cy.get('[id="reply-minus-button"]').eq(1).click();
+    cy.get('[id="reply-minus-button"]').eq(1).click();
+    cy.get('[id="reply-score"]').eq(1).contains(0);
+  });
 });
 
 describe('unsuccessful api call', () => {

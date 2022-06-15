@@ -22,36 +22,42 @@ const Reply = (props) => {
 
     newComments.map((c) => {
       if (c.id === comment.id) {
-        return updatedComment
+        return updatedComment;
       }
       return comment;
-    })
+    });
 
     setComments(newComments);
     setEditClicked(false);
   };
 
   const handleReplyPlus = () => {
-    const newReplies = props.comment.replies.map((reply) => {
-      if (reply.id === props.reply.id) {
-        reply.score += 1;
+    const newComments = [...comments];
+    const updatedComment = { ...comment };
+    updatedComment.replies[index] = { ...reply, score: reply.score + 1 };
+    newComments.map((c) => {
+      if (c.id === comment.id) {
+        return updatedComment;
       }
-      return reply;
+      return comment;
     });
-    props.setReplies(newReplies);
+    setComments(newComments);
   };
 
   const handleReplyMinus = () => {
-    const newReplies = props.comment.replies.map((reply) => {
-      if (reply.score === 0) {
-        return reply;
-      }
-      if (reply.id === props.reply.id) {
-        reply.score -= 1;
-      }
+    if (reply.score === 0) {
       return reply;
+    }
+    const newComments = [...comments];
+    const updatedComment = { ...comment };
+    updatedComment.replies[index] = { ...reply, score: reply.score - 1 };
+    newComments.map((c) => {
+      if (c.id === comment.id) {
+        return updatedComment;
+      }
+      return comment;
     });
-    props.setReplies(newReplies);
+    setComments(newComments);
   };
 
   return (
