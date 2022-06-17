@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import Comment from '../../components/comment';
 import { v4 as uuidv4 } from 'uuid';
-import { CommentsContext, CurrentUserContext } from '../../context';
+import { CommentsContext } from '../../context';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Comments = () => {
   const [loading, setLoading] = useState(true);
@@ -9,10 +10,12 @@ const Comments = () => {
   const [comments, setComments] = useState([]);
   const [addedComment, setAddedComment] = useState('');
   const [addCommentClicked, setAddCommentClicked] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const { loginWithRedirect, logout, user, isAuthenticated, isLoading } =
+    useAuth0();
 
   useEffect(() => {
     fetchComments();
+
     // let's not forget to use state for the Promise values (data, loading, error)
   }, []);
 
@@ -21,7 +24,6 @@ const Comments = () => {
       const response = await fetch('https://api.mocki.io/v2/a20ae30b/comments');
       const data = await response.json();
       setComments(data.comments);
-      setCurrentUser(data.currentUser);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -34,7 +36,7 @@ const Comments = () => {
     if (addedComment === '') {
       return;
     }
-
+    console.log('user', user);
     const addedCommentData = {
       id: uuidv4(),
       content: addedComment,
@@ -42,10 +44,10 @@ const Comments = () => {
       score: 0,
       user: {
         image: {
-          png: currentUser.image.png,
-          webp: currentUser.image.webp,
+          png: user.picture,
+          webp: user.picture,
         },
-        username: currentUser.username,
+        username: user.nickname,
       },
       replies: [],
     };
@@ -56,46 +58,79 @@ const Comments = () => {
     setAddedComment('');
   };
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading || isLoading) return <h1>Loading...</h1>;
 
   if (error) return <h1>There has been an error</h1>;
-
   return (
-    <CurrentUserContext.Provider value={{ currentUser }}>
+    <div className="flex flex-row-reverse">
+      <div id="log-buttons" className="p-2 m-2">
+        {isAuthenticated ? (
+          <button
+            onClick={() => logout({ returnTo: window.location.origin })}
+            className="bg-slate-100 m-1 p-1"
+            id="logout-button"
+          >
+            Log Out
+          </button>
+        ) : (
+          <button
+            onClick={() => loginWithRedirect()}
+            className="bg-slate-100 m-1 p-1"
+            id="login-button"
+          >
+            Log In
+          </button>
+        )}
+      </div>
+
       <CommentsContext.Provider value={{ comments, setComments }}>
-        <div className="container" id="container">
+        <div className="container flex flex-col items-center" id="container">
+          {isAuthenticated ? (
+            <h1 className="text-[#5357B6] text-lg font-bold mt-2 p-2">
+              Hello {user.name}!
+            </h1>
+          ) : null}
           {comments.map((comment, index) => {
-            return <Comment comment={comment} key={index} id={comment.id} />;
+            return (
+              <Comment
+                comment={comment}
+                key={index}
+                id={comment.id}
+                index={index}
+              />
+            );
           })}
-          <div className="bg-white m-2 p-4 flex justify-between">
-            <button
-              id="add-comment"
-              className="bg-slate-100 m-1 p-1"
-              onClick={() => setAddCommentClicked(true)}
-            >
-              Add comment
-            </button>
-            {addCommentClicked ? (
-              <form
-                className="flex"
-                id="add-comment-form"
-                onSubmit={(e) => handleAddCommentSubmit(e)}
+          {isAuthenticated ? (
+            <div className="bg-white m-2 p-4 flex justify-between">
+              <button
+                id="add-comment"
+                className="bg-slate-100 m-1 p-1"
+                onClick={() => setAddCommentClicked(true)}
               >
-                <input
-                  type="text"
-                  className="border-2 border-slate-100 w-[300px]"
-                  id="add-comment-input"
-                  onChange={(e) => setAddedComment(e.target.value)}
-                />
-                <button className="bg-purple-900 text-white m-1 p-1 w-[100px]">
-                  Send
-                </button>
-              </form>
-            ) : null}
-          </div>
+                Add comment
+              </button>
+              {addCommentClicked ? (
+                <form
+                  className="flex"
+                  id="add-comment-form"
+                  onSubmit={(e) => handleAddCommentSubmit(e)}
+                >
+                  <input
+                    type="text"
+                    className="border-2 border-slate-100 w-[300px]"
+                    id="add-comment-input"
+                    onChange={(e) => setAddedComment(e.target.value)}
+                  />
+                  <button className="bg-[#5357B6] text-white m-1 p-1 w-[100px]">
+                    Send
+                  </button>
+                </form>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </CommentsContext.Provider>
-    </CurrentUserContext.Provider>
+    </div>
   );
 };
 

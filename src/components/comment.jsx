@@ -3,15 +3,17 @@ import Edit from './edit';
 import Delete from './delete';
 import { v4 as uuidv4 } from 'uuid';
 import Reply from './reply';
-import { CurrentUserContext, CommentsContext } from '../context';
+import { CommentsContext } from '../context';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Comment = (props) => {
   const [replyClicked, setReplyClicked] = useState(false);
   const [replyValue, setReplyValue] = useState('');
   const [replies, setReplies] = useState(props.comment.replies);
 
-  const { currentUser } = useContext(CurrentUserContext);
+  // const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { comments, setComments } = useContext(CommentsContext);
+  const { user, isAuthenticated } = useAuth0();
 
   const handleReplySubmit = (e) => {
     e.preventDefault();
@@ -27,12 +29,13 @@ const Comment = (props) => {
       replyingTo: props.comment.user.username,
       user: {
         image: {
-          png: currentUser.image.png,
-          webp: currentUser.image.webp,
+          png: user.picture,
+          webp: user.picture,
         },
-        username: currentUser.username,
+        username: isAuthenticated ? user.nickname : null,
       },
     };
+
     const newComments = comments.map((comment, index) => {
       if (comment.id === props.comment.id) {
         comment.replies.push(replyData);
@@ -43,6 +46,7 @@ const Comment = (props) => {
     setComments(newComments);
     setReplyClicked(false);
     setReplyValue('');
+    console.log('user', user);
   };
 
   const handlePlus = () => {
@@ -72,7 +76,7 @@ const Comment = (props) => {
     <div className="bg-white m-2 flex flex-row p-2" id="comment-container">
       <div
         id="score-container"
-        className="bg-gray-100 text-purple-900 m-2 rounded-lg h-[130px] w-[30px] flex flex-col justify-center"
+        className="bg-gray-100 text-[#5357B6] m-2 rounded-lg h-[130px] w-[30px] flex flex-col justify-center"
       >
         <button
           id={`plus-button-${props.comment.id}`}
@@ -105,19 +109,26 @@ const Comment = (props) => {
             </h3>
           </div>
           <div>
-            <button
-              className="text-purple-900 bg-white p-1 mx-1 justify-between flex items-center w-[76px]"
-              id="reply-button"
-              onClick={() => {
-                setReplyClicked(true);
-              }}
-            >
-              <img src="/icons/icon-reply.svg" className="w-[20px] h-[20px]" />
-              <p className="">Reply </p>
-            </button>
-            {props.comment.user.username === currentUser.username ? (
+            {isAuthenticated ? (
+              <button
+                className="text-[#5357B6] bg-white p-1 mx-1 justify-between flex items-center w-[76px]"
+                id="reply-button"
+                onClick={() => {
+                  setReplyClicked(true);
+                }}
+              >
+                <img
+                  src="/icons/icon-reply.svg"
+                  className="w-[20px] h-[20px]"
+                />
+                <p className="">Reply </p>
+              </button>
+            ) : null}
+
+            {isAuthenticated &&
+            props.comment.user.username === user.nickname ? (
               <div>
-                <Edit comment={props.comment} index={props.key} />
+                <Edit comment={props.comment} index={props.index} />
                 <Delete id={props.comment.id} />
               </div>
             ) : null}

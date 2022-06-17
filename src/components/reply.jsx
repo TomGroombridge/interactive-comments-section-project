@@ -1,13 +1,14 @@
 import { React, useState, useContext } from 'react';
 import DeleteReplyModal from './DeleteReplyModal';
-import { CommentsContext, CurrentUserContext } from '../context';
+import { CommentsContext } from '../context';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Reply = (props) => {
-  const [content, setContent] = useState(props.comment.content);
+  const [content, setContent] = useState(props.reply.content);
   const [editClicked, setEditClicked] = useState(false);
   const [open, setOpen] = useState(false);
-  const { currentUser } = useContext(CurrentUserContext);
   const { setComments, comments } = useContext(CommentsContext);
+  const { user, isAuthenticated } = useAuth0();
 
   const { reply, index, comment } = props;
 
@@ -87,10 +88,10 @@ const Reply = (props) => {
       <div id={`reply-${props.reply.id}`}>
         <div className="flex justify-between m-1 p-1">
           <p className="font-bold">{props.reply.user.username}</p>
-          {props.reply.user.username === currentUser.username ? (
+          {isAuthenticated && props.reply.user.username === user.nickname ? (
             <div className="flex">
               <button
-                className="text-xs text-purple-900 flex mx-1 items-center justify-between px-2"
+                className="text-xs text-[#5357B6] flex mx-1 items-center justify-between px-2"
                 id="reply-edit-button"
                 onClick={() => setEditClicked(true)}
               >
