@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Comment from '../../components/comment';
 import { v4 as uuidv4 } from 'uuid';
 import { CommentsContext, CurrentUserContext } from '../../context';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Comments = () => {
   const [loading, setLoading] = useState(true);
@@ -10,6 +11,8 @@ const Comments = () => {
   const [addedComment, setAddedComment] = useState('');
   const [addCommentClicked, setAddCommentClicked] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const { loginWithRedirect, logout, user, isAuthenticated, isLoading } =
+    useAuth0();
 
   useEffect(() => {
     fetchComments();
@@ -56,46 +59,68 @@ const Comments = () => {
     setAddedComment('');
   };
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading || isLoading) return <h1>Loading...</h1>;
 
   if (error) return <h1>There has been an error</h1>;
 
   return (
-    <CurrentUserContext.Provider value={{ currentUser }}>
-      <CommentsContext.Provider value={{ comments, setComments }}>
-        <div className="container" id="container">
-          {comments.map((comment, index) => {
-            return <Comment comment={comment} key={index} id={comment.id} />;
-          })}
-          <div className="bg-white m-2 p-4 flex justify-between">
-            <button
-              id="add-comment"
-              className="bg-slate-100 m-1 p-1"
-              onClick={() => setAddCommentClicked(true)}
-            >
-              Add comment
-            </button>
-            {addCommentClicked ? (
-              <form
-                className="flex"
-                id="add-comment-form"
-                onSubmit={(e) => handleAddCommentSubmit(e)}
+    <div>
+      <div id="log-buttons">
+        {isAuthenticated ? (
+          <button
+            onClick={() => logout({ returnTo: window.location.origin })}
+            className="bg-slate-100 m-1 p-1"
+            id="logout-button"
+          >
+            Log Out
+          </button>
+        ) : (
+          <button
+            onClick={() => loginWithRedirect()}
+            className="bg-slate-100 m-1 p-1"
+            id="login-button"
+          >
+            Log In
+          </button>
+        )}
+      </div>
+
+      <CurrentUserContext.Provider value={{ currentUser }}>
+        <CommentsContext.Provider value={{ comments, setComments }}>
+          <div className="container" id="container">
+            {comments.map((comment, index) => {
+              return <Comment comment={comment} key={index} id={comment.id} />;
+            })}
+            <div className="bg-white m-2 p-4 flex justify-between">
+              <button
+                id="add-comment"
+                className="bg-slate-100 m-1 p-1"
+                onClick={() => setAddCommentClicked(true)}
               >
-                <input
-                  type="text"
-                  className="border-2 border-slate-100 w-[300px]"
-                  id="add-comment-input"
-                  onChange={(e) => setAddedComment(e.target.value)}
-                />
-                <button className="bg-purple-900 text-white m-1 p-1 w-[100px]">
-                  Send
-                </button>
-              </form>
-            ) : null}
+                Add comment
+              </button>
+              {addCommentClicked ? (
+                <form
+                  className="flex"
+                  id="add-comment-form"
+                  onSubmit={(e) => handleAddCommentSubmit(e)}
+                >
+                  <input
+                    type="text"
+                    className="border-2 border-slate-100 w-[300px]"
+                    id="add-comment-input"
+                    onChange={(e) => setAddedComment(e.target.value)}
+                  />
+                  <button className="bg-purple-900 text-white m-1 p-1 w-[100px]">
+                    Send
+                  </button>
+                </form>
+              ) : null}
+            </div>
           </div>
-        </div>
-      </CommentsContext.Provider>
-    </CurrentUserContext.Provider>
+        </CommentsContext.Provider>
+      </CurrentUserContext.Provider>
+    </div>
   );
 };
 

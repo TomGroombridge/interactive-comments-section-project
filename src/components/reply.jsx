@@ -125,7 +125,7 @@ const Reply = (props) => {
                 className="bg-slate-100 p-1 m-1 border-[1px] border-purple-900"
                 id="reply-input"
                 type="text"
-                value={content}
+                value={reply.content}
                 onChange={(e) => setContent(e.target.value)}
               />
               <button className="uppercase text-xs rounded-lg bg-purple-900 text-white p-1 m-1">
