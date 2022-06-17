@@ -4,10 +4,7 @@ import { CommentsContext } from '../context';
 const Edit = (props) => {
   const [content, setContent] = useState(props.comment.content);
   const [editClicked, setEditClicked] = useState(false);
-  const {
-    index,
-    comment
-  } = props;
+  const { index, comment } = props;
 
   const { comments, setComments } = useContext(CommentsContext);
 
@@ -18,15 +15,17 @@ const Edit = (props) => {
     }
 
     const newComments = [...comments];
+    console.log('index', index);
     newComments[index] = { ...comment, content: content };
     setComments(newComments);
     setEditClicked(false);
+    console.log('newComments', newComments);
   };
 
   return (
     <div>
       <button
-        className="border-2 border-purple-900 text-purple-900 p-1 m-1 flex items-center"
+        className="border-2 border-[#5357B6] text-[#5357B6] p-1 m-1 flex items-center"
         id="edit-button"
         onClick={() => setEditClicked(true)}
       >
@@ -43,7 +42,7 @@ const Edit = (props) => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
-            <button className="uppercase bg-purple-900 text-white p-1 m-1">
+            <button className="uppercase bg-[#5357B6] text-white p-1 m-1">
               Update
             </button>
           </form>

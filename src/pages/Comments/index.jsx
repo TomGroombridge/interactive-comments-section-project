@@ -25,7 +25,10 @@ const Comments = () => {
       const response = await fetch('https://api.mocki.io/v2/a20ae30b/comments');
       const data = await response.json();
       setComments(data.comments);
-      setCurrentUser(data.currentUser);
+      if (user !== undefined) {
+        setCurrentUser(user);
+        console.log('currentUser', currentUser);
+      }
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -38,7 +41,7 @@ const Comments = () => {
     if (addedComment === '') {
       return;
     }
-
+    console.log('user', user);
     const addedCommentData = {
       id: uuidv4(),
       content: addedComment,
@@ -46,10 +49,10 @@ const Comments = () => {
       score: 0,
       user: {
         image: {
-          png: currentUser.image.png,
-          webp: currentUser.image.webp,
+          png: user.picture,
+          webp: user.picture,
         },
-        username: currentUser.username,
+        username: user.nickname,
       },
       replies: [],
     };
@@ -58,15 +61,16 @@ const Comments = () => {
     setComments(newComments);
     setAddCommentClicked(false);
     setAddedComment('');
+    console.log('nickname', user.nickname);
   };
 
   if (loading || isLoading) return <h1>Loading...</h1>;
 
   if (error) return <h1>There has been an error</h1>;
-  console.log(user);
+  // console.log(user);
   return (
-    <div>
-      <div id="log-buttons">
+    <div className="flex flex-row-reverse">
+      <div id="log-buttons" className="p-2 m-2">
         {isAuthenticated ? (
           <button
             onClick={() => logout({ returnTo: window.location.origin })}
@@ -85,13 +89,26 @@ const Comments = () => {
           </button>
         )}
       </div>
-      {isAuthenticated ? <h1>Hello {user.given_name}!</h1> : null}
-      <CurrentUserContext.Provider value={{ currentUser }}>
-        <CommentsContext.Provider value={{ comments, setComments }}>
-          <div className="container" id="container">
-            {comments.map((comment, index) => {
-              return <Comment comment={comment} key={index} id={comment.id} />;
-            })}
+
+      {/* <CurrentUserContext.Provider value={{ currentUser }}> */}
+      <CommentsContext.Provider value={{ comments, setComments }}>
+        <div className="container flex flex-col items-center" id="container">
+          {isAuthenticated ? (
+            <h1 className="text-[#5357B6] text-lg font-bold mt-2 p-2">
+              Hello {user.name}!
+            </h1>
+          ) : null}
+          {comments.map((comment, index) => {
+            return (
+              <Comment
+                comment={comment}
+                key={index}
+                id={comment.id}
+                index={index}
+              />
+            );
+          })}
+          {isAuthenticated ? (
             <div className="bg-white m-2 p-4 flex justify-between">
               <button
                 id="add-comment"
@@ -112,15 +129,16 @@ const Comments = () => {
                     id="add-comment-input"
                     onChange={(e) => setAddedComment(e.target.value)}
                   />
-                  <button className="bg-purple-900 text-white m-1 p-1 w-[100px]">
+                  <button className="bg-[#5357B6] text-white m-1 p-1 w-[100px]">
                     Send
                   </button>
                 </form>
               ) : null}
             </div>
-          </div>
-        </CommentsContext.Provider>
-      </CurrentUserContext.Provider>
+          ) : null}
+        </div>
+      </CommentsContext.Provider>
+      {/* </CurrentUserContext.Provider> */}
     </div>
   );
 };

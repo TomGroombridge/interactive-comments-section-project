@@ -1,10 +1,30 @@
 describe('viewing comments', () => {
+  after(() => {
+    cy.get('#logout-button').click();
+  });
+
+  before(() => {
+    cy.visit('http://localhost:3000');
+    cy.clearCookies();
+    cy.get('#login-button').click();
+    cy.get('#username').type('carina.druce@zopa.com');
+    cy.get('#password').type('Zopa2022');
+    cy.get('button[name="action"]').contains('Continue').click();
+    cy.wait(100);
+  });
   beforeEach(() => {
+    cy.visit('http://localhost:3000');
     cy.fixture('comments-response.json').then((json) => {
       cy.intercept('GET', 'https://api.mocki.io/v2/a20ae30b/comments', json);
     });
-    cy.visit('http://localhost:3000');
   });
+
+  // beforeEach(() => {
+  //   cy.fixture('comments-response.json').then((json) => {
+  //     cy.intercept('GET', 'https://api.mocki.io/v2/a20ae30b/comments', json);
+  //   });
+  //   cy.visit('http://localhost:3000');
+  // });
 
   it('display h1 of comments following api call', () => {
     cy.get('[id="comment-1"]').contains('Impressive');
@@ -242,8 +262,14 @@ describe('viewing comments', () => {
     cy.get('[id="log-buttons"]').should('not.have.text', 'Log Out');
   });
 
-  it.only('should login', () => {
+  it('should login', () => {
     cy.login();
+  });
+
+  it('should only show log out button when user is logged in/authenticated', () => {
+    cy.login();
+    cy.get('[id="log-buttons"]').contains('Log Out');
+    cy.get('[id="log-buttons"]').should('not.have.text', 'Log In');
   });
 });
 
