@@ -3,7 +3,7 @@ import DeleteReplyModal from './DeleteReplyModal';
 import { CommentsContext, CurrentUserContext } from '../context';
 
 const Reply = (props) => {
-  const [content, setContent] = useState(props.comment.content);
+  const [content, setContent] = useState(props.reply.content);
   const [editClicked, setEditClicked] = useState(false);
   const [open, setOpen] = useState(false);
   const { currentUser } = useContext(CurrentUserContext);
@@ -125,7 +125,7 @@ const Reply = (props) => {
                 className="bg-slate-100 p-1 m-1 border-[1px] border-purple-900"
                 id="reply-input"
                 type="text"
-                value={reply.content}
+                value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
               <button className="uppercase text-xs rounded-lg bg-purple-900 text-white p-1 m-1">

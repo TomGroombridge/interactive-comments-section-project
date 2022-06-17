@@ -16,6 +16,7 @@ const Comments = () => {
 
   useEffect(() => {
     fetchComments();
+
     // let's not forget to use state for the Promise values (data, loading, error)
   }, []);
 
@@ -62,7 +63,7 @@ const Comments = () => {
   if (loading || isLoading) return <h1>Loading...</h1>;
 
   if (error) return <h1>There has been an error</h1>;
-
+  console.log(user);
   return (
     <div>
       <div id="log-buttons">
@@ -84,7 +85,7 @@ const Comments = () => {
           </button>
         )}
       </div>
-
+      {isAuthenticated ? <h1>Hello {user.given_name}!</h1> : null}
       <CurrentUserContext.Provider value={{ currentUser }}>
         <CommentsContext.Provider value={{ comments, setComments }}>
           <div className="container" id="container">

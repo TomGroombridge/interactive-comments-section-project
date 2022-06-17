@@ -205,7 +205,7 @@ describe('viewing comments', () => {
     cy.get('[id="reply-edit-button"]').should('have.length', 1);
   });
 
-  it.only('should edit content of current user reply', () => {
+  it('should edit content of current user reply', () => {
     cy.get('[id="reply-edit-button"]').click();
     cy.get('[id="reply-input"]').clear();
     cy.get('[id="reply-input"]').type('hello');
@@ -240,6 +240,10 @@ describe('viewing comments', () => {
   it('should only show log in button when user is not authenticated', () => {
     cy.get('[id="log-buttons"]').contains('Log In');
     cy.get('[id="log-buttons"]').should('not.have.text', 'Log Out');
+  });
+
+  it.only('should login', () => {
+    cy.login();
   });
 });
 
