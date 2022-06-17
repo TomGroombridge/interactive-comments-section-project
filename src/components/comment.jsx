@@ -3,7 +3,7 @@ import Edit from './edit';
 import Delete from './delete';
 import { v4 as uuidv4 } from 'uuid';
 import Reply from './reply';
-import { CurrentUserContext, CommentsContext } from '../context';
+import { CommentsContext } from '../context';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Comment = (props) => {
@@ -11,7 +11,7 @@ const Comment = (props) => {
   const [replyValue, setReplyValue] = useState('');
   const [replies, setReplies] = useState(props.comment.replies);
 
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  // const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { comments, setComments } = useContext(CommentsContext);
   const { user, isAuthenticated } = useAuth0();
 
@@ -42,15 +42,11 @@ const Comment = (props) => {
       }
       return comment;
     });
-    console.log('replyData', replyData);
 
-    // console.log('props.reply.user.username', props.reply.user.username);
     setComments(newComments);
     setReplyClicked(false);
     setReplyValue('');
-    // setCurrentUser(user);
     console.log('user', user);
-    // console.log('currentUser', currentUser);
   };
 
   const handlePlus = () => {

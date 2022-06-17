@@ -1,13 +1,12 @@
 import { React, useState, useContext } from 'react';
 import DeleteReplyModal from './DeleteReplyModal';
-import { CommentsContext, CurrentUserContext } from '../context';
+import { CommentsContext } from '../context';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Reply = (props) => {
   const [content, setContent] = useState(props.reply.content);
   const [editClicked, setEditClicked] = useState(false);
   const [open, setOpen] = useState(false);
-  const { currentUser } = useContext(CurrentUserContext);
   const { setComments, comments } = useContext(CommentsContext);
   const { user, isAuthenticated } = useAuth0();
 

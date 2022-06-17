@@ -20,13 +20,6 @@ describe('viewing comments', () => {
     cy.get('#login-button').click();
   });
 
-  // beforeEach(() => {
-  //   cy.fixture('comments-response.json').then((json) => {
-  //     cy.intercept('GET', 'https://api.mocki.io/v2/a20ae30b/comments', json);
-  //   });
-  //   cy.visit('http://localhost:3000');
-  // });
-
   it('display h1 of comments following api call', () => {
     cy.get('[id="comment-1"]').contains('Impressive');
   });

@@ -15,11 +15,9 @@ const Edit = (props) => {
     }
 
     const newComments = [...comments];
-    console.log('index', index);
     newComments[index] = { ...comment, content: content };
     setComments(newComments);
     setEditClicked(false);
-    console.log('newComments', newComments);
   };
 
   return (

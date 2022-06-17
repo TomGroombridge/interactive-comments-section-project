@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Comment from '../../components/comment';
 import { v4 as uuidv4 } from 'uuid';
-import { CommentsContext, CurrentUserContext } from '../../context';
+import { CommentsContext } from '../../context';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Comments = () => {
@@ -10,7 +10,6 @@ const Comments = () => {
   const [comments, setComments] = useState([]);
   const [addedComment, setAddedComment] = useState('');
   const [addCommentClicked, setAddCommentClicked] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
   const { loginWithRedirect, logout, user, isAuthenticated, isLoading } =
     useAuth0();
 
@@ -25,10 +24,6 @@ const Comments = () => {
       const response = await fetch('https://api.mocki.io/v2/a20ae30b/comments');
       const data = await response.json();
       setComments(data.comments);
-      if (user !== undefined) {
-        setCurrentUser(user);
-        console.log('currentUser', currentUser);
-      }
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -61,13 +56,11 @@ const Comments = () => {
     setComments(newComments);
     setAddCommentClicked(false);
     setAddedComment('');
-    console.log('nickname', user.nickname);
   };
 
   if (loading || isLoading) return <h1>Loading...</h1>;
 
   if (error) return <h1>There has been an error</h1>;
-  // console.log(user);
   return (
     <div className="flex flex-row-reverse">
       <div id="log-buttons" className="p-2 m-2">
@@ -90,7 +83,6 @@ const Comments = () => {
         )}
       </div>
 
-      {/* <CurrentUserContext.Provider value={{ currentUser }}> */}
       <CommentsContext.Provider value={{ comments, setComments }}>
         <div className="container flex flex-col items-center" id="container">
           {isAuthenticated ? (
@@ -138,7 +130,6 @@ const Comments = () => {
           ) : null}
         </div>
       </CommentsContext.Provider>
-      {/* </CurrentUserContext.Provider> */}
     </div>
   );
 };
