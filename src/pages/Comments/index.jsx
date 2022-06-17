@@ -89,7 +89,7 @@ const Comments = () => {
             <h1 className="text-[#5357B6] text-lg font-bold mt-2 p-2">
               Hello {user.name}!
             </h1>
-          ) : null}
+          ) : <h1 className="text-[#5357B6] text-lg font-bold mt-2 p-2">Hello, log in to see more</h1>}
           {comments.map((comment, index) => {
             return (
               <Comment
