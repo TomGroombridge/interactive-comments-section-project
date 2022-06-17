@@ -17,6 +17,7 @@ describe('viewing comments', () => {
     cy.fixture('comments-response.json').then((json) => {
       cy.intercept('GET', 'https://api.mocki.io/v2/a20ae30b/comments', json);
     });
+    cy.get('#login-button').click();
   });
 
   // beforeEach(() => {
@@ -162,7 +163,7 @@ describe('viewing comments', () => {
       .eq(0)
       .find('div')
       .eq(0)
-      .contains('juliusomo');
+      .contains('carina.druce');
   });
 
   it('should have correct src for icon for user of comment', () => {
@@ -221,11 +222,20 @@ describe('viewing comments', () => {
     cy.get('[id="reply-score"]').eq(0).contains('3');
   });
 
-  it('should only have one edit button on the page as there is only one reply from juliusomo', () => {
+  it('should only show edit button on own reply once posted', () => {
+    cy.get('[id="reply-button"]').eq(0).click();
+    cy.get('[id="replies-container"]').eq(0);
+    cy.get('input[type="text"]').type('hello world');
+    cy.get('form').submit();
+    cy.get('[id="replies-container"]');
     cy.get('[id="reply-edit-button"]').should('have.length', 1);
   });
 
   it('should edit content of current user reply', () => {
+    cy.get('[id="reply-button"]').eq(0).click();
+    cy.get('[id="replies-container"]').eq(0);
+    cy.get('input[type="text"]').type('hello world');
+    cy.get('form').submit();
     cy.get('[id="reply-edit-button"]').click();
     cy.get('[id="reply-input"]').clear();
     cy.get('[id="reply-input"]').type('hello');
@@ -234,20 +244,22 @@ describe('viewing comments', () => {
   });
 
   it('delete modal should appear when delete clicked on own reply', () => {
+    cy.get('[id="reply-button"]').eq(0).click();
+    cy.get('[id="replies-container"]').eq(0);
+    cy.get('input[type="text"]').type('hello world');
+    cy.get('form').submit();
     cy.get('[id="reply-delete-button"]').click();
     cy.get('[id="delete-modal"]').should('exist');
   });
 
   it('should delete own reply when delete button in modal is clicked', () => {
-    cy.get(`[id="replies-container"]`).contains(
-      "I couldn't agree more with this."
-    );
+    cy.get('[id="reply-button"]').eq(0).click();
+    cy.get('[id="replies-container"]').eq(0);
+    cy.get('input[type="text"]').type('hello world');
+    cy.get('form').submit();
     cy.get('[id="reply-delete-button"]').click();
     cy.get('[id="confirm-delete-button"]').click();
-    cy.get(`[id="replies-container"]`).should(
-      'not.have.text',
-      "I couldn't agree more with this."
-    );
+    cy.get(`[id="replies-container"]`).should('not.have.text', 'hello world.');
   });
 
   it('reply score should not decrease below 0 when minus button is clicked', () => {
@@ -257,19 +269,33 @@ describe('viewing comments', () => {
     cy.get('[id="reply-score"]').eq(1).contains(0);
   });
 
+  it('should only show log out button when user is logged in/authenticated', () => {
+    cy.login();
+    cy.get('[id="log-buttons"]').contains('Log Out');
+    cy.get('[id="log-buttons"]').should('not.have.text', 'Log In');
+  });
+});
+
+describe('tests for when not authenticated', () => {
+  beforeEach(() => {
+    cy.fixture('comments-response.json').then((json) => {
+      cy.intercept('GET', 'https://api.mocki.io/v2/a20ae30b/comments', json);
+    });
+    cy.visit('http://localhost:3000');
+  });
+
   it('should only show log in button when user is not authenticated', () => {
     cy.get('[id="log-buttons"]').contains('Log In');
     cy.get('[id="log-buttons"]').should('not.have.text', 'Log Out');
   });
 
-  it('should login', () => {
-    cy.login();
-  });
-
-  it('should only show log out button when user is logged in/authenticated', () => {
-    cy.login();
-    cy.get('[id="log-buttons"]').contains('Log Out');
-    cy.get('[id="log-buttons"]').should('not.have.text', 'Log In');
+  it('should not show delete, edit, reply or add comment buttons when not authenticated', () => {
+    cy.get('[id="delete-button"]').should('not.exist');
+    cy.get('[id="edit-button"]').should('not.exist');
+    cy.get('[id="reply-button"]').should('not.exist');
+    cy.get('[id="add-comment"]').should('not.exist');
+    cy.get('[id="reply-edit-button"]').should('not.exist');
+    cy.get('[id="reply-delete-button"]').should('not.exist');
   });
 });
 
