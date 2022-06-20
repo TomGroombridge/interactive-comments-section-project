@@ -23,18 +23,19 @@ const Edit = (props) => {
   return (
     <div>
       <button
-        className="border-2 border-[#5357B6] text-[#5357B6] p-1 m-1 flex items-center"
+        className="text-[#5357B6] flex p-1 mx-1 justify-between items-center w-[56px]"
         id="edit-button"
         onClick={() => setEditClicked(true)}
       >
-        <p>Edit</p>
         <img src="/icons/icon-edit.svg" />
+        <p>Edit</p>
+        
       </button>
       {editClicked ? (
         <div>
           <form onSubmit={(e) => handleSave(e)}>
             <input
-              className="bg-slate-100 p-1 m-1"
+              className="bg-[#F5F6FA] p-1 m-1"
               id="edit-input"
               type="text"
               value={content}

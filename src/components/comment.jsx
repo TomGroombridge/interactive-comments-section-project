@@ -46,7 +46,6 @@ const Comment = (props) => {
     setComments(newComments);
     setReplyClicked(false);
     setReplyValue('');
-    console.log('user', user);
   };
 
   const handlePlus = () => {
@@ -73,19 +72,22 @@ const Comment = (props) => {
   };
 
   return (
-    <div className="bg-white m-2 flex flex-row p-2" id="comment-container">
+    <div className="m-2 flex flex-col pt-2" id="comment-container">
+      <div className="bg-white p-2 rounded-lg flex flex-row">
       <div
         id="score-container"
-        className="bg-gray-100 text-[#5357B6] m-2 rounded-lg h-[130px] w-[30px] flex flex-col justify-center"
+        className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg h-[130px] w-[30px] flex flex-col justify-center"
       >
         <button
           id={`plus-button-${props.comment.id}`}
           onClick={handlePlus}
           className="p-1 m-1"
         >
-          +
+          <img
+                  src="/icons/icon-plus.svg"
+                />
         </button>
-        <div className="p-1 m-1" id={`score-${props.comment.id}`}>
+        <div className="p-1 m-1 font-bold" id={`score-${props.comment.id}`}>
           {props.comment.score}
         </div>
         <button
@@ -93,22 +95,25 @@ const Comment = (props) => {
           onClick={handleMinus}
           className="p-1 m-1"
         >
-          -
+             <img
+                  src="/icons/icon-minus.svg"
+                />
         </button>
       </div>
 
-      <div>
+      <div className="flex flex-col">
+      
         <div className="flex p-2 items-center justify-between">
-          <div className="flex p-2 items-center">
-            <img id="user-icon" src={props.comment.user.image.png}></img>
+          <div className="flex flex-row p-2 items-center">
+            <img id="user-icon" src={props.comment.user.image.png} className="w-[64px] h-[64px] rounded-full"></img>
             <h2 className="font-extrabold text-black m-2">
               {props.comment.user.username}
             </h2>
-            <h3 className="font-light text-slate-500 text-sm">
+            <h3 className="text-[#67727E] text-sm">
               {props.comment.createdAt}
             </h3>
           </div>
-          <div>
+          <div className="flex">
             {isAuthenticated ? (
               <button
                 className="text-[#5357B6] bg-white p-1 mx-1 justify-between flex items-center w-[76px]"
@@ -127,7 +132,7 @@ const Comment = (props) => {
 
             {isAuthenticated &&
             props.comment.user.username === user.nickname ? (
-              <div>
+              <div className="flex">
                 <Edit comment={props.comment} index={props.index} />
                 <Delete id={props.comment.id} />
               </div>
@@ -135,9 +140,11 @@ const Comment = (props) => {
           </div>
         </div>
 
-        <h1 id={`comment-${props.comment.id}`}>{props.comment.content}</h1>
-
-        <div className="flex flex-col items-end" id="replies-container">
+        <h1 className="text-[#67727E]" id={`comment-${props.comment.id}`}>{props.comment.content}</h1>
+        </div>
+        
+      </div>
+      <div className="flex flex-col items-end" id="replies-container">
           {props.comment.replies.map((reply, index) => {
             return (
               <Reply
@@ -155,12 +162,12 @@ const Comment = (props) => {
           {replyClicked ? (
             <form
               id="reply-form"
-              className="w-[500px] flex justify-between bg-slate-400"
+              className="w-[500px] flex justify-between bg-[#F5F6FA]"
               onSubmit={(e) => handleReplySubmit(e)}
             >
               <input
                 type="text"
-                className="bg-slate-200 m-1 p-1 text-sm w-[300px]"
+                className="bg-[#F5F6FA] m-1 p-1 text-sm w-[300px]"
                 value={
                   replyValue
                     ? `${replyValue}`
@@ -171,11 +178,11 @@ const Comment = (props) => {
                 }}
               ></input>
 
-              <input type="submit" className="bg-slate-200 m-1 p-1 text-sm" />
+              <input type="submit" className="bg-[#F5F6FA] m-1 p-1 text-sm" />
             </form>
           ) : null}
         </div>
-      </div>
+        
     </div>
   );
 };

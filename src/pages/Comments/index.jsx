@@ -67,7 +67,7 @@ const Comments = () => {
         {isAuthenticated ? (
           <button
             onClick={() => logout({ returnTo: window.location.origin })}
-            className="bg-slate-100 m-1 p-1"
+            className="bg-white m-1 p-1 rounded-lg"
             id="logout-button"
           >
             Log Out
@@ -75,7 +75,7 @@ const Comments = () => {
         ) : (
           <button
             onClick={() => loginWithRedirect()}
-            className="bg-slate-100 m-1 p-1"
+            className="bg-white m-1 p-1 rounded-lg"
             id="login-button"
           >
             Log In
@@ -86,10 +86,10 @@ const Comments = () => {
       <CommentsContext.Provider value={{ comments, setComments }}>
         <div className="container flex flex-col items-center" id="container">
           {isAuthenticated ? (
-            <h1 className="text-[#5357B6] text-lg font-bold mt-2 p-2">
+            <h1 className="text-[#5357B6] text-lg mt-2 p-2">
               Hello {user.name}!
             </h1>
-          ) : <h1 className="text-[#5357B6] text-lg font-bold mt-2 p-2">Hello, log in to see more</h1>}
+          ) : <h1 className="text-[#5357B6] text-lg mt-2 p-2">Hello, log in to see more</h1>}
           {comments.map((comment, index) => {
             return (
               <Comment
@@ -101,10 +101,10 @@ const Comments = () => {
             );
           })}
           {isAuthenticated ? (
-            <div className="bg-white m-2 p-4 flex justify-between">
+            <div className="bg-white w-full m-2 p-4 rounded-lg flex justify-between">
               <button
                 id="add-comment"
-                className="bg-slate-100 m-1 p-1"
+                className="bg-[#F5F6FA] m-2 p-2 rounded-lg"
                 onClick={() => setAddCommentClicked(true)}
               >
                 Add comment
@@ -117,11 +117,11 @@ const Comments = () => {
                 >
                   <input
                     type="text"
-                    className="border-2 border-slate-100 w-[300px]"
+                    className="border-2 border-[#F5F6FA] w-[300px] rounded-lg m-2 px-2"
                     id="add-comment-input"
                     onChange={(e) => setAddedComment(e.target.value)}
                   />
-                  <button className="bg-[#5357B6] text-white m-1 p-1 w-[100px]">
+                  <button className="bg-[#5357B6] uppercase rounded-lg text-white m-2 p-2 w-[100px] ">
                     Send
                   </button>
                 </form>

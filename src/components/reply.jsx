@@ -62,19 +62,22 @@ const Reply = (props) => {
   };
 
   return (
-    <div className="bg-slate-200 m-1 p-1 text-sm w-[500px] flex">
+    <div className="bg-white rounded-lg m-2 p-2 text-sm w-[500px] flex">
+   
       <div
         id="reply-score-container"
-        className="bg-gray-100 text-purple-900 m-2 rounded-lg h-[90px] w-[24px] text-xxs flex flex-col justify-center"
+        className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg h-[90px] w-[24px] text-xxs flex flex-col justify-center"
       >
         <button
           id="reply-plus-button"
           onClick={handleReplyPlus}
           className="p-1 m-1"
         >
-          +
+             <img
+                  src="/icons/icon-plus.svg"
+                />
         </button>
-        <div className="p-1 m-1" id="reply-score">
+        <div className="p-1 m-1 font-bold" id="reply-score">
           {props.reply.score}
         </div>
         <button
@@ -82,14 +85,19 @@ const Reply = (props) => {
           onClick={handleReplyMinus}
           className="p-1 m-1"
         >
-          -
+             <img
+                  src="/icons/icon-minus.svg"
+                />
         </button>
       </div>
       <div id={`reply-${props.reply.id}`}>
-        <div className="flex justify-between m-1 p-1">
-          <p className="font-bold">{props.reply.user.username}</p>
+        <div className="flex justify-between">
+          <div className="flex flex-row p-2 items-center">
+          <p className="font-bold m-2">{props.reply.user.username}</p>
+          <p className="text-[#67727E]">{props.reply.createdAt}</p>
+          </div>
           {isAuthenticated && props.reply.user.username === user.nickname ? (
-            <div className="flex">
+            <div className="flex flex-row">
               <button
                 className="text-xs text-[#5357B6] flex mx-1 items-center justify-between px-2"
                 id="reply-edit-button"
@@ -115,7 +123,7 @@ const Reply = (props) => {
             </div>
           ) : null}
         </div>
-        <p className="m-1 p-1" id="reply-content">
+        <p className="m-1 p-1 text-[#67727E]" id="reply-content">
           {props.reply.content}
         </p>
 
@@ -123,13 +131,13 @@ const Reply = (props) => {
           <div>
             <form onSubmit={(e) => handleReplySave(e)}>
               <input
-                className="bg-slate-100 p-1 m-1 border-[1px] border-purple-900"
+                className="bg-[#F5F6FA] p-1 m-1 border-[1px] border-purple-900"
                 id="reply-input"
                 type="text"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
-              <button className="uppercase text-xs rounded-lg bg-purple-900 text-white p-1 m-1">
+              <button className="uppercase text-xs rounded-lg bg-[#5357B6] text-white p-1 m-1">
                 Update
               </button>
             </form>
