@@ -7,7 +7,7 @@ const Delete = (props) => {
   return (
     <div>
       <button
-        className="text-[#ED6368] flex p-1 mx-1 justify-between items-center w-[74px]"
+        className="hover:opacity-50 text-[#ED6368] flex p-1 mx-1 justify-between items-center w-[74px]"
         onClick={() => setOpen(true)}
         id="delete-button"
       >

@@ -7,9 +7,9 @@ describe('viewing comments', () => {
     cy.visit('http://localhost:3000');
     cy.clearCookies();
     cy.get('#login-button').click();
-    cy.get('#username').type('carina.druce@zopa.com');
-    cy.get('#password').type('Zopa2022');
-    cy.get('button[name="action"]').contains('Continue').click();
+    // cy.get('#username').type('carina.druce@zopa.com');
+    // cy.get('#password').type('Zopa2022');
+    // cy.get('button[name="action"]').contains('Continue').click();
     cy.wait(100);
   });
   beforeEach(() => {

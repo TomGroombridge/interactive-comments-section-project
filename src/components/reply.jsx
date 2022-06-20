@@ -101,7 +101,7 @@ const Reply = (props) => {
           {isAuthenticated && props.reply.user.username === user.nickname ? (
             <div className="flex flex-row">
               <button
-                className="text-xs text-[#5357B6] flex mx-1 items-center justify-between px-2"
+                className="hover:opacity-50 text-xs text-[#5357B6] flex mx-1 items-center justify-between px-2"
                 id="reply-edit-button"
                 onClick={() => setEditClicked(true)}
               >
@@ -109,7 +109,7 @@ const Reply = (props) => {
                 <p> Edit</p>
               </button>
               <button
-                className="text-xs text-red-500 flex items-center justify-between"
+                className="hover:opacity-50 text-xs text-red-500 flex items-center justify-between"
                 onClick={() => setOpen(true)}
                 id="reply-delete-button"
               >

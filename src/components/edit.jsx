@@ -23,7 +23,7 @@ const Edit = (props) => {
   return (
     <div>
       <button
-        className="text-[#5357B6] flex p-1 mx-1 justify-between items-center w-[56px]"
+        className="hover:opacity-50 text-[#5357B6] flex p-1 mx-1 justify-between items-center w-[56px]"
         id="edit-button"
         onClick={() => setEditClicked(true)}
       >

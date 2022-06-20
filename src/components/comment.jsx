@@ -131,7 +131,7 @@ const Comment = (props) => {
           <div className="flex">
             {isAuthenticated ? (
               <button
-                className="text-[#5357B6] bg-white p-1 mx-1 justify-between flex items-center w-[76px]"
+                className="hover:opacity-50 text-[#5357B6] bg-white p-1 mx-1 justify-between flex items-center w-[76px]"
                 id="reply-button"
                 onClick={() => {
                   setReplyClicked(true);
@@ -139,9 +139,9 @@ const Comment = (props) => {
               >
                 <img
                   src="/icons/icon-reply.svg"
-                  className="w-[20px] h-[20px]"
+                  className="w-[20px] h-[20px] "
                 />
-                <p className="">Reply </p>
+                <p>Reply </p>
               </button>
             ) : null}
 
@@ -167,7 +167,7 @@ const Comment = (props) => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
-            <button className="uppercase bg-[#5357B6] text-white m-1.5 p-1.5 rounded-lg text-xs">
+            <button className="hover:opacity-50 uppercase bg-[#5357B6] text-white m-1.5 p-1.5 rounded-lg text-xs">
               Update
             </button>
           </form>
@@ -211,7 +211,7 @@ const Comment = (props) => {
                 }}
               ></input>
 
-              <button className="bg-[#5357B6] text-white m-1 p-1 text-sm uppercase rounded-lg">Reply</button>
+              <button className="hover:opacity-50 bg-[#5357B6] text-white m-1 p-1 text-sm uppercase rounded-lg">Reply</button>
             </form>
           ) : null}
         </div>

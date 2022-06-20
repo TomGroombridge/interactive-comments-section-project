@@ -67,7 +67,7 @@ const Comments = () => {
         {isAuthenticated ? (
           <button
             onClick={() => logout({ returnTo: window.location.origin })}
-            className="bg-white m-1 p-1 rounded-lg"
+            className="hover:opacity-50 bg-white m-1 p-1 rounded-lg"
             id="logout-button"
           >
             Log Out
@@ -75,7 +75,7 @@ const Comments = () => {
         ) : (
           <button
             onClick={() => loginWithRedirect()}
-            className="bg-white m-1 p-1 rounded-lg"
+            className="hover:opacity-50 bg-white m-1 p-1 rounded-lg"
             id="login-button"
           >
             Log In
@@ -106,7 +106,7 @@ const Comments = () => {
               <img src={user.picture} className="w-[34px] h-[34px] rounded-full"></img>
               <button
                 id="add-comment"
-                className="bg-[#F5F6FA] m-2 p-2 rounded-lg"
+                className="hover:opacity-50 bg-[#F5F6FA] m-2 p-2 rounded-lg"
                 onClick={() => setAddCommentClicked(true)}
               >
                 Add comment
@@ -122,9 +122,10 @@ const Comments = () => {
                     type="text"
                     className="border-2 border-[#F5F6FA] w-[300px] rounded-lg mb-2 px-2"
                     id="add-comment-input"
+                    placeholder='Add a comment...'
                     onChange={(e) => setAddedComment(e.target.value)}
                   />
-                  <button className="bg-[#5357B6] uppercase rounded-lg text-white m-2 p-2 w-[100px] ">
+                  <button className="hover:opacity-50 bg-[#5357B6] uppercase rounded-lg text-white m-2 p-2 w-[100px] ">
                     Send
                   </button>
                 </form>
