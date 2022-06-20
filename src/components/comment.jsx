@@ -10,10 +10,13 @@ const Comment = (props) => {
   const [replyClicked, setReplyClicked] = useState(false);
   const [replyValue, setReplyValue] = useState('');
   const [replies, setReplies] = useState(props.comment.replies);
-
+  const [editClicked, setEditClicked] = useState(false);
+  const [content, setContent] = useState(props.comment.content);
   // const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { comments, setComments } = useContext(CommentsContext);
   const { user, isAuthenticated } = useAuth0();
+  const { index, comment } = props;
+
 
   const handleReplySubmit = (e) => {
     e.preventDefault();
@@ -69,6 +72,18 @@ const Comment = (props) => {
       return comment;
     });
     setComments(newComments);
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    if (content === '') {
+      return;
+    }
+
+    const newComments = [...comments];
+    newComments[index] = { ...comment, content: content };
+    setComments(newComments);
+    setEditClicked(false);
   };
 
   return (
@@ -133,7 +148,7 @@ const Comment = (props) => {
             {isAuthenticated &&
             props.comment.user.username === user.nickname ? (
               <div className="flex">
-                <Edit comment={props.comment} index={props.index} />
+                <Edit comment={props.comment} index={props.index} editClicked={editClicked} setEditClicked={setEditClicked}/>
                 <Delete id={props.comment.id} />
               </div>
             ) : null}
@@ -141,7 +156,25 @@ const Comment = (props) => {
         </div>
 
         <h1 className="text-[#67727E]" id={`comment-${props.comment.id}`}>{props.comment.content}</h1>
+        {/* here */}
+        {editClicked ? (
+        <div>
+          <form onSubmit={(e) => handleSave(e)}>
+            <input
+              className="bg-[#F5F6FA] p-1 m-1"
+              id="edit-input"
+              type="text"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+            <button className="uppercase bg-[#5357B6] text-white m-1.5 p-1.5 rounded-lg text-xs">
+              Update
+            </button>
+          </form>
         </div>
+      ) : null}
+        </div>
+
         
       </div>
       <div className="flex flex-col items-end" id="replies-container">

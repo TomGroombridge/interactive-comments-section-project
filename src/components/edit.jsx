@@ -2,23 +2,23 @@ import React, { useState, useContext } from 'react';
 import { CommentsContext } from '../context';
 
 const Edit = (props) => {
-  const [content, setContent] = useState(props.comment.content);
-  const [editClicked, setEditClicked] = useState(false);
-  const { index, comment } = props;
+  // const [content, setContent] = useState(props.comment.content);
+  // const [editClicked, setEditClicked] = useState(false);
+  const { index, comment, editClicked, setEditClicked } = props;
 
   const { comments, setComments } = useContext(CommentsContext);
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    if (content === '') {
-      return;
-    }
+  // const handleSave = (e) => {
+  //   e.preventDefault();
+  //   if (content === '') {
+  //     return;
+  //   }
 
-    const newComments = [...comments];
-    newComments[index] = { ...comment, content: content };
-    setComments(newComments);
-    setEditClicked(false);
-  };
+  //   const newComments = [...comments];
+  //   newComments[index] = { ...comment, content: content };
+  //   setComments(newComments);
+  //   setEditClicked(false);
+  // };
 
   return (
     <div>
@@ -31,7 +31,7 @@ const Edit = (props) => {
         <p>Edit</p>
         
       </button>
-      {editClicked ? (
+      {/* {editClicked ? (
         <div>
           <form onSubmit={(e) => handleSave(e)}>
             <input
@@ -41,12 +41,12 @@ const Edit = (props) => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
-            <button className="uppercase bg-[#5357B6] text-white p-1 m-1">
+            <button className="uppercase bg-[#5357B6] text-white m-1.5 p-1.5 rounded-lg text-xs">
               Update
             </button>
           </form>
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };

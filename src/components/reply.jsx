@@ -9,6 +9,7 @@ const Reply = (props) => {
   const [open, setOpen] = useState(false);
   const { setComments, comments } = useContext(CommentsContext);
   const { user, isAuthenticated } = useAuth0();
+  
 
   const { reply, index, comment } = props;
 
@@ -125,24 +126,7 @@ const Reply = (props) => {
         </div>
         <p className="m-1 p-1 text-[#67727E]" id="reply-content">
           {props.reply.content}
-        </p>
-
-        {editClicked ? (
-          <div>
-            <form onSubmit={(e) => handleReplySave(e)}>
-              <input
-                className="bg-[#F5F6FA] p-1 m-1 border-[1px] border-purple-900"
-                id="reply-input"
-                type="text"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
-              <button className="uppercase text-xs rounded-lg bg-[#5357B6] text-white p-1 m-1">
-                Update
-              </button>
-            </form>
-          </div>
-        ) : null}
+        </p>        
       </div>
     </div>
   );
