@@ -102,6 +102,8 @@ const Comments = () => {
           })}
           {isAuthenticated ? (
             <div className="bg-white w-full m-2 p-4 rounded-lg flex justify-between">
+              <div className="flex items-center">
+              <img src={user.picture} className="w-[34px] h-[34px] rounded-full"></img>
               <button
                 id="add-comment"
                 className="bg-[#F5F6FA] m-2 p-2 rounded-lg"
@@ -109,6 +111,7 @@ const Comments = () => {
               >
                 Add comment
               </button>
+              </div>
               {addCommentClicked ? (
                 <form
                   className="flex"
@@ -117,7 +120,7 @@ const Comments = () => {
                 >
                   <input
                     type="text"
-                    className="border-2 border-[#F5F6FA] w-[300px] rounded-lg m-2 px-2"
+                    className="border-2 border-[#F5F6FA] w-[300px] rounded-lg mb-2 px-2"
                     id="add-comment-input"
                     onChange={(e) => setAddedComment(e.target.value)}
                   />

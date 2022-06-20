@@ -87,7 +87,7 @@ const Comment = (props) => {
   };
 
   return (
-    <div className="m-2 flex flex-col pt-2" id="comment-container">
+    <div className="m-2 flex flex-col pt-2 w-full" id="comment-container">
       <div className="bg-white p-2 rounded-lg flex flex-row">
       <div
         id="score-container"
@@ -120,7 +120,7 @@ const Comment = (props) => {
       
         <div className="flex p-2 items-center justify-between">
           <div className="flex flex-row p-2 items-center">
-            <img id="user-icon" src={props.comment.user.image.png} className="w-[64px] h-[64px] rounded-full"></img>
+            <img id="user-icon" src={props.comment.user.image.png} className="w-[34px] h-[34px] rounded-full"></img>
             <h2 className="font-extrabold text-black m-2">
               {props.comment.user.username}
             </h2>
@@ -155,8 +155,8 @@ const Comment = (props) => {
           </div>
         </div>
 
-        <h1 className="text-[#67727E]" id={`comment-${props.comment.id}`}>{props.comment.content}</h1>
-        {/* here */}
+        <h1 className="text-[#67727E] mx-2" id={`comment-${props.comment.id}`}>{props.comment.content}</h1>
+  
         {editClicked ? (
         <div>
           <form onSubmit={(e) => handleSave(e)}>
@@ -195,12 +195,12 @@ const Comment = (props) => {
           {replyClicked ? (
             <form
               id="reply-form"
-              className="w-[500px] flex justify-between bg-[#F5F6FA]"
+              className="w-[500px] flex justify-between bg-white p-2 m-1 rounded-lg"
               onSubmit={(e) => handleReplySubmit(e)}
             >
               <input
                 type="text"
-                className="bg-[#F5F6FA] m-1 p-1 text-sm w-[300px]"
+                className="bg-[#F5F6FA] m-1 p-1 rounded-lg text-sm w-[300px]"
                 value={
                   replyValue
                     ? `${replyValue}`
@@ -211,7 +211,7 @@ const Comment = (props) => {
                 }}
               ></input>
 
-              <input type="submit" className="bg-[#F5F6FA] m-1 p-1 text-sm" />
+              <button className="bg-[#5357B6] text-white m-1 p-1 text-sm uppercase rounded-lg">Reply</button>
             </form>
           ) : null}
         </div>

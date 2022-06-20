@@ -63,11 +63,11 @@ const Reply = (props) => {
   };
 
   return (
-    <div className="bg-white rounded-lg m-2 p-2 text-sm w-[500px] flex">
+    <div className="bg-white rounded-lg mt-2 p-2 text-sm w-[800px] flex">
    
       <div
         id="reply-score-container"
-        className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg h-[90px] w-[24px] text-xxs flex flex-col justify-center"
+        className="bg-[#F5F6FA] m-2 text-[#5357B6] rounded-lg h-[90px] w-[24px] text-xxs flex flex-col justify-center"
       >
         <button
           id="reply-plus-button"
@@ -94,6 +94,7 @@ const Reply = (props) => {
       <div id={`reply-${props.reply.id}`}>
         <div className="flex justify-between">
           <div className="flex flex-row p-2 items-center">
+          <img id="reply-user-icon" src={props.reply.user.image.png} className="w-[34px] h-[34px] rounded-full"></img>
           <p className="font-bold m-2">{props.reply.user.username}</p>
           <p className="text-[#67727E]">{props.reply.createdAt}</p>
           </div>
