@@ -29,7 +29,6 @@ const Edit = (props) => {
       >
         <img src="/icons/icon-edit.svg" />
         <p>Edit</p>
-        
       </button>
       {/* {editClicked ? (
         <div>

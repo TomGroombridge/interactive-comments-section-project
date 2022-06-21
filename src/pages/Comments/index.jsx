@@ -67,7 +67,7 @@ const Comments = () => {
         {isAuthenticated ? (
           <button
             onClick={() => logout({ returnTo: window.location.origin })}
-            className="hover:opacity-50 bg-white m-1 p-1 rounded-lg"
+            className="hover:opacity-50 bg-white m-1 p-1 rounded-lg z-10"
             id="logout-button"
           >
             Log Out
@@ -75,7 +75,7 @@ const Comments = () => {
         ) : (
           <button
             onClick={() => loginWithRedirect()}
-            className="hover:opacity-50 bg-white m-1 p-1 rounded-lg"
+            className="hover:opacity-50 bg-white m-1 p-1 rounded-lg z-10"
             id="login-button"
           >
             Log In
@@ -84,12 +84,19 @@ const Comments = () => {
       </div>
 
       <CommentsContext.Provider value={{ comments, setComments }}>
-        <div className="container flex flex-col items-center" id="container">
+        <div
+          className="container flex flex-col items-center w-max"
+          id="container"
+        >
           {isAuthenticated ? (
             <h1 className="text-[#5357B6] text-lg mt-2 p-2">
               Hello {user.name}!
             </h1>
-          ) : <h1 className="text-[#5357B6] text-lg mt-2 p-2">Hello, log in to see more</h1>}
+          ) : (
+            <h1 className="text-[#5357B6] text-lg mt-2 p-2">
+              Hello, log in to see more
+            </h1>
+          )}
           {comments.map((comment, index) => {
             return (
               <Comment
@@ -101,37 +108,43 @@ const Comments = () => {
             );
           })}
           {isAuthenticated ? (
-            <div className="bg-white w-full m-2 p-4 rounded-lg flex justify-between">
-              <div className="flex items-center">
-              <img src={user.picture} className="w-[34px] h-[34px] rounded-full"></img>
-              <button
-                id="add-comment"
-                className="hover:opacity-50 bg-[#F5F6FA] m-2 p-2 rounded-lg"
-                onClick={() => setAddCommentClicked(true)}
+            // <div className="bg-white max-w-full m-2 p-4 rounded-lg flex justify-between md">
+            //   <div className="flex items-center w-full">
+            //
+            //     <button
+            //       id="add-comment"
+            //       className="hover:opacity-50 bg-[#F5F6FA] m-2 p-2 rounded-lg "
+            //       onClick={() => setAddCommentClicked(true)}
+            //     ></button>
+            //   </div>
+            //   {addCommentClicked ? (
+
+            <div className="bg-white w-full m-2 p-4 rounded-lg flex justify-between md ">
+              <img
+                src={user.picture}
+                className=" w-[34px] h-[34px] rounded-full m-2"
+              ></img>
+              <form
+                className="flex"
+                id="add-comment-form"
+                onSubmit={(e) => handleAddCommentSubmit(e)}
               >
-                Add comment
-              </button>
-              </div>
-              {addCommentClicked ? (
-                <form
-                  className="flex"
-                  id="add-comment-form"
-                  onSubmit={(e) => handleAddCommentSubmit(e)}
-                >
-                  <input
-                    type="text"
-                    className="border-2 border-[#F5F6FA] w-[300px] rounded-lg mb-2 px-2"
-                    id="add-comment-input"
-                    placeholder='Add a comment...'
-                    onChange={(e) => setAddedComment(e.target.value)}
-                  />
-                  <button className="hover:opacity-50 bg-[#5357B6] uppercase rounded-lg text-white m-2 p-2 w-[100px] ">
-                    Send
-                  </button>
-                </form>
-              ) : null}
+                <textarea
+                  rows="5"
+                  cols="60"
+                  className="border-2 border-[#F5F6FA] h-[120px] rounded-lg m-2 p-2"
+                  id="add-comment-input"
+                  placeholder="Add a comment..."
+                  onChange={(e) => setAddedComment(e.target.value)}
+                />
+                <button className="hover:opacity-50 bg-[#5357B6] uppercase rounded-lg text-white m-2 p-2 w-[100px] h-[50px]">
+                  Send
+                </button>
+              </form>
             </div>
-          ) : null}
+          ) : // ) : null}
+          // </div>
+          null}
         </div>
       </CommentsContext.Provider>
     </div>

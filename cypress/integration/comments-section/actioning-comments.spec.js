@@ -7,9 +7,9 @@ describe('viewing comments', () => {
     cy.visit('http://localhost:3000');
     cy.clearCookies();
     cy.get('#login-button').click();
-    // cy.get('#username').type('carina.druce@zopa.com');
-    // cy.get('#password').type('Zopa2022');
-    // cy.get('button[name="action"]').contains('Continue').click();
+    cy.get('#username').type('carina.druce@zopa.com');
+    cy.get('#password').type('Zopa2022');
+    cy.get('button[name="action"]').contains('Continue').click();
     cy.wait(100);
   });
   beforeEach(() => {
@@ -36,7 +36,7 @@ describe('viewing comments', () => {
       .find('div')
       .should('have.length', 0);
     cy.get('input[type="text"]').type('hello world');
-    cy.get('form').submit();
+    cy.get('[id="reply-form"]').submit();
     cy.get('[id="replies-container"]')
       .eq(0)
       .find('[id="reply-content"]')
@@ -46,8 +46,8 @@ describe('viewing comments', () => {
   it('form should disappear on submit', () => {
     cy.get('[id="reply-button"]').eq(0).click();
     cy.get('input[type="text"]').type('hello world');
-    cy.get('form').submit();
-    cy.get('form').should('not.exist');
+    cy.get('[id="reply-form"]').submit();
+    cy.get('[id="reply-form"]').should('not.exist');
   });
 
   it('should not submit reply if input field is empty', () => {
@@ -56,12 +56,12 @@ describe('viewing comments', () => {
       .eq(0)
       .find('div')
       .should('have.length', 0);
-    cy.get('form').submit();
+    cy.get('[id="reply-form"]').submit();
     cy.get('[id="replies-container"]')
       .eq(0)
       .find('div')
       .should('have.length', 0);
-    cy.get('form').should('be.visible');
+    cy.get('[id="reply-form"]').should('be.visible');
   });
 
   it('input field should clear after submit', () => {
@@ -88,7 +88,7 @@ describe('viewing comments', () => {
   });
 
   it('should add a new comment when add-comment form is submitted', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('#add-comment-form').submit();
     cy.get('[id="container"]')
@@ -97,7 +97,7 @@ describe('viewing comments', () => {
   });
 
   it('should not post comment if input field is empty', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('#add-comment-form').submit();
     cy.get('[id="add-comment-form"]').should('be.visible');
     cy.get('[id="container"]')
@@ -105,31 +105,31 @@ describe('viewing comments', () => {
       .should('have.length', 2);
   });
 
-  it('form should disappear on submit after add comment input', () => {
-    cy.get('[id="add-comment"]').click();
+  it('form should clear on submit after add comment input', () => {
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('#add-comment-form').submit();
-    cy.get('[id="add-comment-form"]').should('not.exist');
+    cy.get('[id="add-comment-input"]').should('not.have.value');
   });
 
   it('edit form should only appear when clicking edit on your own comment', () => {
     cy.get('[id="edit-button"]').should('not.exist');
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
-    cy.get('form').submit();
+    cy.get('[id="edit-form"]').submit();
     cy.get('[id="edit-button"]').click();
-    cy.get('form').should('be.visible');
+    cy.get('[id="edit-form"]').should('be.visible');
   });
 
   it('edit form should disappear on save', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
-    cy.get('form').submit();
-    cy.get('form').should('not.exist');
+    cy.get('[id="edit-form"]').submit();
+    cy.get('[id="edit-form"]').should('not.exist');
   });
 
   it('form remains when edit input field empty and submitted', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
     cy.get('[id="edit-button"]').click();
@@ -139,7 +139,7 @@ describe('viewing comments', () => {
   });
 
   it('should change first comment content to content of input', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
     cy.get('[id="edit-button"]').click();
