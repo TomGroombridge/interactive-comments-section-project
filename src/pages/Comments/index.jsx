@@ -9,7 +9,7 @@ const Comments = () => {
   const [error, setError] = useState(false);
   const [comments, setComments] = useState([]);
   const [addedComment, setAddedComment] = useState('');
-  const [addCommentClicked, setAddCommentClicked] = useState(false);
+  // const [addCommentClicked, setAddCommentClicked] = useState(false);
   const { loginWithRedirect, logout, user, isAuthenticated, isLoading } =
     useAuth0();
 
@@ -54,7 +54,7 @@ const Comments = () => {
 
     const newComments = comments.concat(addedCommentData);
     setComments(newComments);
-    setAddCommentClicked(false);
+    // setAddCommentClicked(false);
     setAddedComment('');
   };
 
@@ -94,7 +94,7 @@ const Comments = () => {
             </h1>
           ) : (
             <h1 className="text-[#5357B6] text-lg mt-2 p-2">
-              Hello, log in to see more
+              Hello! Log in to see more
             </h1>
           )}
           {comments.map((comment, index) => {
@@ -119,10 +119,10 @@ const Comments = () => {
             //   </div>
             //   {addCommentClicked ? (
 
-            <div className="bg-white w-full m-2 p-4 rounded-lg flex justify-between md ">
+            <div className="bg-white w-full m-2 p-4 rounded-lg flex justify-between ">
               <img
                 src={user.picture}
-                className=" w-[34px] h-[34px] rounded-full m-2"
+                className=" w-[34px] h-[34px] rounded-full"
               ></img>
               <form
                 className="flex"
@@ -130,12 +130,13 @@ const Comments = () => {
                 onSubmit={(e) => handleAddCommentSubmit(e)}
               >
                 <textarea
-                  rows="5"
-                  cols="60"
-                  className="border-2 border-[#F5F6FA] h-[120px] rounded-lg m-2 p-2"
+                  // rows="5"
+                  // cols="60"
+                  className="border-2 border-[#F5F6FA] h-[120px] rounded-lg p-2 min-w-[500px]"
                   id="add-comment-input"
                   placeholder="Add a comment..."
                   onChange={(e) => setAddedComment(e.target.value)}
+                  value={addedComment}
                 />
                 <button className="hover:opacity-50 bg-[#5357B6] uppercase rounded-lg text-white m-2 p-2 w-[100px] h-[50px]">
                   Send

@@ -86,11 +86,8 @@ const Comment = (props) => {
   };
 
   return (
-    <div
-      className="m-2 flex flex-col pt-2 max-w-[800px]"
-      id="comment-container"
-    >
-      <div className="bg-white p-2 rounded-lg flex flex-row">
+    <div className="m-2 flex flex-col pt-2 " id="comment-container">
+      <div className="bg-white p-2 rounded-lg flex flex-row ">
         <div
           id="score-container"
           className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg h-[130px] w-[30px] flex flex-col justify-center"
@@ -114,7 +111,7 @@ const Comment = (props) => {
           </button>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col w-[900px]">
           <div className="flex p-2 items-center flex justify-between">
             <div className="flex flex-row p-2 items-center">
               <img
@@ -180,7 +177,7 @@ const Comment = (props) => {
                 src={user.picture}
                 className="w-[34px] h-[34px] rounded-full"
               ></img>
-              <form onSubmit={(e) => handleSave(e)}>
+              <form id="edit-form" onSubmit={(e) => handleSave(e)}>
                 <input
                   className="bg-[#F5F6FA] p-1 m-1"
                   id="edit-input"
