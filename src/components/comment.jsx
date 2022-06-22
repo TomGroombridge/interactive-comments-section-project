@@ -87,11 +87,12 @@ const Comment = (props) => {
 
   return (
     <div id="comment-container" className="appearance-none">
-      <div className="bg-white p-2 rounded-lg flex flex-row mt-4 w-[900px]">
-        <div
+      <div className="bg-white p-2 rounded-lg flex md:flex-row flex-col-reverse mt-4 md:w-[900px] w-[300px]">
+        <div id="score-and-mobile-reply-container" className="flex justify-between">
+          <div
           id="score-container"
-          className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg h-[130px] w-[32px] flex flex-col justify-center items-center"
-        >
+          className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg md:h-[130px] md:w-[32px]  w-[100px] flex md:flex-col justify-center items-center"
+          >
           <button
             id={`plus-button-${props.comment.id}`}
             onClick={handlePlus}
@@ -110,6 +111,23 @@ const Comment = (props) => {
             <img src="/icons/icon-minus.svg"/>
           </button>
         </div>
+        {isAuthenticated  && (window.innerWidth < 768) ? (
+                <button
+                  className="hover:opacity-50 text-[#5357B6] bg-white p-1 mx-1 justify-between flex items-center w-[76px]"
+                  id="reply-button"
+                  onClick={() => {
+                    setReplyClicked(true);
+                  }}
+                >
+                  <img
+                    src="/icons/icon-reply.svg"
+                    className="w-[20px] h-[20px] "
+                  />
+                  <p>Reply </p>
+                </button>
+            ) : null}
+        </div>
+        
 
         <div className="flex flex-col">
           <div className="flex p-2 items-center flex justify-between">
@@ -133,7 +151,7 @@ const Comment = (props) => {
               </h3>
             </div>
             <div className="flex">
-              {isAuthenticated ? (
+              {isAuthenticated  && (window.innerWidth > 768) ? (
                 <button
                   className="hover:opacity-50 text-[#5357B6] bg-white p-1 mx-1 justify-between flex items-center w-[76px]"
                   id="reply-button"

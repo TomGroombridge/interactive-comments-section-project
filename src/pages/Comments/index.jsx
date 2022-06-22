@@ -119,26 +119,26 @@ const Comments = () => {
             //   </div>
             //   {addCommentClicked ? (
 
-            <div className="bg-white p-4 rounded-lg flex justify-between w-[900px] mt-2">
+            <div className="bg-white p-4 rounded-lg flex md:justify-between md:w-[900px] w-[300px] mt-2 items-end md:items-start">
               <img
                 src={user.picture}
-                className=" w-[34px] h-[34px] rounded-full"
+                className=" w-[34px] h-[34px] rounded-full mx-1"
               ></img>
               <form
-                className="flex"
+                className="flex flex-wrap justify-end md:flex-no-wrap"
                 id="add-comment-form"
                 onSubmit={(e) => handleAddCommentSubmit(e)}
               >
                 <textarea
                   // rows="5"
                   // cols="60"
-                  className="border-2 border-[#F5F6FA] h-[120px] rounded-lg p-2 min-w-[500px]"
+                  className="border-2 border-[#F5F6FA] h-[100px] rounded-lg p-2 md:min-w-[700px] w-[220px]"
                   id="add-comment-input"
                   placeholder="Add a comment..."
                   onChange={(e) => setAddedComment(e.target.value)}
                   value={addedComment}
                 />
-                <button className="hover:opacity-50 bg-[#5357B6] uppercase rounded-lg text-white m-2 p-2 w-[100px] h-[50px]">
+                <button className="hover:opacity-50 bg-[#5357B6] uppercase rounded-lg text-white md:ml-4 md:mr-0 md:my-0 m-3 p-2 w-[100px] h-[50px]">
                   Send
                 </button>
               </form>

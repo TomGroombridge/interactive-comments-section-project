@@ -62,10 +62,10 @@ const Reply = (props) => {
   };
 
   return (
-    <div className="bg-white rounded-lg mt-4 p-2 text-sm w-[800px] flex">
+    <div className="bg-white rounded-lg mt-4 p-2 text-sm md:w-[800px] w-[270px] flex md:flex-row flex-col-reverse">
       <div
         id="reply-score-container"
-        className="bg-[#F5F6FA] m-2 text-[#5357B6] rounded-lg h-[90px] w-[24px] text-xxs flex flex-col justify-center items-center"
+        className="bg-[#F5F6FA] m-2 text-[#5357B6] rounded-lg md:h-[90px] md:w-[24px] w-[80px] flex md:flex-col text-xxs flex justify-center items-center"
       >
         <button
           id="reply-plus-button"
