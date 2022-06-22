@@ -88,10 +88,10 @@ const Comment = (props) => {
   return (
     <div id="comment-container" className="appearance-none">
       <div className="bg-white p-2 rounded-lg flex md:flex-row flex-col-reverse mt-4 md:w-[900px] w-[300px]">
-        <div id="score-and-mobile-buttons-container" className="flex justify-between">
+        <div id="score-and-mobile-buttons-container" className="flex justify-between items-center">
           <div
           id="score-container"
-          className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg md:h-[130px] md:w-[32px]  w-[100px] flex md:flex-col justify-center items-center"
+          className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg md:h-[130px] md:w-[32px] w-[100px] flex md:flex-col justify-center items-center"
           >
           <button
             id={`plus-button-${props.comment.id}`}
@@ -141,7 +141,7 @@ const Comment = (props) => {
         </div>
         
 
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <div className="flex p-2 items-center flex justify-between">
             <div className="flex flex-row p-2 items-center">
               <img
@@ -203,10 +203,10 @@ const Comment = (props) => {
 
           {editClicked ? (
             <div>
-              <img
+              {/* <img
                 src={user.picture}
                 className="w-[34px] h-[34px] rounded-full"
-              ></img>
+              ></img> */}
               <form id="edit-form" onSubmit={(e) => handleSave(e)}>
                 <input
                   className="bg-[#F5F6FA] p-1 m-1"
