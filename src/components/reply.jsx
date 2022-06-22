@@ -63,6 +63,7 @@ const Reply = (props) => {
 
   return (
     <div className="bg-white rounded-lg mt-4 p-2 text-sm md:w-[800px] w-[270px] flex md:flex-row flex-col-reverse">
+      <div id="reply score and buttons on mobile" className="flex justify-between">
       <div
         id="reply-score-container"
         className="bg-[#F5F6FA] m-2 text-[#5357B6] rounded-lg md:h-[90px] md:w-[24px] w-[80px] flex md:flex-col text-xxs flex justify-center items-center"
@@ -85,6 +86,35 @@ const Reply = (props) => {
           <img src="/icons/icon-minus.svg" />
         </button>
       </div>
+      {isAuthenticated && (window.innerWidth < 768) && props.reply.user.username === user.nickname ? (
+            <div className="flex flex-row">
+              <button
+                className="hover:opacity-50 text-xs text-[#5357B6] flex mx-1 items-center justify-between px-2"
+                id="reply-edit-button"
+                onClick={() => setEditClicked(true)}
+              >
+                <img src="/icons/icon-edit.svg" className="w-[10px] mx-1" />
+                <p> Edit</p>
+              </button>
+              <button
+                className="hover:opacity-50 text-xs text-red-500 flex items-center justify-between"
+                onClick={() => setOpen(true)}
+                id="reply-delete-button"
+              >
+                <img src="/icons/icon-delete.svg" className="w-[10px] mx-1" />
+                <p> Delete</p>
+              </button>
+              <DeleteReplyModal
+                setOpen={setOpen}
+                open={open}
+                replyId={props.reply.id}
+                comment={props.comment}
+              />
+            </div>
+          ) : null}
+          </div>
+
+
       <div id={`reply-${props.reply.id}`} className="w-full">
         <div className="w-full flex justify-between mr-2 pr-2">
           <div className="flex flex-row p-2 items-center">
@@ -103,7 +133,7 @@ const Reply = (props) => {
             <p className="text-[#67727E]">{props.reply.createdAt}</p>
           </div>
           <div className="flex flex-row ">
-          {isAuthenticated && props.reply.user.username === user.nickname ? (
+          {isAuthenticated && (window.innerWidth > 768) && props.reply.user.username === user.nickname ? (
             <div className="flex flex-row">
               <button
                 className="hover:opacity-50 text-xs text-[#5357B6] flex mx-1 items-center justify-between px-2"

@@ -28,7 +28,7 @@ const Edit = (props) => {
         onClick={() => setEditClicked(true)}
       >
         <img src="/icons/icon-edit.svg" />
-        <p>Edit</p>
+        <p className="md:text-sm text-xs" >Edit</p>
       </button>
       {/* {editClicked ? (
         <div>

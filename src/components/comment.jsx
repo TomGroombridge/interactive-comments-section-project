@@ -88,7 +88,7 @@ const Comment = (props) => {
   return (
     <div id="comment-container" className="appearance-none">
       <div className="bg-white p-2 rounded-lg flex md:flex-row flex-col-reverse mt-4 md:w-[900px] w-[300px]">
-        <div id="score-and-mobile-reply-container" className="flex justify-between">
+        <div id="score-and-mobile-buttons-container" className="flex justify-between">
           <div
           id="score-container"
           className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg md:h-[130px] md:w-[32px]  w-[100px] flex md:flex-col justify-center items-center"
@@ -100,7 +100,7 @@ const Comment = (props) => {
           >
             <img src="/icons/icon-plus.svg"/>
           </button>
-          <div className="p-1 m-1 font-bold" id={`score-${props.comment.id}`}>
+          <div className="md:p-1 md:m-1 font-bold text-xs md:text-sm" id={`score-${props.comment.id}`}>
             {props.comment.score}
           </div>
           <button
@@ -113,7 +113,7 @@ const Comment = (props) => {
         </div>
         {isAuthenticated  && (window.innerWidth < 768) ? (
                 <button
-                  className="hover:opacity-50 text-[#5357B6] bg-white p-1 mx-1 justify-between flex items-center w-[76px]"
+                  className="hover:opacity-50 text-[#5357B6] bg-white md:p-1 mx-1 justify-between flex items-center w-[76px]"
                   id="reply-button"
                   onClick={() => {
                     setReplyClicked(true);
@@ -123,9 +123,21 @@ const Comment = (props) => {
                     src="/icons/icon-reply.svg"
                     className="w-[20px] h-[20px] "
                   />
-                  <p>Reply </p>
+                  <p className="text-xs">Reply </p>
                 </button>
             ) : null}
+            {isAuthenticated && (window.innerWidth < 768) &&
+              props.comment.user.username === user.nickname ? (
+                <div className="flex">
+                  <Edit
+                    comment={props.comment}
+                    index={props.index}
+                    editClicked={editClicked}
+                    setEditClicked={setEditClicked}
+                  />
+                  <Delete id={props.comment.id} />
+                </div>
+              ) : null}
         </div>
         
 
@@ -163,11 +175,11 @@ const Comment = (props) => {
                     src="/icons/icon-reply.svg"
                     className="w-[20px] h-[20px] "
                   />
-                  <p>Reply </p>
+                  <p className="text-sm">Reply </p>
                 </button>
               ) : null}
 
-              {isAuthenticated &&
+              {isAuthenticated && (window.innerWidth > 768) &&
               props.comment.user.username === user.nickname ? (
                 <div className="flex">
                   <Edit
@@ -227,7 +239,7 @@ const Comment = (props) => {
 
       <div className="flex justify-end m-1">
         {replyClicked ? (
-          <div className="w-[500px] flex bg-white p-2 m-1 rounded-lg">
+          <div className="md:w-[500px] flex bg-white p-2 m-1 rounded-lg">
             <img
               src={user.picture}
               className="w-[34px] h-[34px] rounded-full"
@@ -239,7 +251,7 @@ const Comment = (props) => {
             >
               <input
                 type="text"
-                className="bg-[#F5F6FA] m-1 p-1 rounded-lg text-sm w-[300px]"
+                className="bg-[#F5F6FA] m-1 p-1 rounded-lg text-sm md:w-[300px]"
                 value={
                   replyValue
                     ? `${replyValue}`
