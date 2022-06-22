@@ -77,7 +77,7 @@ const DeleteModal = (props) => {
                   <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex justify-center">
                     <button
                       type="button"
-                      className="uppercase w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#ED6368] text-base font-medium text-white hover:bg-[#FFB8BB] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                      className="uppercase w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#ED6368] text-base font-medium text-white hover:bg-[#FFB8BB] focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
                       onClick={handleDelete}
                       id="confirm-delete-button"
                     >
@@ -85,7 +85,7 @@ const DeleteModal = (props) => {
                     </button>
                     <button
                       type="button"
-                      className="uppercase mt-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#67727E] text-base font-medium text-white hover:bg-[#E9EBF0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                      className="uppercase mt-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#67727E] text-base font-medium text-white hover:bg-[#E9EBF0] focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                       onClick={() => props.setOpen(false)}
                       ref={cancelButtonRef}
                       id="cancel-button"

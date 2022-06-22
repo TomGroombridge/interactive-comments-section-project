@@ -62,10 +62,10 @@ const Reply = (props) => {
   };
 
   return (
-    <div className="bg-white rounded-lg mt-2 p-2 text-sm w-[800px] flex">
+    <div className="bg-white rounded-lg mt-4 p-2 text-sm w-[800px] flex">
       <div
         id="reply-score-container"
-        className="bg-[#F5F6FA] m-2 text-[#5357B6] rounded-lg h-[90px] w-[24px] text-xxs flex flex-col justify-center"
+        className="bg-[#F5F6FA] m-2 text-[#5357B6] rounded-lg h-[90px] w-[24px] text-xxs flex flex-col justify-center items-center"
       >
         <button
           id="reply-plus-button"
@@ -85,8 +85,8 @@ const Reply = (props) => {
           <img src="/icons/icon-minus.svg" />
         </button>
       </div>
-      <div id={`reply-${props.reply.id}`}>
-        <div className="flex justify-between">
+      <div id={`reply-${props.reply.id}`} className="w-full">
+        <div className="w-full flex justify-between mr-2 pr-2">
           <div className="flex flex-row p-2 items-center">
             <img
               id="reply-user-icon"
@@ -95,13 +95,14 @@ const Reply = (props) => {
             ></img>
             <p className="font-bold m-2">{props.reply.user.username}</p>
             {isAuthenticated && props.reply.user.username === user.nickname ? (
-              <p className="hover:opacity-50 bg-[#5357B6] rounded-md text-white mr-1.5 pl-1 pr-1 ">
+              <p className="hover:opacity-50 bg-[#5357B6] rounded-sm text-white mr-2 px-1 text-xs">
                 you
               </p>
             ) : null}
 
             <p className="text-[#67727E]">{props.reply.createdAt}</p>
           </div>
+          <div className="flex flex-row ">
           {isAuthenticated && props.reply.user.username === user.nickname ? (
             <div className="flex flex-row">
               <button
@@ -128,8 +129,9 @@ const Reply = (props) => {
               />
             </div>
           ) : null}
+          </div>
         </div>
-        <p className="m-1 p-1 text-[#67727E]" id="reply-content">
+        <p className="m-1 p-1 text-[#67727E] w-full" id="reply-content">
           {props.reply.content}
         </p>
         {editClicked ? (

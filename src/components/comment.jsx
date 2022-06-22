@@ -86,18 +86,18 @@ const Comment = (props) => {
   };
 
   return (
-    <div className="m-2 flex flex-col pt-2 " id="comment-container">
-      <div className="bg-white p-2 rounded-lg flex flex-row ">
+    <div id="comment-container" className="appearance-none">
+      <div className="bg-white p-2 rounded-lg flex flex-row mt-4 w-[900px]">
         <div
           id="score-container"
-          className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg h-[130px] w-[30px] flex flex-col justify-center"
+          className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg h-[130px] w-[32px] flex flex-col justify-center items-center"
         >
           <button
             id={`plus-button-${props.comment.id}`}
             onClick={handlePlus}
-            className="p-1 m-1"
+            className="p-1 m-1 flex justify-items-center"
           >
-            <img src="/icons/icon-plus.svg" />
+            <img src="/icons/icon-plus.svg"/>
           </button>
           <div className="p-1 m-1 font-bold" id={`score-${props.comment.id}`}>
             {props.comment.score}
@@ -105,13 +105,13 @@ const Comment = (props) => {
           <button
             id={`minus-button-${props.comment.id}`}
             onClick={handleMinus}
-            className="p-1 m-1"
+            className="p-1 m-1 justify-items-center"
           >
-            <img src="/icons/icon-minus.svg" />
+            <img src="/icons/icon-minus.svg"/>
           </button>
         </div>
 
-        <div className="flex flex-col w-[900px]">
+        <div className="flex flex-col">
           <div className="flex p-2 items-center flex justify-between">
             <div className="flex flex-row p-2 items-center">
               <img
@@ -124,7 +124,7 @@ const Comment = (props) => {
               </h2>
               {isAuthenticated &&
               props.comment.user.username === user.nickname ? (
-                <p className="hover:opacity-50 bg-[#5357B6] rounded-md text-white mr-1.5 pl-1 pr-1 ">
+                <p className="hover:opacity-50 bg-[#5357B6] rounded-sm text-white mr-2 px-1 text-xs">
                   you
                 </p>
               ) : null}

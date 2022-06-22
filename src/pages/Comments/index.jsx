@@ -62,12 +62,12 @@ const Comments = () => {
 
   if (error) return <h1>There has been an error</h1>;
   return (
-    <div className="flex flex-row-reverse">
-      <div id="log-buttons" className="p-2 m-2">
+    <div>
+      <div className="flex justify-end mt-4 mr-4 " id="log-buttons">
         {isAuthenticated ? (
           <button
             onClick={() => logout({ returnTo: window.location.origin })}
-            className="hover:opacity-50 bg-white m-1 p-1 rounded-lg z-10"
+            className="hover:opacity-50 bg-white p-1 rounded-lg z-10"
             id="logout-button"
           >
             Log Out
@@ -85,15 +85,15 @@ const Comments = () => {
 
       <CommentsContext.Provider value={{ comments, setComments }}>
         <div
-          className="container flex flex-col items-center w-max"
+          className="flex flex-col items-center w-screen"
           id="container"
         >
           {isAuthenticated ? (
-            <h1 className="text-[#5357B6] text-lg mt-2 p-2">
+            <h1 className="text-[#5357B6] text-lg mb-2">
               Hello {user.name}!
             </h1>
           ) : (
-            <h1 className="text-[#5357B6] text-lg mt-2 p-2">
+            <h1 className="text-[#5357B6] text-lg mb-2">
               Hello! Log in to see more
             </h1>
           )}
@@ -119,7 +119,7 @@ const Comments = () => {
             //   </div>
             //   {addCommentClicked ? (
 
-            <div className="bg-white w-full m-2 p-4 rounded-lg flex justify-between ">
+            <div className="bg-white p-4 rounded-lg flex justify-between w-[900px] mt-2">
               <img
                 src={user.picture}
                 className=" w-[34px] h-[34px] rounded-full"
