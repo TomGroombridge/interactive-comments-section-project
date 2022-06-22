@@ -237,7 +237,7 @@ const Comment = (props) => {
         })}
       </div>
 
-      <div className="flex justify-end m-1">
+      <div className="flex justify-end">
         {replyClicked ? (
           <div className="md:w-[500px] flex bg-white p-2 m-1 rounded-lg">
             <img

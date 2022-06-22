@@ -119,7 +119,7 @@ const Comments = () => {
             //   </div>
             //   {addCommentClicked ? (
 
-            <div className="bg-white p-4 rounded-lg flex md:justify-between md:w-[900px] w-[300px] mt-2 items-end md:items-start">
+            <div className="bg-white p-4 rounded-lg flex md:justify-between md:w-[900px] w-[300px] mt-4 items-end md:items-start">
               <img
                 src={user.picture}
                 className=" w-[34px] h-[34px] rounded-full mx-1"
