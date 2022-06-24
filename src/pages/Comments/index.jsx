@@ -9,14 +9,11 @@ const Comments = () => {
   const [error, setError] = useState(false);
   const [comments, setComments] = useState([]);
   const [addedComment, setAddedComment] = useState('');
-  const [addCommentClicked, setAddCommentClicked] = useState(false);
   const { loginWithRedirect, logout, user, isAuthenticated, isLoading } =
     useAuth0();
 
   useEffect(() => {
     fetchComments();
-
-    // let's not forget to use state for the Promise values (data, loading, error)
   }, []);
 
   const fetchComments = async () => {
@@ -54,7 +51,6 @@ const Comments = () => {
 
     const newComments = comments.concat(addedCommentData);
     setComments(newComments);
-    setAddCommentClicked(false);
     setAddedComment('');
   };
 
@@ -62,12 +58,12 @@ const Comments = () => {
 
   if (error) return <h1>There has been an error</h1>;
   return (
-    <div className="flex flex-row-reverse">
-      <div id="log-buttons" className="p-2 m-2">
+    <div>
+      <div className="flex justify-end mt-4 mr-4 " id="log-buttons">
         {isAuthenticated ? (
           <button
             onClick={() => logout({ returnTo: window.location.origin })}
-            className="bg-slate-100 m-1 p-1"
+            className="hover:opacity-50 bg-white p-1 rounded-lg z-10"
             id="logout-button"
           >
             Log Out
@@ -75,7 +71,7 @@ const Comments = () => {
         ) : (
           <button
             onClick={() => loginWithRedirect()}
-            className="bg-slate-100 m-1 p-1"
+            className="hover:opacity-50 bg-white m-1 p-1 rounded-lg z-10"
             id="login-button"
           >
             Log In
@@ -84,12 +80,19 @@ const Comments = () => {
       </div>
 
       <CommentsContext.Provider value={{ comments, setComments }}>
-        <div className="container flex flex-col items-center" id="container">
+        <div
+          className="flex flex-col items-center w-screen"
+          id="container"
+        >
           {isAuthenticated ? (
-            <h1 className="text-[#5357B6] text-lg font-bold mt-2 p-2">
+            <h1 className="text-[#5357B6] text-lg mb-2">
               Hello {user.name}!
             </h1>
-          ) : null}
+          ) : (
+            <h1 className="text-[#5357B6] text-lg mb-2">
+              Hello! Log in to see more
+            </h1>
+          )}
           {comments.map((comment, index) => {
             return (
               <Comment
@@ -101,33 +104,34 @@ const Comments = () => {
             );
           })}
           {isAuthenticated ? (
-            <div className="bg-white m-2 p-4 flex justify-between">
-              <button
-                id="add-comment"
-                className="bg-slate-100 m-1 p-1"
-                onClick={() => setAddCommentClicked(true)}
+       
+
+            <div className="bg-white p-4 rounded-lg flex md:justify-between md:w-[900px] w-[300px] mt-4 items-end md:items-start">
+              <img
+                src={user.picture}
+                className=" w-[34px] h-[34px] rounded-full mx-1"
+              ></img>
+              <form
+                className="flex flex-wrap justify-end md:flex-no-wrap"
+                id="add-comment-form"
+                onSubmit={(e) => handleAddCommentSubmit(e)}
               >
-                Add comment
-              </button>
-              {addCommentClicked ? (
-                <form
-                  className="flex"
-                  id="add-comment-form"
-                  onSubmit={(e) => handleAddCommentSubmit(e)}
-                >
-                  <input
-                    type="text"
-                    className="border-2 border-slate-100 w-[300px]"
-                    id="add-comment-input"
-                    onChange={(e) => setAddedComment(e.target.value)}
-                  />
-                  <button className="bg-[#5357B6] text-white m-1 p-1 w-[100px]">
-                    Send
-                  </button>
-                </form>
-              ) : null}
+                <textarea
+                  // rows="5"
+                  // cols="60"
+                  className="border-2 border-[#F5F6FA] h-[100px] rounded-lg p-2 md:min-w-[700px] w-[220px]"
+                  id="add-comment-input"
+                  placeholder="Add a comment..."
+                  onChange={(e) => setAddedComment(e.target.value)}
+                  value={addedComment}
+                />
+                <button className="hover:opacity-50 bg-[#5357B6] uppercase rounded-lg text-white md:ml-4 md:mr-0 md:my-0 m-3 p-2 w-[100px] h-[50px]">
+                  Send
+                </button>
+              </form>
             </div>
-          ) : null}
+          ) : 
+          null}
         </div>
       </CommentsContext.Provider>
     </div>

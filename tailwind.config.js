@@ -1,8 +1,13 @@
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
+    // colors: {
+    //   transparent: 'transparent',
+    //   white: '#ffffff',
+    //   red: '#ED6368',
+    //   purple: '#5357B6',
+    //   palegrey: '#F5F6FA',
+    // },
     container: {
       padding: {
         DEFAULT: '1rem',
@@ -15,4 +20,4 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-}
+};

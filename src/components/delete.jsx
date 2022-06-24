@@ -7,12 +7,12 @@ const Delete = (props) => {
   return (
     <div>
       <button
-        className="border-2 border-[#ED6368] text-[#ED6368] p-1 m-1 flex items-center"
+        className="hover:opacity-50 text-[#ED6368] flex p-1 mx-1 justify-between items-center w-[74px]"
         onClick={() => setOpen(true)}
         id="delete-button"
       >
-        <p>Delete</p>
         <img src="/icons/icon-delete.svg" />
+        <p className="md:text-sm text-xs">Delete</p>
       </button>
       <DeleteModal setOpen={setOpen} open={open} commentId={props.id} />
     </div>

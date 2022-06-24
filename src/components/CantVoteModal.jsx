@@ -1,25 +1,12 @@
 import { Dialog, Transition } from '@headlessui/react';
-import React, { Fragment, useRef, useContext } from 'react';
-import { CommentsContext } from '../context';
+import React, { Fragment, useRef } from 'react';
 
-const DeleteModal = (props) => {
-  const { comments, setComments } = useContext(CommentsContext);
-  const handleDelete = () => {
-    const newComments = comments.map((comment) => {
-      if (comment.id !== props.commentId) {
-        return comment;
-      }
-    });
-
-    props.setOpen(false);
-    setComments(newComments.filter((comment) => comment !== undefined));
-  };
-
+const CantVoteModal = (props) => {
   const cancelButtonRef = useRef(null);
 
   return (
     <Transition.Root show={props.open} as={Fragment}>
-      <div id="delete-modal">
+      <div id="cant-vote-modal">
         <Dialog
           as="div"
           className="relative z-10"
@@ -56,12 +43,11 @@ const DeleteModal = (props) => {
                           as="h3"
                           className="text-lg leading-6 font-medium text-gray-900"
                         >
-                          Delete comment
+                          Cannot Vote
                         </Dialog.Title>
                         <div className="mt-2">
                           <p className="text-sm text-gray-500">
-                            Are you sure you want to delete this comment? This
-                            will remove the comment and can't be undone.
+                            You must be logged in to vote.
                           </p>
                         </div>
                       </div>
@@ -70,20 +56,12 @@ const DeleteModal = (props) => {
                   <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex justify-center">
                     <button
                       type="button"
-                      className="uppercase w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#ED6368] text-base font-medium text-white hover:bg-[#FFB8BB] focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
-                      onClick={handleDelete}
-                      id="confirm-delete-button"
-                    >
-                      Yes, Delete
-                    </button>
-                    <button
-                      type="button"
                       className="uppercase mt-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#67727E] text-base font-medium text-white hover:bg-[#E9EBF0] focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                       onClick={() => props.setOpen(false)}
                       ref={cancelButtonRef}
                       id="cancel-button"
                     >
-                      No, Cancel
+                      Okay
                     </button>
                   </div>
                 </Dialog.Panel>
@@ -96,4 +74,4 @@ const DeleteModal = (props) => {
   );
 };
 
-export default DeleteModal;
+export default CantVoteModal;

@@ -1,6 +1,6 @@
 describe('viewing comments', () => {
   after(() => {
-    cy.get('#logout-button').click();
+    cy.get('[id="logout-button"]').click();
   });
 
   before(() => {
@@ -17,7 +17,7 @@ describe('viewing comments', () => {
     cy.fixture('comments-response.json').then((json) => {
       cy.intercept('GET', 'https://api.mocki.io/v2/a20ae30b/comments', json);
     });
-    cy.get('#login-button').click();
+    cy.get('[id="login-button"]').click();
   });
 
   it('display h1 of comments following api call', () => {
@@ -36,7 +36,7 @@ describe('viewing comments', () => {
       .find('div')
       .should('have.length', 0);
     cy.get('input[type="text"]').type('hello world');
-    cy.get('form').submit();
+    cy.get('[id="reply-form"]').submit();
     cy.get('[id="replies-container"]')
       .eq(0)
       .find('[id="reply-content"]')
@@ -46,8 +46,8 @@ describe('viewing comments', () => {
   it('form should disappear on submit', () => {
     cy.get('[id="reply-button"]').eq(0).click();
     cy.get('input[type="text"]').type('hello world');
-    cy.get('form').submit();
-    cy.get('form').should('not.exist');
+    cy.get('[id="reply-form"]').submit();
+    cy.get('[id="reply-form"]').should('not.exist');
   });
 
   it('should not submit reply if input field is empty', () => {
@@ -56,12 +56,12 @@ describe('viewing comments', () => {
       .eq(0)
       .find('div')
       .should('have.length', 0);
-    cy.get('form').submit();
+    cy.get('[id="reply-form"]').submit();
     cy.get('[id="replies-container"]')
       .eq(0)
       .find('div')
       .should('have.length', 0);
-    cy.get('form').should('be.visible');
+    cy.get('[id="reply-form"]').should('be.visible');
   });
 
   it('input field should clear after submit', () => {
@@ -72,12 +72,12 @@ describe('viewing comments', () => {
     cy.get('input[type="text"]').should('have.value', '@amyrobson ');
   });
 
-  it('score should increase by 1 when plus button clicked once', () => {
+  it('score should increase by 1 when plus button clicked once and logged in', () => {
     cy.get('[id="plus-button-1"]').click();
     cy.get('[id="score-1"]').contains(13);
   });
 
-  it('score should not decrease below 0 when minus button clicked', () => {
+  it('score should not decrease below 0 when minus button clicked and logged in', () => {
     cy.get('[id="minus-button-2"]').click();
     cy.get('[id="minus-button-2"]').click();
     cy.get('[id="minus-button-2"]').click();
@@ -88,7 +88,7 @@ describe('viewing comments', () => {
   });
 
   it('should add a new comment when add-comment form is submitted', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('#add-comment-form').submit();
     cy.get('[id="container"]')
@@ -97,7 +97,7 @@ describe('viewing comments', () => {
   });
 
   it('should not post comment if input field is empty', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('#add-comment-form').submit();
     cy.get('[id="add-comment-form"]').should('be.visible');
     cy.get('[id="container"]')
@@ -105,53 +105,53 @@ describe('viewing comments', () => {
       .should('have.length', 2);
   });
 
-  it('form should disappear on submit after add comment input', () => {
-    cy.get('[id="add-comment"]').click();
+  it('form should clear on submit after add comment input', () => {
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('#add-comment-form').submit();
-    cy.get('[id="add-comment-form"]').should('not.exist');
+    cy.get('[id="add-comment-input"]').should('not.have.value');
   });
 
   it('edit form should only appear when clicking edit on your own comment', () => {
     cy.get('[id="edit-button"]').should('not.exist');
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
-    cy.get('form').submit();
+    cy.get('[id="add-comment-form"]').submit();
     cy.get('[id="edit-button"]').click();
-    cy.get('form').should('be.visible');
+    cy.get('[id="edit-form"]').should('be.visible');
   });
 
   it('edit form should disappear on save', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
-    cy.get('form').submit();
-    cy.get('form').should('not.exist');
+    cy.get('[id="add-comment-form"]').submit();
+    cy.get('[id="edit-form"]').should('not.exist');
   });
 
   it('form remains when edit input field empty and submitted', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
-    cy.get('form').submit();
+    cy.get('[id="add-comment-form"]').submit();
     cy.get('[id="edit-button"]').click();
     cy.get('[id="edit-input"]').clear();
-    cy.get('form').submit();
-    cy.get('form').should('be.visible');
+    cy.get('[id="edit-form"]').submit();
+    cy.get('[id="edit-form"]').should('be.visible');
   });
 
   it('should change first comment content to content of input', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
-    cy.get('form').submit();
+    cy.get('[id="add-comment-form"]').submit();
     cy.get('[id="edit-button"]').click();
     cy.get('[id="edit-input"]').type('hello');
-    cy.get('form').submit();
+    cy.get('[id="edit-form"]').submit();
     cy.get('[id="comment-container"]').contains('hello');
   });
 
   it('should show the username of the person replying a comment', () => {
     cy.get('[id="reply-button"]').eq(0).click();
     cy.get('input[type="text"]').type('hello world');
-    cy.get('form').submit();
+    cy.get('[id="reply-form"]').submit();
     cy.get('[id="replies-container"]')
       .eq(0)
       .find('div')
@@ -167,7 +167,7 @@ describe('viewing comments', () => {
   });
 
   it('should show delete modal on click of delete', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
     cy.get('[id="delete-button"]').eq(0).click();
@@ -175,7 +175,7 @@ describe('viewing comments', () => {
   });
 
   it('modal should disappear when cancel is clicked', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
     cy.get('[id="delete-button"]').eq(0).click();
@@ -184,7 +184,7 @@ describe('viewing comments', () => {
   });
 
   it('when delete button in modal is clicked, corresponding comment should not appear', () => {
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
     cy.get('[id="comment-container"]')
@@ -197,19 +197,19 @@ describe('viewing comments', () => {
 
   it('delete button should only appear on your own comment', () => {
     cy.get('[id="delete-button"]').should('not.exist');
-    cy.get('[id="add-comment"]').click();
+    cy.get('[id="add-comment-form"]').click();
     cy.get('[id="add-comment-input"]').type('hello');
     cy.get('form').submit();
     cy.get('[id="delete-button"]').should('be.visible');
   });
 
-  it('should increase score for ramsesmirons comment to 5 when plus is clicked', () => {
+  it('should increase score for ramsesmirons comment to 5 when plus is clicked when user authenticated', () => {
     cy.get('[id="reply-score"]').eq(0).contains('4');
     cy.get('[id="reply-plus-button"]').eq(0).click();
     cy.get('[id="reply-score"]').eq(0).contains('5');
   });
 
-  it('should decrease score for ramsesmirons comment to 3 when minus is clicked', () => {
+  it('should decrease score for ramsesmirons comment to 3 when minus is clicked when user authenticated', () => {
     cy.get('[id="reply-score"]').eq(0).contains('4');
     cy.get('[id="reply-minus-button"]').eq(0).click();
     cy.get('[id="reply-score"]').eq(0).contains('3');
@@ -217,9 +217,8 @@ describe('viewing comments', () => {
 
   it('should only show edit button on own reply once posted', () => {
     cy.get('[id="reply-button"]').eq(0).click();
-    cy.get('[id="replies-container"]').eq(0);
     cy.get('input[type="text"]').type('hello world');
-    cy.get('form').submit();
+    cy.get('[id="reply-form"]').submit();
     cy.get('[id="replies-container"]');
     cy.get('[id="reply-edit-button"]').should('have.length', 1);
   });
@@ -228,11 +227,11 @@ describe('viewing comments', () => {
     cy.get('[id="reply-button"]').eq(0).click();
     cy.get('[id="replies-container"]').eq(0);
     cy.get('input[type="text"]').type('hello world');
-    cy.get('form').submit();
+    cy.get('[id="reply-form"]').submit();
     cy.get('[id="reply-edit-button"]').click();
     cy.get('[id="reply-input"]').clear();
     cy.get('[id="reply-input"]').type('hello');
-    cy.get('form').submit();
+    cy.get('[id="reply-form"]').submit();
     cy.get('[id="replies-container"]').contains('hello');
   });
 
@@ -240,7 +239,7 @@ describe('viewing comments', () => {
     cy.get('[id="reply-button"]').eq(0).click();
     cy.get('[id="replies-container"]').eq(0);
     cy.get('input[type="text"]').type('hello world');
-    cy.get('form').submit();
+    cy.get('[id="reply-form"]').submit();
     cy.get('[id="reply-delete-button"]').click();
     cy.get('[id="delete-modal"]').should('exist');
   });
@@ -249,9 +248,9 @@ describe('viewing comments', () => {
     cy.get('[id="reply-button"]').eq(0).click();
     cy.get('[id="replies-container"]').eq(0);
     cy.get('input[type="text"]').type('hello world');
-    cy.get('form').submit();
+    cy.get('[id="reply-form"]').submit();
     cy.get('[id="reply-delete-button"]').click();
-    cy.get('[id="confirm-delete-button"]').click();
+    cy.get('[id="confirm-delete-reply-button"]').click();
     cy.get(`[id="replies-container"]`).should('not.have.text', 'hello world.');
   });
 
@@ -286,9 +285,29 @@ describe('tests for when not authenticated', () => {
     cy.get('[id="delete-button"]').should('not.exist');
     cy.get('[id="edit-button"]').should('not.exist');
     cy.get('[id="reply-button"]').should('not.exist');
-    cy.get('[id="add-comment"]').should('not.exist');
+    cy.get('[id="add-comment-form"]').should('not.exist');
     cy.get('[id="reply-edit-button"]').should('not.exist');
     cy.get('[id="reply-delete-button"]').should('not.exist');
+  });
+
+  it('should show cant vote modal when + clicked on comment and user is not authenticated', () => {
+    cy.get('[id="plus-button-1"]').click();
+    cy.get('[id="cant-vote-modal"]').should('exist');
+  });
+
+  it('should show cant vote modal when - clicked on comment and user is not authenticated', () => {
+    cy.get('[id="minus-button-1"]').click();
+    cy.get('[id="cant-vote-modal"]').should('exist');
+  });
+
+  it('should show cant vote modal when + clicked on reply and user is not authenticated', () => {
+    cy.get('[id="reply-plus-button"]').eq(0).click();
+    cy.get('[id="cant-vote-modal"]').should('exist');
+  });
+
+  it('should show cant vote modal when - clicked on reply and user is not authenticated', () => {
+    cy.get('[id="reply-minus-button"]').eq(0).click();
+    cy.get('[id="cant-vote-modal"]').should('exist');
   });
 });
 
