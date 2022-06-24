@@ -9,14 +9,11 @@ const Comments = () => {
   const [error, setError] = useState(false);
   const [comments, setComments] = useState([]);
   const [addedComment, setAddedComment] = useState('');
-  // const [addCommentClicked, setAddCommentClicked] = useState(false);
   const { loginWithRedirect, logout, user, isAuthenticated, isLoading } =
     useAuth0();
 
   useEffect(() => {
     fetchComments();
-
-    // let's not forget to use state for the Promise values (data, loading, error)
   }, []);
 
   const fetchComments = async () => {
@@ -54,7 +51,6 @@ const Comments = () => {
 
     const newComments = comments.concat(addedCommentData);
     setComments(newComments);
-    // setAddCommentClicked(false);
     setAddedComment('');
   };
 
@@ -108,16 +104,7 @@ const Comments = () => {
             );
           })}
           {isAuthenticated ? (
-            // <div className="bg-white max-w-full m-2 p-4 rounded-lg flex justify-between md">
-            //   <div className="flex items-center w-full">
-            //
-            //     <button
-            //       id="add-comment"
-            //       className="hover:opacity-50 bg-[#F5F6FA] m-2 p-2 rounded-lg "
-            //       onClick={() => setAddCommentClicked(true)}
-            //     ></button>
-            //   </div>
-            //   {addCommentClicked ? (
+       
 
             <div className="bg-white p-4 rounded-lg flex md:justify-between md:w-[900px] w-[300px] mt-4 items-end md:items-start">
               <img
@@ -143,8 +130,7 @@ const Comments = () => {
                 </button>
               </form>
             </div>
-          ) : // ) : null}
-          // </div>
+          ) : 
           null}
         </div>
       </CommentsContext.Provider>

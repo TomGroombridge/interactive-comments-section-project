@@ -11,9 +11,8 @@ const Delete = (props) => {
         onClick={() => setOpen(true)}
         id="delete-button"
       >
-             <img src="/icons/icon-delete.svg" />
+        <img src="/icons/icon-delete.svg" />
         <p className="md:text-sm text-xs">Delete</p>
-   
       </button>
       <DeleteModal setOpen={setOpen} open={open} commentId={props.id} />
     </div>

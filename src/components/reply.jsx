@@ -103,7 +103,7 @@ const Reply = (props) => {
             <img src="/icons/icon-minus.svg" />
           </button>
         </div>
-        {/* {isAuthenticated &&
+        {isAuthenticated &&
         window.innerWidth < 768 &&
         props.reply.user.username === user.nickname ? (
           <div className="flex flex-row">
@@ -116,7 +116,7 @@ const Reply = (props) => {
               <p> Edit</p>
             </button>
             <button
-              className="hover:opacity-50 text-xs text-red-500 flex items-center justify-between"
+              className="hover:opacity-50 text-xs text-[#ED6368] flex items-center justify-between"
               onClick={() => setOpen(true)}
               id="reply-delete-button"
             >
@@ -130,7 +130,7 @@ const Reply = (props) => {
               comment={props.comment}
             />
           </div>
-        ) : null} */}
+        ) : null}
       </div>
       <CantVoteModal setOpen={setOpen} open={open} />
       <div id={`reply-${props.reply.id}`} className="w-full">
@@ -164,7 +164,7 @@ const Reply = (props) => {
                   <p> Edit</p>
                 </button>
                 <button
-                  className="hover:opacity-50 text-xs text-red-500 flex items-center justify-between"
+                  className="hover:opacity-50 text-xs text-[#ED6368] flex items-center justify-between"
                   onClick={() => setOpen(true)}
                   id="reply-delete-button"
                 >

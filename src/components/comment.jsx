@@ -53,7 +53,6 @@ const Comment = (props) => {
 
   const handlePlus = () => {
     if (isAuthenticated === false) {
-      console.log('plus - should show modal');
       setOpen(true);
     } else {
       const newComments = comments.map((comment, index) => {
@@ -68,7 +67,6 @@ const Comment = (props) => {
 
   const handleMinus = () => {
     if (isAuthenticated === false) {
-      console.log('minus - should show modal');
       setOpen(true);
     } else {
       const newComments = comments.map((comment, index) => {
