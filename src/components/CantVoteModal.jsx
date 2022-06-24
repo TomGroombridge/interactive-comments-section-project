@@ -1,35 +1,12 @@
 import { Dialog, Transition } from '@headlessui/react';
-import React, { Fragment, useRef, useContext } from 'react';
-import { CommentsContext } from '../context';
+import React, { Fragment, useRef } from 'react';
 
-const DeleteReplyModal = (props) => {
-  const { comments, setComments } = useContext(CommentsContext);
-
-  const { comment } = props;
-
-  const handleDelete = () => {
-    const newComments = comments.map((comment) => {
-      if (comment.id !== props.comment.id) {
-        return comment;
-      } else if (comment.id === props.comment.id) {
-        const newReplies = comment.replies.map((reply) => {
-          if (reply.id !== props.replyId) {
-            return reply;
-          }
-        });
-        comment.replies = newReplies.filter((reply) => reply !== undefined);
-        return comment;
-      }
-    });
-    setComments(newComments);
-    props.setOpen(false);
-  };
-
+const CantVoteModal = (props) => {
   const cancelButtonRef = useRef(null);
 
   return (
     <Transition.Root show={props.open} as={Fragment}>
-      <div id="delete-modal">
+      <div id="cant-vote-modal">
         <Dialog
           as="div"
           className="relative z-10"
@@ -61,23 +38,16 @@ const DeleteReplyModal = (props) => {
                 <Dialog.Panel className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
                   <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
-                      {/* <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                        <ExclamationIcon
-                          className="h-6 w-6 text-red-600"
-                          aria-hidden="true"
-                        />
-                      </div> */}
                       <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                         <Dialog.Title
                           as="h3"
                           className="text-lg leading-6 font-medium text-gray-900"
                         >
-                          Delete reply
+                          Cannot Vote
                         </Dialog.Title>
                         <div className="mt-2">
                           <p className="text-sm text-gray-500">
-                            Are you sure you want to delete this reply? This
-                            will remove the reply and can't be undone.
+                            You must be logged in to vote.
                           </p>
                         </div>
                       </div>
@@ -86,20 +56,12 @@ const DeleteReplyModal = (props) => {
                   <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex justify-center">
                     <button
                       type="button"
-                      className="w-full uppercase inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#ED6368] text-base font-medium text-white hover:bg-[#FFB8BB] focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
-                      onClick={handleDelete}
-                      id="confirm-delete-reply-button"
-                    >
-                      Yes, Delete
-                    </button>
-                    <button
-                      type="button"
-                      className="mt-3 uppercase w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#67727E] text-base font-medium text-white hover:bg-[#E9EBF0] focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                      className="uppercase mt-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#67727E] text-base font-medium text-white hover:bg-[#E9EBF0] focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                       onClick={() => props.setOpen(false)}
                       ref={cancelButtonRef}
                       id="cancel-button"
                     >
-                      No, Cancel
+                      Okay
                     </button>
                   </div>
                 </Dialog.Panel>
@@ -112,4 +74,4 @@ const DeleteReplyModal = (props) => {
   );
 };
 
-export default DeleteReplyModal;
+export default CantVoteModal;

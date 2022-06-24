@@ -2,6 +2,7 @@ import { React, useState, useContext } from 'react';
 import DeleteReplyModal from './DeleteReplyModal';
 import { CommentsContext } from '../context';
 import { useAuth0 } from '@auth0/auth0-react';
+import CantVoteModal from './CantVoteModal';
 
 const Reply = (props) => {
   const [content, setContent] = useState(props.reply.content);
@@ -33,88 +34,105 @@ const Reply = (props) => {
   };
 
   const handleReplyPlus = () => {
-    const newComments = [...comments];
-    const updatedComment = { ...comment };
-    updatedComment.replies[index] = { ...reply, score: reply.score + 1 };
-    newComments.map((c) => {
-      if (c.id === comment.id) {
-        return updatedComment;
-      }
-      return comment;
-    });
-    setComments(newComments);
+    if (isAuthenticated === false) {
+      setOpen(true);
+    } else {
+      const newComments = [...comments];
+      const updatedComment = { ...comment };
+      updatedComment.replies[index] = { ...reply, score: reply.score + 1 };
+      newComments.map((c) => {
+        if (c.id === comment.id) {
+          return updatedComment;
+        }
+        return comment;
+      });
+
+      setComments(newComments);
+    }
   };
 
   const handleReplyMinus = () => {
-    if (reply.score === 0) {
-      return reply;
-    }
-    const newComments = [...comments];
-    const updatedComment = { ...comment };
-    updatedComment.replies[index] = { ...reply, score: reply.score - 1 };
-    newComments.map((c) => {
-      if (c.id === comment.id) {
-        return updatedComment;
+    if (isAuthenticated === false) {
+      setOpen(true);
+    } else {
+      if (reply.score === 0) {
+        return reply;
       }
-      return comment;
-    });
-    setComments(newComments);
+      const newComments = [...comments];
+      const updatedComment = { ...comment };
+      updatedComment.replies[index] = { ...reply, score: reply.score - 1 };
+      newComments.map((c) => {
+        if (c.id === comment.id) {
+          return updatedComment;
+        }
+        return comment;
+      });
+
+      setComments(newComments);
+    }
   };
 
   return (
     <div className="bg-white rounded-lg mt-4 p-2 text-sm md:w-[800px] w-[270px] flex md:flex-row flex-col-reverse">
-      <div id="reply score and buttons on mobile" className="flex justify-between">
       <div
-        id="reply-score-container"
-        className="bg-[#F5F6FA] m-2 text-[#5357B6] rounded-lg md:h-[90px] md:w-[24px] w-[80px] flex md:flex-col text-xxs flex justify-center items-center"
+        id="reply score and buttons on mobile"
+        className="flex justify-between"
       >
-        <button
-          id="reply-plus-button"
-          onClick={handleReplyPlus}
-          className="p-1 m-1"
+        <div
+          id="reply-score-container"
+          className="bg-[#F5F6FA] m-2 text-[#5357B6] rounded-lg md:h-[90px] md:w-[24px] w-[80px] flex md:flex-col text-xxs flex justify-center items-center"
         >
-          <img src="/icons/icon-plus.svg" />
-        </button>
-        <div className="p-1 m-1 font-bold md:text-sm text-xs" id="reply-score">
-          {props.reply.score}
-        </div>
-        <button
-          id="reply-minus-button"
-          onClick={handleReplyMinus}
-          className="p-1 m-1"
-        >
-          <img src="/icons/icon-minus.svg" />
-        </button>
-      </div>
-      {isAuthenticated && (window.innerWidth < 768) && props.reply.user.username === user.nickname ? (
-            <div className="flex flex-row">
-              <button
-                className="hover:opacity-50 text-xs text-[#5357B6] flex mx-1 items-center justify-between px-2"
-                id="reply-edit-button"
-                onClick={() => setEditClicked(true)}
-              >
-                <img src="/icons/icon-edit.svg" className="w-[10px] mx-1" />
-                <p> Edit</p>
-              </button>
-              <button
-                className="hover:opacity-50 text-xs text-red-500 flex items-center justify-between"
-                onClick={() => setOpen(true)}
-                id="reply-delete-button"
-              >
-                <img src="/icons/icon-delete.svg" className="w-[10px] mx-1" />
-                <p> Delete</p>
-              </button>
-              <DeleteReplyModal
-                setOpen={setOpen}
-                open={open}
-                replyId={props.reply.id}
-                comment={props.comment}
-              />
-            </div>
-          ) : null}
+          <button
+            id="reply-plus-button"
+            onClick={handleReplyPlus}
+            className="p-1 m-1"
+          >
+            <img src="/icons/icon-plus.svg" />
+          </button>
+          <div
+            className="p-1 m-1 font-bold md:text-sm text-xs"
+            id="reply-score"
+          >
+            {props.reply.score}
           </div>
-
-
+          <button
+            id="reply-minus-button"
+            onClick={handleReplyMinus}
+            className="p-1 m-1"
+          >
+            <img src="/icons/icon-minus.svg" />
+          </button>
+        </div>
+        {/* {isAuthenticated &&
+        window.innerWidth < 768 &&
+        props.reply.user.username === user.nickname ? (
+          <div className="flex flex-row">
+            <button
+              className="hover:opacity-50 text-xs text-[#5357B6] flex mx-1 items-center justify-between px-2"
+              id="reply-edit-button"
+              onClick={() => setEditClicked(true)}
+            >
+              <img src="/icons/icon-edit.svg" className="w-[10px] mx-1" />
+              <p> Edit</p>
+            </button>
+            <button
+              className="hover:opacity-50 text-xs text-red-500 flex items-center justify-between"
+              onClick={() => setOpen(true)}
+              id="reply-delete-button"
+            >
+              <img src="/icons/icon-delete.svg" className="w-[10px] mx-1" />
+              <p> Delete</p>
+            </button>
+            <DeleteReplyModal
+              setOpen={setOpen}
+              open={open}
+              replyId={props.reply.id}
+              comment={props.comment}
+            />
+          </div>
+        ) : null} */}
+      </div>
+      <CantVoteModal setOpen={setOpen} open={open} />
       <div id={`reply-${props.reply.id}`} className="w-full">
         <div className="w-full flex justify-between mr-2 pr-2">
           <div className="flex flex-row p-2 items-center">
@@ -133,40 +151,43 @@ const Reply = (props) => {
             <p className="text-[#67727E]">{props.reply.createdAt}</p>
           </div>
           <div className="flex flex-row ">
-          {isAuthenticated && (window.innerWidth > 768) && props.reply.user.username === user.nickname ? (
-            <div className="flex flex-row">
-              <button
-                className="hover:opacity-50 text-xs text-[#5357B6] flex mx-1 items-center justify-between px-2"
-                id="reply-edit-button"
-                onClick={() => setEditClicked(true)}
-              >
-                <img src="/icons/icon-edit.svg" className="w-[10px] mx-1" />
-                <p> Edit</p>
-              </button>
-              <button
-                className="hover:opacity-50 text-xs text-red-500 flex items-center justify-between"
-                onClick={() => setOpen(true)}
-                id="reply-delete-button"
-              >
-                <img src="/icons/icon-delete.svg" className="w-[10px] mx-1" />
-                <p> Delete</p>
-              </button>
-              <DeleteReplyModal
-                setOpen={setOpen}
-                open={open}
-                replyId={props.reply.id}
-                comment={props.comment}
-              />
-            </div>
-          ) : null}
+            {isAuthenticated &&
+            window.innerWidth > 768 &&
+            props.reply.user.username === user.nickname ? (
+              <div className="flex flex-row">
+                <button
+                  className="hover:opacity-50 text-xs text-[#5357B6] flex mx-1 items-center justify-between px-2"
+                  id="reply-edit-button"
+                  onClick={() => setEditClicked(true)}
+                >
+                  <img src="/icons/icon-edit.svg" className="w-[10px] mx-1" />
+                  <p> Edit</p>
+                </button>
+                <button
+                  className="hover:opacity-50 text-xs text-red-500 flex items-center justify-between"
+                  onClick={() => setOpen(true)}
+                  id="reply-delete-button"
+                >
+                  <img src="/icons/icon-delete.svg" className="w-[10px] mx-1" />
+                  <p> Delete</p>
+                </button>
+                <DeleteReplyModal
+                  setOpen={setOpen}
+                  open={open}
+                  replyId={props.reply.id}
+                  comment={props.comment}
+                />
+              </div>
+            ) : null}
           </div>
         </div>
+
         <p className="m-1 p-1 text-[#67727E] w-full" id="reply-content">
           {props.reply.content}
         </p>
         {editClicked ? (
           <div>
-            <form onSubmit={(e) => handleReplySave(e)}>
+            <form id="reply-form" onSubmit={(e) => handleReplySave(e)}>
               <input
                 className="bg-slate-100 p-1 m-1 border-[1px] border-[#5357B6]"
                 id="reply-input"

@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Reply from './reply';
 import { CommentsContext } from '../context';
 import { useAuth0 } from '@auth0/auth0-react';
+import CantVoteModal from './CantVoteModal';
 
 const Comment = (props) => {
   const [replyClicked, setReplyClicked] = useState(false);
@@ -12,10 +13,10 @@ const Comment = (props) => {
   const [replies, setReplies] = useState(props.comment.replies);
   const [editClicked, setEditClicked] = useState(false);
   const [content, setContent] = useState(props.comment.content);
-  // const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { comments, setComments } = useContext(CommentsContext);
   const { user, isAuthenticated } = useAuth0();
   const { index, comment } = props;
+  const [open, setOpen] = useState(false);
 
   const handleReplySubmit = (e) => {
     e.preventDefault();
@@ -51,26 +52,36 @@ const Comment = (props) => {
   };
 
   const handlePlus = () => {
-    const newComments = comments.map((comment, index) => {
-      if (comment.id === props.comment.id) {
-        comment.score += 1;
-      }
-      return comment;
-    });
-    setComments(newComments);
+    if (isAuthenticated === false) {
+      console.log('plus - should show modal');
+      setOpen(true);
+    } else {
+      const newComments = comments.map((comment, index) => {
+        if (comment.id === props.comment.id) {
+          comment.score += 1;
+        }
+        return comment;
+      });
+      setComments(newComments);
+    }
   };
 
   const handleMinus = () => {
-    const newComments = comments.map((comment, index) => {
-      if (comment.score === 0) {
+    if (isAuthenticated === false) {
+      console.log('minus - should show modal');
+      setOpen(true);
+    } else {
+      const newComments = comments.map((comment, index) => {
+        if (comment.score === 0) {
+          return comment;
+        }
+        if (comment.id === props.comment.id) {
+          comment.score -= 1;
+        }
         return comment;
-      }
-      if (comment.id === props.comment.id) {
-        comment.score -= 1;
-      }
-      return comment;
-    });
-    setComments(newComments);
+      });
+      setComments(newComments);
+    }
   };
 
   const handleSave = (e) => {
@@ -88,58 +99,62 @@ const Comment = (props) => {
   return (
     <div id="comment-container" className="appearance-none">
       <div className="bg-white p-2 rounded-lg flex md:flex-row flex-col-reverse mt-4 md:w-[900px] w-[300px]">
-        <div id="score-and-mobile-buttons-container" className="flex justify-between items-center">
+        <div
+          id="score-and-mobile-buttons-container"
+          className="flex justify-between items-center"
+        >
           <div
-          id="score-container"
-          className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg md:h-[130px] md:w-[32px] w-[100px] flex md:flex-col justify-center items-center"
+            id="score-container"
+            className="bg-[#F5F6FA] text-[#5357B6] m-2 rounded-lg md:h-[130px] md:w-[32px] w-[100px] flex md:flex-col justify-center items-center"
           >
-          <button
-            id={`plus-button-${props.comment.id}`}
-            onClick={handlePlus}
-            className="p-1 m-1 flex justify-items-center"
-          >
-            <img src="/icons/icon-plus.svg"/>
-          </button>
-          <div className="md:p-1 md:m-1 font-bold text-xs md:text-sm" id={`score-${props.comment.id}`}>
-            {props.comment.score}
+            <CantVoteModal setOpen={setOpen} open={open} />
+            <button
+              id={`plus-button-${props.comment.id}`}
+              onClick={handlePlus}
+              className="p-1 m-1 flex justify-items-center"
+            >
+              <img src="/icons/icon-plus.svg" />
+            </button>
+            <div
+              className="md:p-1 md:m-1 font-bold text-xs md:text-sm"
+              id={`score-${props.comment.id}`}
+            >
+              {props.comment.score}
+            </div>
+            <button
+              id={`minus-button-${props.comment.id}`}
+              onClick={handleMinus}
+              className="p-1 m-1 justify-items-center"
+            >
+              <img src="/icons/icon-minus.svg" />
+            </button>
           </div>
-          <button
-            id={`minus-button-${props.comment.id}`}
-            onClick={handleMinus}
-            className="p-1 m-1 justify-items-center"
-          >
-            <img src="/icons/icon-minus.svg"/>
-          </button>
+          {isAuthenticated && window.innerWidth < 768 ? (
+            <button
+              className="hover:opacity-50 text-[#5357B6] bg-white md:p-1 mx-1 justify-between flex items-center w-[76px]"
+              id="reply-button"
+              onClick={() => {
+                setReplyClicked(true);
+              }}
+            >
+              <img src="/icons/icon-reply.svg" className="w-[20px] h-[20px] " />
+              <p className="text-xs">Reply </p>
+            </button>
+          ) : null}
+          {isAuthenticated &&
+          window.innerWidth < 768 &&
+          props.comment.user.username === user.nickname ? (
+            <div className="flex">
+              <Edit
+                comment={props.comment}
+                index={props.index}
+                editClicked={editClicked}
+                setEditClicked={setEditClicked}
+              />
+              <Delete id={props.comment.id} />
+            </div>
+          ) : null}
         </div>
-        {isAuthenticated  && (window.innerWidth < 768) ? (
-                <button
-                  className="hover:opacity-50 text-[#5357B6] bg-white md:p-1 mx-1 justify-between flex items-center w-[76px]"
-                  id="reply-button"
-                  onClick={() => {
-                    setReplyClicked(true);
-                  }}
-                >
-                  <img
-                    src="/icons/icon-reply.svg"
-                    className="w-[20px] h-[20px] "
-                  />
-                  <p className="text-xs">Reply </p>
-                </button>
-            ) : null}
-            {isAuthenticated && (window.innerWidth < 768) &&
-              props.comment.user.username === user.nickname ? (
-                <div className="flex">
-                  <Edit
-                    comment={props.comment}
-                    index={props.index}
-                    editClicked={editClicked}
-                    setEditClicked={setEditClicked}
-                  />
-                  <Delete id={props.comment.id} />
-                </div>
-              ) : null}
-        </div>
-        
 
         <div className="flex flex-col w-full">
           <div className="flex p-2 items-center flex justify-between">
@@ -163,7 +178,7 @@ const Comment = (props) => {
               </h3>
             </div>
             <div className="flex">
-              {isAuthenticated  && (window.innerWidth > 768) ? (
+              {isAuthenticated && window.innerWidth > 768 ? (
                 <button
                   className="hover:opacity-50 text-[#5357B6] bg-white p-1 mx-1 justify-between flex items-center w-[76px]"
                   id="reply-button"
@@ -179,7 +194,8 @@ const Comment = (props) => {
                 </button>
               ) : null}
 
-              {isAuthenticated && (window.innerWidth > 768) &&
+              {isAuthenticated &&
+              window.innerWidth > 768 &&
               props.comment.user.username === user.nickname ? (
                 <div className="flex">
                   <Edit
